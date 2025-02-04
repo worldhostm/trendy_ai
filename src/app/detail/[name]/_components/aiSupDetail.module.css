@@ -1,0 +1,152 @@
+.container *{
+    font-family: Pretendard;
+}
+.featured{
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+    width: 100%;
+    height: 24px;
+    gap: 4px;
+}
+.fname{
+    color : var(--primary);
+}
+.newsrow{
+    width: 100%;
+    padding : 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #E0E0E0;
+}
+.newsrow::after{
+}
+.container{
+    width: 1200px;
+    height: auto;
+}
+.title > span {
+    font-family: Pretendard-bold;
+    margin-left: 20px;
+}
+.title{
+    border-radius: 8px;
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+    width: 100%;
+    height: 44px;
+    background-color: white;
+    border: 1px solid transparent;
+    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #006AFF, #D682FF);
+    background-origin: border-box;
+    background-clip: content-box, border-box;   
+}
+.topcontainer{
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    height: 372px;
+    background-color: white;
+    gap: 24px;
+}
+.flex1{
+    padding : 24px;
+    flex : 0.4
+}
+.flex2{
+    padding : 24px;
+    flex: 0.6;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* border: 1px solid transparent;
+    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #006AFF, #D682FF);
+    background-origin: border-box;
+    background-clip: content-box, border-box;    */
+}
+.borderdiv{
+    width: 100%;
+    height: auto;
+    border: 1px solid transparent;
+    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #006AFF, #D682FF);
+    background-origin: border-box;
+    background-clip: content-box, border-box;   
+    border-radius: 4px;
+}
+.summarydiv{
+    padding : 20px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap : 8px;
+}
+.desc_sum{
+    font-family: Pretendard;
+    font-size: 14px;
+    line-height: 24px;
+}
+.sumt{
+    font-family: Pretendard-SemiBold;
+}
+.descContainer{
+    margin-top: 20px;
+    background-color: white;
+    width: 100%;
+    height: auto;
+    padding : 20px 24px;
+}
+.desc_cname{
+    padding : 20px;
+    font-family: Pretendard-Bold;
+}
+.f_desc{
+    width: 80%;
+    height: 1.5rem;
+    white-space: nowrap;        /* 텍스트를 한 줄로 표시 */
+    overflow: hidden;           /* 넘치는 텍스트를 숨김 */
+    text-overflow: ellipsis;
+}
+.featuredContainer{
+    margin-top: 20px;
+    padding: 20px 24px;
+    background-color: white;
+}
+
+.newsContainer{
+    margin-top: 20px;
+    padding: 20px 24px;
+    background-color: white;
+}
+.order{
+    width: 18px;
+}
+.subtitle{
+    font-family: Pretendard-SemiBold;
+    margin-bottom: 20px;
+}
+.grborder{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.suminner
+,.sumbutton{
+    width: 100%;
+    height: 56px;
+    border: 1px solid transparent;
+    
+    background-origin: border-box;
+    background-clip: content-box, border-box; 
+    border-radius: 8px;
+}
+.suminner{
+    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #006AFF, #D682FF);
+}
+.sumbutton{
+    background-image: linear-gradient(to right, #006AFF, #D682FF);
+    color :white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

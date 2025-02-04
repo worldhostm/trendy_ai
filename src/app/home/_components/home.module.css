@@ -11,16 +11,22 @@
     margin: 0 auto;
     padding: 20px;
   }
-  
+  .grid-item > *{
+    color: #000;
+    /* title/S */
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 142.857% */
+  }
   .grid-item {
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    font-family: Pretendard-bold;
+    background-color: #F5F5F5;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    width: auto;
-    height: auto;
-    box-shadow: #7198EF75 1px 1px 10px;
+    width: 384px;
+    height: 444px;
   }
   .grid-item:hover{
     box-shadow: #7198EF75 2px 2px 15px;
@@ -28,17 +34,18 @@
   .top-section >*{
     font-size: 14px;
   }
+  .top-section span{
+    margin-left: 20px;
+  }
   .top-section {
+    height: 44px;
     display: flex;
     align-items: center;
-    padding: 10px 20px;
     border-radius: 8px;
-    /* border: 1px solid var(--gradient-blue-45, #006AFF); */
-    /* border: 1px solid var(linear-gradient(90deg, #006AFF 0%, #D682FF 100%)); */
-    border: 1px solid;
-    border-image: linear-gradient(90deg, #006AFF, #D682FF);
-    border-image-slice: 1;
-    background: var(--Foundation-White, #FFF);
+    border: 1px solid transparent;
+    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #006AFF, #D682FF);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
     margin-bottom: 12px;
   }
   
@@ -51,17 +58,34 @@
   .top-text {
     font-weight: bold;
   }
-  .mid{
-    max-height: 392px;
-    overflow: auto;
-  }
+    .mid{
+        padding : 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background-color: white;
+        height: 392px;
+        overflow: auto;
+    }
+    .mid::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    .mid::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 8px;
+    }
+
+.mid::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
   .mid-section {
+    background-color: white;
     flex: 1;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 10px 20px;
   }
   
   .mid-section *{
@@ -73,9 +97,8 @@
     justify-content: center;
   }
   .mid-item {
-    height: 25px;
+    height: 24px;
     /* padding: 10px 0; */
-    border-bottom: 1px solid #ddd;
     display: flex;
     align-items: center;
     justify-content: space-between;

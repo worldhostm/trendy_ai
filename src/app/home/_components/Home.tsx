@@ -1,53 +1,96 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './home.module.css';
+import { useRouter } from 'next/navigation';
+
+interface AIItem {
+    category: string;
+    url: string;
+    name: string;
+    order: number;
+  }
+  
+  interface AIData {
+    AICA: AIItem[];
+  }
 
 export default function Home() {
-    const gridItems = [
-        { id: 1, image: '/path/to/image1.jpg'
-            , rank: [
-                { cid:1,rank: 1, logo:'/static/caredoc_logo.svg' ,name: 'Company One', url: '#' },
-                { cid:2,rank: 1, logo:'/static/caredoc_logo.svg' ,name: 'Company One', url: '#' },
-                { cid:3,rank: 1, logo:'/static/caredoc_logo.svg' ,name: 'Company One', url: '#' },
-                { cid:4,rank: 1, logo:'/static/caredoc_logo.svg' ,name: 'Company One', url: '#' }
-            ]
-            , logo: '/static/caredoc_logo.svg'
-            , companyName: 'Company One'
-            , link: '#' 
-        },
-        { id: 2, image: '/path/to/image2.jpg', rank: [{ cid:11,rank: 2, logo:'/static/caredoc_logo.svg' ,name: 'Company Two', url: '#' }], logo: '/static/caredoc_logo.svg', companyName: 'Company Two', link: '#' },
-        { id: 3, image: '/path/to/image3.jpg', rank: [{ cid:12,rank: 3, logo:'/static/caredoc_logo.svg' ,name: 'Company Three', url: '#' }], logo: '/static/caredoc_logo.svg', companyName: 'Company Three', link: '#' },
-        // Add more items as needed
-      ];
+    const [items, setItems] = useState([]);  // 데이터를 저장할 상태
+    const [loading, setLoading] = useState<boolean>(true);  // 로딩 상태
+    const [error, setError] = useState<string | null>(null);  // 에러 상태
+    const router = useRouter();
+
+    useEffect(() => {
+        const fetchItems = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/all-service`,{
+                headers : {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json',
+                    'Access-Control-Allow-Origin':'*'
+                }
+            });  // API 호출
+            if (!response.ok) {
+            throw new Error('네트워크 응답에 문제가 있습니다.');
+            }
+            const data = await response.json();  // JSON 데이터 파싱
+            console.info(data);
+            setItems(data);  // 데이터 상태 업데이트
+        } catch (err: any) {
+            setError(err.message);  // 에러 상태 업데이트
+        } finally {
+            setLoading(false);  // 로딩 상태 종료
+        }
+        };
+
+        fetchItems();  // 함수 호출
+    }, []);  // 컴포넌트 마운트 시 한 번만 실행
+    
+    // const gridItems = [
+    //     { id: 1, image: '/path/to/image1.jpg'
+    //         , rank: [
+    //             { cid:1,rank: 1, logo:'/static/caredoc_logo.svg' ,name: 'Company One', url: '#' },
+    //             { cid:2,rank: 1, logo:'/static/caredoc_logo.svg' ,name: 'Company One', url: '#' },
+    //             { cid:3,rank: 1, logo:'/static/caredoc_logo.svg' ,name: 'Company One', url: '#' },
+    //             { cid:4,rank: 1, logo:'/static/caredoc_logo.svg' ,name: 'Company One', url: '#' }
+    //         ]
+    //         , logo: '/static/caredoc_logo.svg'
+    //         , companyName: 'Company One'
+    //         , link: '#' 
+    //     },
+    //     { id: 2, image: '/path/to/image2.jpg', rank: [{ cid:11,rank: 2, logo:'/static/caredoc_logo.svg' ,name: 'Company Two', url: '#' }], logo: '/static/caredoc_logo.svg', companyName: 'Company Two', link: '#' },
+    //     { id: 3, image: '/path/to/image3.jpg', rank: [{ cid:12,rank: 3, logo:'/static/caredoc_logo.svg' ,name: 'Company Three', url: '#' }], logo: '/static/caredoc_logo.svg', companyName: 'Company Three', link: '#' },
+    //     // Add more items as needed
+    //   ];
     return (
         <div className={styles['grid-container']}>
-        {gridItems.map((item,idx) => (
-            <div key={item.id} className={styles['grid-item']}>
+        {Object.entries(items).map(([category,items]) => (
+            <div key={`${category}`} className={styles['grid-item']}>
             {/* Top Section */}
             <div className={styles['top-section']}>
                 {/* <img src={item.image} alt="Thumbnail" className={styles['top-image']} /> */}
-                <span className={styles['top-text']}>Section title</span>
+                <span className={styles['top-text']}>{`${category}`}</span>
             </div>
             <div className={styles.mid}>
             {/* Mid Section */}
                 {
-                    item.rank.map((e,idx)=>
-                    <a 
-                    href={`/detail/${e.cid}`}
-                    key={`${e.name} ${idx}`}
+                    (items as AIItem[]).map((item,idx)=>
+                    <div
+                    // href={`/detail/${item.url}`}
+                    // href={`/detail/${item.name}`}
+                    key={`${item.name} ${idx}`}
                     className={styles['mid-section']}
+                    onClick={()=>router.push(`/detail/${item.name}`)}
                     >
                         <div className={styles['mid-item']}>
                             <div 
-                            className={styles.midcontent}
-                            style={{
-                                display:'flex'
-                            }}>
-                                <div className={`${styles.ranknum} ${e.rank < 3 && styles.top3}`}>{e.rank}</div>
+                                className={styles.midcontent}
+                            >
+                                <div className={`${styles.ranknum} ${item.order < 4 && styles.top3}`}>{item.order}</div>
                                 {/* <img src={e.logo} alt="Logo" className={styles['mid-logo']} /> */}
-                                <span>{e.name}</span>
+                                <span>{item.name}</span>
                             </div>
-                            <div>
+                            {/* <div>
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g id="ArrowSquareOut">
                                 <g id="Vector">
@@ -57,20 +100,20 @@ export default function Home() {
                                 </g>
                                 </g>
                                 </svg>
-                            </div>
+                            </div> */}
                         </div>
-                    </a>
+                    </div>
                     )
                 }
             </div>
 
             {/* Bottom Section */}
-            {
-                item.rank.length > 10 &&
+            {/* {
+                items.length > 10 &&
                 <div className={styles['bottom-section']}>
                     <button className={styles['bottom-button']}>더보기</button>
                 </div>
-            }
+            } */}
             </div>
         ))}
         </div>
