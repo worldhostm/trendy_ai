@@ -1,5 +1,5 @@
-.grid-container
-, .grid-container *{
+
+ .grid-container *{
   color : var(--black);
   background : var(--white);
 }
@@ -11,6 +11,20 @@
     width: 1200px;
     margin-bottom: 80px;
     /* padding: 20px; */
+  }
+
+  @media (max-width: 768px) {
+    .grid-container{
+        width: 100% !important;
+        padding : 20px;
+    }
+    .grid-containe{
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 12px !important;
+    }
+    .grid-item{
+      width: 100% !important;
+    }
   }
   .grid-item > *{
     color: #000;
@@ -99,6 +113,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: transparent;
   }
   .mid-item {
     height: 24px;
@@ -107,6 +122,7 @@
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
+    border-radius: 8px;
   }
   .mid-item:hover {
     box-shadow: var(--primary) 0px 0px 12px;

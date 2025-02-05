@@ -53,6 +53,30 @@
     background-color: white;
     gap: 24px;
 }
+/* @media (max-width: 768px) {
+    .container{
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    .topcontainer{
+        width: 100% !important;
+        position: relative !important;
+        display: flex !important;
+        flex-direction: column !important;
+        height: auto !important;
+    }
+    .flex1, .flex2{
+        width: 100% !important;
+        height: auto !important;
+        flex: unset !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+} */
 .flex1{
     padding : 24px;
     flex : 0.4;
