@@ -102,6 +102,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
+  }
+  .mid-item:hover {
+    box-shadow: var(--primary) 0px 0px 12px;
+    border-radius: 8px;
   }
   
   .mid-logo {

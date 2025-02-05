@@ -1,8 +1,9 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import style from './aiSupDetail.module.css';
+import ReadOnlyStarRating from '@/app/common/_components/ReadOnlyStartRating';
 
 interface Detail {
     category: string;
@@ -19,6 +20,7 @@ export default function AiSupDetail() {
     const [detail , setDetail] = useState<Detail>();
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const router =  useRouter();
     useEffect(() => {
         const fetchItems = async () => {
         try {
@@ -75,8 +77,18 @@ export default function AiSupDetail() {
                         </div>
                     </div>
                 </div>
-                <div className={style.suminner}></div>
-                <div className={style.sumbutton}>서비스 이동</div>
+                <div className={style.suminner}>
+                    <div className={style.score}>Score</div>
+                    <div className={style.rating}>
+                        <ReadOnlyStarRating rating={3.5}/>
+                        <div>3.5</div>
+                    </div>
+                </div>
+                <a 
+                className={style.sumbutton}
+                href ={`${detail?.url}`}
+                >서비스 이동
+                </a>
             </div>
         </div>
         {/* 장문 설명 */}
@@ -87,8 +99,8 @@ export default function AiSupDetail() {
                 <path d="M0 1H1152" stroke="url(#paint0_linear_15652_2783)"/>
                 <defs>
                     <linearGradient id="paint0_linear_15652_2783" x1="0" y1="1.5" x2="1152" y2="1.5" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#006AFF"/>
-                    <stop offset="1" stop-color="#D682FF"/>
+                    <stop stopColor="#006AFF"/>
+                    <stop offset="1" stopColor="#D682FF"/>
                     </linearGradient>
                 </defs>
                 </svg>
@@ -120,39 +132,39 @@ export default function AiSupDetail() {
         <div className={style.newsContainer}>
             <div className={style.subtitle}>관련 뉴스</div>
             <div className={style.newsrow}>
-                <div>뉴스 기사 제목</div>
+                <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
             </div>
             <div className={style.newsrow}>
-                <div>뉴스 기사 제목</div>
+                <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
             </div>
             <div className={style.newsrow}>
-                <div>뉴스 기사 제목</div>
+                <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
             </div>
             <div className={style.newsrow}>
-                <div>뉴스 기사 제목</div>
+                <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
             </div>
             <div className={style.newsrow}>
-                <div>뉴스 기사 제목</div>
+                <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
             </div>
             <div className={style.newsrow}>
-                <div>뉴스 기사 제목</div>
+                <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
             </div>
             <div className={style.newsrow}>
-                <div>뉴스 기사 제목</div>
+                <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
             </div>
             <div className={style.newsrow}>
-                <div>뉴스 기사 제목</div>
+                <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
             </div>
             <div className={style.newsrow}>
-                <div>뉴스 기사 제목</div>
+                <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
             </div>
         </div>

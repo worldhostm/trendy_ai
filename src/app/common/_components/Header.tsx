@@ -20,11 +20,11 @@ export default function Header() {
             </a>
             <nav className={styles['menu-section']}>
                 <ul className={styles['menu-list']}>
-                <li className={styles['menu-item']}>AI 분류</li>
-                <li className={styles['menu-item']} onClick={()=>router.push('/esysrch')}>AI 간편검색</li>
+                <li className={styles['menu-item']} onClick={()=>router.push('/')}>전체 카테고리</li>
+                {/* <li className={styles['menu-item']} onClick={()=>router.push('/esysrch')}>AI 간편검색</li>
                 <li className={styles['menu-item']}>AI 상세검색</li>
                 <li className={styles['menu-item']} onClick={()=>router.push('/news')}>뉴스 페이지</li>
-                <li className={styles['menu-item']}>콘텐츠 </li>
+                <li className={styles['menu-item']}>콘텐츠 </li> */}
                 </ul>
             </nav>
             </header>
