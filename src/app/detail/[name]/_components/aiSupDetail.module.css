@@ -12,6 +12,7 @@
 .fname{
     color : var(--primary);
     white-space: nowrap;
+    cursor: pointer;
 }
 .newsrow{
     width: 100%;
@@ -19,6 +20,7 @@
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #E0E0E0;
+    cursor: pointer;
 }
 .newsrow::after{
 }
@@ -53,7 +55,11 @@
 }
 .flex1{
     padding : 24px;
-    flex : 0.4
+    flex : 0.4;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    
 }
 .flex2{
     padding : 24px;
@@ -82,11 +88,18 @@
     display: flex;
     flex-direction: column;
     gap : 8px;
+    max-height: 190px;
 }
 .desc_sum{
     font-family: Pretendard;
     font-size: 14px;
     line-height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical
 }
 .sumt{
     font-family: Pretendard-SemiBold;
@@ -169,5 +182,29 @@
     padding-right: 20px;
     font-size: 14px;
     line-height: 24px;
+    font-family: Pretendard;
+}
+.hashtagdiv{
+    display: flex;
+    gap: 8px;
+    width: 462px;
+    overflow: scroll;
+    height: 56px;
+    align-items: center;
+    flex-shrink: 0;
+}
+.hashtagdiv::-webkit-scrollbar{
+    color : transparent
+}
+.hashtag{
+    white-space: nowrap;
+    width: 98px;
+    height: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--Foundation-Gray-gray-300----, #E0E0E0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding : 4px 12px;
     font-family: Pretendard;
 }

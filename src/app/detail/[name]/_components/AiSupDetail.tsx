@@ -4,6 +4,8 @@ import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import style from './aiSupDetail.module.css';
 import ReadOnlyStarRating from '@/app/common/_components/ReadOnlyStartRating';
+import Link from 'next/link';
+import Image from 'next/image';
 
 interface Detail {
     category: string;
@@ -18,35 +20,31 @@ interface Detail {
 export default function AiSupDetail() {
     const {name} = useParams<{name:string}>();
     const [detail , setDetail] = useState<Detail>();
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
+    // const [error, setError] = useState<string | null>(null);
+    // const [loading, setLoading] = useState(true);
+    const hashtags = ['#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그'];
     const router =  useRouter();
     useEffect(() => {
         const fetchItems = async () => {
         try {
             const response = await fetch(`/api/detail-service/${name}`,{
-                // method:'GET',
-                // headers : {
-                //     'Accept' : 'application/json',
-                //     'Content-Type' : 'application/json',
-                //      'Access-Control-Allow-Origin':'*'
-                // },
-                // body: JSON.stringify({name:name.name}),
             });  // API 호출
             if (!response.ok) {
             throw new Error('네트워크 응답에 문제가 있습니다.');
             }
             const data = await response.json();  // JSON 데이터 파싱
             setDetail(data);  // 데이터 상태 업데이트
-        } catch (err: any) {
-            setError(err.message);  // 에러 상태 업데이트
-        } finally {
-            setLoading(false);  // 로딩 상태 종료
-        }
+        } catch (err: unknown) {
+            // setError(err.message);  // 에러 상태 업데이트
+            console.error(err);
+        } 
+        // finally {
+        //     setLoading(false);  // 로딩 상태 종료
+        // }
         };
 
         fetchItems();  // 함수 호출
-    });  // 컴포넌트 마운트 시 한 번만 실행
+    },[]);  // 컴포넌트 마운트 시 한 번만 실행
 
   return (
     <div className={style.container}>
@@ -64,7 +62,16 @@ export default function AiSupDetail() {
         {/* 이미지 및 요약 */}
         <div className={style.topcontainer}>
             <div className={style.flex1}>
-                <img src="/default_service.png"/>
+                <Image src="/default_service.png" width={462} height={260} alt="defaultimg"/>
+                <div className={style.hashtagdiv}>
+                    {
+                        hashtags.map((e,idx)=>(
+                            <div 
+                            key={e +'$$$' + idx}
+                            className={`${style.hashtag} bodyM`}>{e}</div>
+                        ))
+                    }
+                </div>
             </div>
             <div className={style.flex2}>
                 <div className={style.borderdiv}>
@@ -84,11 +91,12 @@ export default function AiSupDetail() {
                         <div>3.5</div>
                     </div>
                 </div>
-                <a 
+                <Link 
                 className={style.sumbutton}
                 href ={`${detail?.url}`}
+                target='_blank'
                 >서비스 이동
-                </a>
+                </Link>
             </div>
         </div>
         {/* 장문 설명 */}
@@ -121,7 +129,10 @@ export default function AiSupDetail() {
                             <span className={style.order}>
                             {e.order}.
                             </span>
-                            <span  className={style.fname}> {e.name} : </span>
+                            <span 
+                            className={style.fname}
+                            onClick={()=>router.push(`/detail/${e.name}`)}
+                            > {e.name} : </span>
                             <div className={style.f_desc}>
                                 {e.description}
                             </div>
@@ -132,42 +143,42 @@ export default function AiSupDetail() {
         {/* 관련뉴스 */}
         <div className={style.newsContainer}>
             <div className={style.subtitle}>관련 뉴스</div>
-            <div className={style.newsrow}>
+            <Link href='#' className={style.newsrow}>
                 <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
-            </div>
-            <div className={style.newsrow}>
+            </Link>
+            <Link href='#' className={style.newsrow}>
                 <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
-            </div>
-            <div className={style.newsrow}>
+            </Link>
+            <Link href='#' className={style.newsrow}>
                 <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
-            </div>
-            <div className={style.newsrow}>
+            </Link>
+            <Link href='#' className={style.newsrow}>
                 <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
-            </div>
-            <div className={style.newsrow}>
+            </Link>
+            <Link href='#' className={style.newsrow}>
                 <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
-            </div>
-            <div className={style.newsrow}>
+            </Link>
+            <Link href='#' className={style.newsrow}>
                 <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
-            </div>
-            <div className={style.newsrow}>
+            </Link>
+            <Link href='#' className={style.newsrow}>
                 <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
-            </div>
-            <div className={style.newsrow}>
+            </Link>
+            <Link href='#' className={style.newsrow}>
                 <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
-            </div>
-            <div className={style.newsrow}>
+            </Link>
+            <Link href='#' className={style.newsrow}>
                 <div className={style.newsTitle}>뉴스 기사 제목</div>
                 <div>출처</div>
-            </div>
+            </Link>
         </div>
     </div>
   )

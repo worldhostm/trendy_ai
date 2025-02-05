@@ -3,21 +3,24 @@
 import React from 'react';
 import styles from './header.module.css';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Header() {
     const router = useRouter();
     return (
         <div style={{
             width : '100vw',
-            backgroundColor : 'white'
+            backgroundColor : 'white',
+            borderBottom: '1px solid #ddd',
         }}>
             <header className={styles['header-container']}>
-            <a
+            <Link
             href='/' 
             className={styles['logo-section']}>
-                <img src="/static/logo/trendyai_logo.svg" alt="Company Logo" className={styles['logo-image']} width={20} height={20}/>
-                <span className={styles['company-name']}>트랜디 AI</span>
-            </a>
+                <Image src="/trendyai_logo.png" alt="Company Logo" className={styles['logo-image']} width={100} height={100} priority={false} />
+                {/* <span className={styles['company-name']}>트랜디 AI</span> */}
+            </Link>
             <nav className={styles['menu-section']}>
                 <ul className={styles['menu-list']}>
                 <li className={styles['menu-item']} onClick={()=>router.push('/')}>전체 카테고리</li>

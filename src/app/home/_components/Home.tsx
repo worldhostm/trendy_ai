@@ -31,7 +31,7 @@ export default function Home() {
             }
             const data = await response.json();  // JSON 데이터 파싱
             setItems(data);  // 데이터 상태 업데이트
-        } catch (err: any) {
+        } catch (err: unknown ) {
             console.error(err);
             // setError(err.message);  // 에러 상태 업데이트
         } finally {
@@ -60,7 +60,11 @@ export default function Home() {
     //   ];
     return (
         <div className={styles['grid-container']}>
-        {Object.entries(items).map(([category,items]) => (
+
+        {
+        items 
+        ?
+        Object.entries(items).map(([category,items]) => (
             <div key={`${category}`} className={styles['grid-item']}>
             {/* Top Section */}
             <div className={styles['top-section']}>
@@ -111,7 +115,9 @@ export default function Home() {
                 </div>
             } */}
             </div>
-        ))}
+        ))
+        :<div> 데이터가 없습니다.</div>
+        }
         </div>
     );
 }
