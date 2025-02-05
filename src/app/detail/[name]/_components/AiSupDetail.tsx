@@ -24,7 +24,7 @@ export default function AiSupDetail() {
     useEffect(() => {
         const fetchItems = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/detail-service/${name}`,{
+            const response = await fetch(`/api/detail-service/${name}`,{
                 // method:'GET',
                 // headers : {
                 //     'Accept' : 'application/json',
@@ -46,7 +46,7 @@ export default function AiSupDetail() {
         };
 
         fetchItems();  // 함수 호출
-    }, []);  // 컴포넌트 마운트 시 한 번만 실행
+    });  // 컴포넌트 마운트 시 한 번만 실행
 
   return (
     <div className={style.container}>
@@ -114,7 +114,8 @@ export default function AiSupDetail() {
             <div className={style.subtitle}>이 서비스와 유사한 서비스들</div>
             {
                 detail?.alternative.map((e,idx)=>
-                        <div 
+                        <div
+                        key={e.name + '$$' + idx}
                         className={style.featured}
                         >
                             <span className={style.order}>

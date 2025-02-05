@@ -3,7 +3,7 @@ import Home from './_components/Home'
 
 export default function page() {
   return (
-    <div>예시</div>
-    // <Home />
+    // <div>예시</div>
+    <Home />
   )
 }

@@ -9,21 +9,17 @@ interface AIItem {
     name: string;
     order: number;
   }
-  
-  interface AIData {
-    AICA: AIItem[];
-  }
 
 export default function Home() {
     const [items, setItems] = useState([]);  // 데이터를 저장할 상태
-    const [loading, setLoading] = useState<boolean>(true);  // 로딩 상태
-    const [error, setError] = useState<string | null>(null);  // 에러 상태
+    // const [loading, setLoading] = useState<boolean>(true);  // 로딩 상태
+    // const [error, setError] = useState<string | null>(null);  // 에러 상태
     const router = useRouter();
 
     useEffect(() => {
         const fetchItems = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_ADDRESS}/api/all-service`,{
+            const response = await fetch(`/api/all-service`,{
                 headers : {
                     'Accept' : 'application/json',
                     'Content-Type' : 'application/json',
@@ -34,12 +30,12 @@ export default function Home() {
             throw new Error('네트워크 응답에 문제가 있습니다.');
             }
             const data = await response.json();  // JSON 데이터 파싱
-            console.info(data);
             setItems(data);  // 데이터 상태 업데이트
         } catch (err: any) {
-            setError(err.message);  // 에러 상태 업데이트
+            console.error(err);
+            // setError(err.message);  // 에러 상태 업데이트
         } finally {
-            setLoading(false);  // 로딩 상태 종료
+            // setLoading(false);  // 로딩 상태 종료
         }
         };
 
