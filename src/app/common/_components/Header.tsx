@@ -32,7 +32,7 @@ export default function Header() {
                 <li className={styles['menu-item']}>콘텐츠 </li> */}
                 </ul>
             </nav>
-            <Image src="/list.svg" alt='list' width={24} height={24} onClick={()=>setisOpen(!isOpen)}/>
+            {/* <Image src="/list.svg" alt='list' width={24} height={24} onClick={()=>setisOpen(!isOpen)}/> */}
             </header>
             {/* {isOpen && <MobileSideMenu />} */}
         </div>
