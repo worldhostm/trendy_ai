@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import styles from './header.module.css';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import MobileSideMenu from './MobileSideMenu';
+// import MobileSideMenu from './MobileSideMenu';
 
 export default function Header() {
     const [isOpen , setisOpen] = useState<boolean>(false);
@@ -34,7 +34,7 @@ export default function Header() {
             </nav>
             <Image src="/list.svg" alt='list' width={24} height={24} onClick={()=>setisOpen(!isOpen)}/>
             </header>
-            {isOpen && <MobileSideMenu />}
+            {/* {isOpen && <MobileSideMenu />} */}
         </div>
       );
 }

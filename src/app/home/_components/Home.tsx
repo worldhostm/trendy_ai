@@ -1,7 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import styles from './home.module.css';
-import { useRouter } from 'next/navigation';
 
 interface AIItem {
     category: string;
@@ -14,7 +13,7 @@ export default function Home() {
     const [items, setItems] = useState([]);  // 데이터를 저장할 상태
     // const [loading, setLoading] = useState<boolean>(true);  // 로딩 상태
     // const [error, setError] = useState<string | null>(null);  // 에러 상태
-    const router = useRouter();
+    // const router = useRouter();
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -79,7 +78,7 @@ export default function Home() {
                     // href={`/detail/${item.name}`}
                     key={`${item.name} ${idx}`}
                     className={styles['mid-section']}
-                    onClick={()=>router.push(`/detail/${item.name}`)} 
+                    // onClick={()=>router.push(`/detail/${item.name}`)} 
                     >
                         <div className={styles['mid-item']}>
                             <div 
