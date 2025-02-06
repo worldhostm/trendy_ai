@@ -49,10 +49,23 @@ export default function AiSupDetail() {
   return (
     <div className={style.container}>
         {/* 회사명 */}
-        <div style={{
-            marginTop:'20px',
-            marginBottom:'20px'
-        }}>홈 메뉴</div>
+        <div 
+            className={`${style.menupath} bodyS`}
+        >
+            <div>홈</div>
+            <div>
+                <Image src="/leftnavi.svg" alt="navi" width={16} height={16} />
+            </div>
+            <div>
+                전체 카테고리
+            </div>
+            <div>
+                <Image src="/leftnavi.svg" alt="navi" width={16} height={16} />
+            </div>
+            <div>
+                {detail?.name}
+            </div>
+        </div>
         {/* 서브헤더 */}
         <div className={style.title}>
             <span>
@@ -79,7 +92,7 @@ export default function AiSupDetail() {
                         <div className={style.sumt}>
                             Summary
                         </div>
-                        <div className={style.desc_sum}>
+                        <div className={`${style.desc_sum} bodyM`}>
                             {detail?.description}
                         </div>
                     </div>
@@ -113,7 +126,7 @@ export default function AiSupDetail() {
                 </defs>
                 </svg>
             </div>
-            <div className={style.description}>
+            <div className={`${style.description} bodyM`}>
             {detail?.description}
             </div>
         </div>
@@ -130,11 +143,11 @@ export default function AiSupDetail() {
                             {e.order}.
                             </span>
                             <span 
-                            className={style.fname}
+                            className={`${style.fname} bodyMixed`}
                             onClick={()=>router.push(`/detail/${e.name}`)}
                             > {e.name} : </span>
-                            <div className={style.f_desc}>
-                                {e.description}
+                            <div className={`${style.f_desc} bodyM`}>
+                                {e.description ? e.description:'설명글이 없습니다'}
                             </div>
                         </div>
                 )
@@ -144,40 +157,40 @@ export default function AiSupDetail() {
         <div className={style.newsContainer}>
             <div className={style.subtitle}>관련 뉴스</div>
             <Link href='#' className={style.newsrow}>
-                <div className={style.newsTitle}>뉴스 기사 제목</div>
-                <div>출처</div>
+                <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
+                <div className={`${style.from} bodyM`}>출처</div>
             </Link>
             <Link href='#' className={style.newsrow}>
-                <div className={style.newsTitle}>뉴스 기사 제목</div>
-                <div>출처</div>
+                <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
+                <div className={`${style.from} bodyM`}>출처</div>
             </Link>
             <Link href='#' className={style.newsrow}>
-                <div className={style.newsTitle}>뉴스 기사 제목</div>
-                <div>출처</div>
+                <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
+                <div className={`${style.from} bodyM`}>출처</div>
             </Link>
             <Link href='#' className={style.newsrow}>
-                <div className={style.newsTitle}>뉴스 기사 제목</div>
-                <div>출처</div>
+                <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
+                <div className={`${style.from} bodyM`}>출처</div>
             </Link>
             <Link href='#' className={style.newsrow}>
-                <div className={style.newsTitle}>뉴스 기사 제목</div>
-                <div>출처</div>
+                <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
+                <div className={`${style.from} bodyM`}>출처</div>
             </Link>
             <Link href='#' className={style.newsrow}>
-                <div className={style.newsTitle}>뉴스 기사 제목</div>
-                <div>출처</div>
+                <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
+                <div className={`${style.from} bodyM`}>출처</div>
             </Link>
             <Link href='#' className={style.newsrow}>
-                <div className={style.newsTitle}>뉴스 기사 제목</div>
-                <div>출처</div>
+                <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
+                <div className={`${style.from} bodyM`}>출처</div>
             </Link>
             <Link href='#' className={style.newsrow}>
-                <div className={style.newsTitle}>뉴스 기사 제목</div>
-                <div>출처</div>
+                <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
+                <div className={`${style.from} bodyM`}>출처</div>
             </Link>
             <Link href='#' className={style.newsrow}>
-                <div className={style.newsTitle}>뉴스 기사 제목</div>
-                <div>출처</div>
+                <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
+                <div className={`${style.from} bodyM`}>출처</div>
             </Link>
         </div>
     </div>

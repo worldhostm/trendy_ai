@@ -3,6 +3,9 @@
   .header-container {
     padding : 20px !important;
   }
+  .menu-section{
+    display: none !important;
+  }
 }
 .header-container {
     display: flex;
@@ -47,10 +50,8 @@
   }
   
   .menu-item {
-    font-size: 1rem;
     cursor: pointer;
     position: relative;
-    font-weight: bold;
   }
   
   .menu-item:hover::after {

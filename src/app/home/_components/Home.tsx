@@ -60,7 +60,6 @@ export default function Home() {
     //   ];
     return (
         <div className={styles['grid-container']}>
-
         {
         items 
         ?
@@ -69,7 +68,7 @@ export default function Home() {
             {/* Top Section */}
             <div className={styles['top-section']}>
                 {/* <img src={item.image} alt="Thumbnail" className={styles['top-image']} /> */}
-                <span className={styles['top-text']}>{`${category}`}</span>
+                <span className={`${styles['top-text']} titleM`}>{`${category}`}</span>
             </div>
             <div className={styles.mid}>
             {/* Mid Section */}
@@ -80,15 +79,15 @@ export default function Home() {
                     // href={`/detail/${item.name}`}
                     key={`${item.name} ${idx}`}
                     className={styles['mid-section']}
-                    onClick={()=>router.push(`/detail/${item.name}`)}
+                    onClick={()=>router.push(`/detail/${item.name}`)} 
                     >
                         <div className={styles['mid-item']}>
                             <div 
                                 className={styles.midcontent}
                             >
-                                <div className={`${styles.ranknum} ${item.order < 4 && styles.top3}`}>{item.order}</div>
+                                <div className={`${styles.ranknum} ${item.order < 4 && styles.top3} titleS`}>{item.order}</div>
                                 {/* <img src={e.logo} alt="Logo" className={styles['mid-logo']} /> */}
-                                <span>{item.name}</span>
+                                <span className='titleS'>{item.name}</span>
                             </div>
                             {/* <div>
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
