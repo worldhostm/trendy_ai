@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import styles from './home.module.css';
+import Link from 'next/link';
 
 interface AIItem {
     category: string;
@@ -80,7 +81,11 @@ export default function Home() {
                     className={styles['mid-section']}
                     // onClick={()=>router.push(`/detail/${item.name}`)} 
                     >
-                        <div className={styles['mid-item']}>
+                        <Link 
+                        href={`${item.url}`}
+                        className={styles['mid-item']}
+                        target='_blank'
+                        >
                             <div 
                                 className={styles.midcontent}
                             >
@@ -99,7 +104,7 @@ export default function Home() {
                                 </g>
                                 </svg>
                             </div> */}
-                        </div>
+                        </Link>
                     </div>
                     )
                 }
