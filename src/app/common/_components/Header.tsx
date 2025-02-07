@@ -8,7 +8,6 @@ import Image from 'next/image';
 // import MobileSideMenu from './MobileSideMenu';
 
 export default function Header() {
-    const router = useRouter();
     return (
         <div style={{
             width : '100vw',
