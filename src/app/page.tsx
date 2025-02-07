@@ -4,10 +4,10 @@ import { Metadata } from "next";
 export const metadata :Metadata={
   openGraph:{
     description : '트렌디한 최신 AI 서비스들을 한 번에! 인공지능 기술 트렌드와 인기 생산성 도구를 실시간으로 확인하고 비교할 수 있습니다.',
-    title:'트렌디 AI',
+    title:'Trndy AI :  Solution Finder for AI',
     images:'',
     url :'https://trndyai.com',
-    siteName:'Trndy AI :  Solution Finder for AI',
+    siteName:'Trndy AI',
   },
   title:'Trndy AI :  Solution Finder for AI',
   description:'트렌디한 최신 AI 서비스들을 한 번에! 인공지능 기술 트렌드와 인기 생산성 도구를 실시간으로 확인하고 비교할 수 있습니다.',

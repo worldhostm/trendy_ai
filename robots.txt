@@ -1,0 +1,18 @@
+User-agent: Yeti
+Disallow: /yeti-only/
+Allow: /
+
+User-agent: Daum
+Disallow: /daum-only/
+Allow: /
+
+User-Agent: *
+Allow: /
+Disallow: /test/
+
+User-Agent: Bingbot
+Allow: /
+Disallow: /
+
+
+Sitemap: https://trndyai.com/sitemap.xml
