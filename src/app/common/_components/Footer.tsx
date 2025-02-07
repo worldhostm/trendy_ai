@@ -1,8 +1,10 @@
 'use client'
 import React from 'react';
+import styles from './footer.module.css';
 
 
 export default function Footer() {
+    // const innerWidth = useWindowWidth();
   return (
     <div style={{
         borderTop:'1px solid #E0E0E0',
@@ -53,24 +55,15 @@ export default function Footer() {
 
             </div>
             <div 
-            className='bodyS'
-            style={{
-                display:'flex',
-                justifyContent:'space-between',
-
-            }}
+            className={`${styles.upper_container} bodyS`}
             >
                 <div>
                     Find your AI solution <br/>
                     Contact. trndynow@gmail.com   <br/>
                     We are currently testing our MVP and will continue to develop our products to make it easier to find AI services. Stay tuned.
                 </div>
-                <div className={`bodyS`}
-                style={{
-                    display:'flex',
-                    flexDirection:'column',
-                    justifyContent:'flex-end'
-                }}
+                <div 
+                className={`bodyS ${styles.under_container}`}
                 >
                 ©️ CWC all rights reservd
                 </div>
