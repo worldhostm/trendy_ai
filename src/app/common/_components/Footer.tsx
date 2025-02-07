@@ -1,10 +1,10 @@
 'use client'
 import React from 'react';
 import styles from './footer.module.css';
-
+import { useWindowWidth } from './_libs/useWindowWidth';
 
 export default function Footer() {
-    // const innerWidth = useWindowWidth();
+    const innerWidth = useWindowWidth();
   return (
     <div style={{
         borderTop:'1px solid #E0E0E0',
@@ -60,6 +60,7 @@ export default function Footer() {
                 <div>
                     Find your AI solution <br/>
                     Contact. trndynow@gmail.com   <br/>
+                    {innerWidth < 768 && <br/>}
                     We are currently testing our MVP and will continue to develop our products to make it easier to find AI services. Stay tuned.
                 </div>
                 <div 
