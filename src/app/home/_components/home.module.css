@@ -8,6 +8,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
+    row-gap: 32px;
+    column-gap: 24px;
     width: 1200px;
     margin-bottom: 80px;
     /* padding: 20px; */
@@ -48,7 +50,8 @@
     display: flex;
     flex-direction: column;
     width: 384px;
-    height: 444px;
+    /* height: 444px; */
+    height: auto;
   }
   .grid-item:hover{
     /* box-shadow: #7198EF75 2px 2px 15px; */
@@ -67,7 +70,7 @@
     background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #006AFF, #D682FF);
     background-origin: border-box;
     background-clip: content-box, border-box;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   .topimgdiv{
     padding-left : 8px;
@@ -86,6 +89,8 @@
       overflow: auto;
       border-radius: 8px;
       padding : 20px;
+      scroll-padding-left: 100px;
+      scroll-padding-right: 100px;
     }
     .midinner{
       background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #006AFF, #D682FF);
@@ -94,7 +99,7 @@
       border: 1px solid transparent;
       box-shadow: 2px 4px 20px 0px rgba(0, 0, 0, 0.08);
       width: 100%;
-      height: 392px;
+      height: 395px;
       background-color: white;
       border-radius: 8px;
     }
@@ -104,12 +109,13 @@
   }
 
   .mid::-webkit-scrollbar-thumb {
-      background-color: #888;
+      background-color: #E0E0E0;
       border-radius: 8px;
   }
 
   .mid::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
+    right: 0 !important;
+    background-color: transparent;
   }
   .mid-section {
     background-color: white;
