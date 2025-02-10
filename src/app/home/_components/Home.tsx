@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './home.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 interface AIItem {
     category: string;
@@ -14,7 +14,7 @@ interface AIItem {
 
 export default function Home() {
     const [items, setItems] = useState([]);  // 데이터를 저장할 상태
-    const router = useRouter();
+    // const router = useRouter();
     // const [loading, setLoading] = useState<boolean>(true);  // 로딩 상태
     // const [error, setError] = useState<string | null>(null);  // 에러 상태
 
@@ -43,36 +43,37 @@ export default function Home() {
 
         fetchItems();  // 함수 호출
     }, []);  // 컴포넌트 마운트 시 한 번만 실행
-    
-    // const gridItems = [
-    //     { id: 1, image: '/path/to/image1.jpg'
-    //         , rank: [
-    //             { cid:1,rank: 1, logo:'/static/caredoc_logo.svg' ,name: 'Company One', url: '#' },
-    //             { cid:2,rank: 1, logo:'/static/caredoc_logo.svg' ,name: 'Company One', url: '#' },
-    //             { cid:3,rank: 1, logo:'/static/caredoc_logo.svg' ,name: 'Company One', url: '#' },
-    //             { cid:4,rank: 1, logo:'/static/caredoc_logo.svg' ,name: 'Company One', url: '#' }
-    //         ]
-    //         , logo: '/static/caredoc_logo.svg'
-    //         , companyName: 'Company One'
-    //         , link: '#' 
-    //     },
-    //     { id: 2, image: '/path/to/image2.jpg', rank: [{ cid:11,rank: 2, logo:'/static/caredoc_logo.svg' ,name: 'Company Two', url: '#' }], logo: '/static/caredoc_logo.svg', companyName: 'Company Two', link: '#' },
-    //     { id: 3, image: '/path/to/image3.jpg', rank: [{ cid:12,rank: 3, logo:'/static/caredoc_logo.svg' ,name: 'Company Three', url: '#' }], logo: '/static/caredoc_logo.svg', companyName: 'Company Three', link: '#' },
-    //     // Add more items as needed
-    //   ];
     return (
         <div className={styles['grid-container']}>
         {
         items 
         ?
-        Object.entries(items).map(([category,items],index) => (
+        Object.entries(items).sort(([categoryA], [categoryB]) => {
+            const priorityCategories = ["Beauty", "Creative Content", "Face Creator"];
+            const isPriorityA = priorityCategories.includes(categoryA);
+            const isPriorityB = priorityCategories.includes(categoryB);
+            
+            if (isPriorityA && !isPriorityB) return -1; // A가 우선순위이면 앞으로
+            if (!isPriorityA && isPriorityB) return 1;  // B가 우선순위이면 뒤로
+            return 0; // 나머지는 그대로
+          }).map(([category,items],index) => (
             <div key={`${category}`} className={styles['grid-item']}>
             {/* Top Section */}
             <div className={styles['top-section']}>
                 <div className={styles.topimgdiv}>
-                    <Image src={'/category_default.svg'} alt="Thumbnail" className={styles['top-image']} width={32} height={32}/>
+                    {/* <Image src={'/category_default.svg'} alt="Thumbnail" className={styles['top-image']} width={32} height={32}/> */}
+                    <span className={`${styles['top-text']} titleM`}>{`${category}`}</span>
                 </div>
-                <span className={`${styles['top-text']} titleM`}>{`${category}`}</span>
+                {
+                    // 상위 3개 에디터픽 표시
+                    index < 3 &&
+                        <div className={`${styles.editorpick}`}>
+                            <Image  src={'/editorpick.svg'} width={16} height={16} alt="editorpick"/>
+                            <span className='bodyS' style={{whiteSpace:'nowrap', fontWeight:400}}>
+                                Editor Pick
+                            </span>
+                        </div>
+                }
             </div>
             {/* 에디터픽 나올떄까지 임시 */}
             <div className={`${index < 3 ? styles.midinner :''} `}>
@@ -80,12 +81,13 @@ export default function Home() {
                 {/* Mid Section */}
                     {
                         (items as AIItem[]).map((item,idx)=>
-                        <div
-                        // href={`/detail/${item.url}`}
+                        <Link
+                        href={`${item.url}`}
                         // href={`/detail/${item.name}`}
                         key={`${item.name} ${idx}`}
                         className={styles['mid-section']}
-                        onClick={()=>router.push(`/detail/${item.name}`)}
+                        // target='_blank'
+                        // onClick={()=>router.push(`/detail/${item.name}`)}
                         >
                             {/* <Link 
                             href={`${item.url}`}
@@ -130,7 +132,7 @@ export default function Home() {
                                 </div> */}
                             {/* </Link> */}
                             </div>
-                        </div>
+                        </Link>
                         )
                     }
                 </div>

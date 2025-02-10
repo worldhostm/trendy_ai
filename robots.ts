@@ -30,6 +30,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: '/private/',
       },
     ],
-    sitemap: 'https://trndyai.com/sitemap.xml', // 실제 사이트맵 URL로 변경
+    sitemap: 'https://31ais.com/sitemap.xml', // 실제 사이트맵 URL로 변경
   };
 }

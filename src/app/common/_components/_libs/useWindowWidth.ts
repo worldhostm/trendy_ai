@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 export const useWindowWidth = (): number => {
   // @todo 초기값이 window.innerWidth 값을 가져오지 못해 0으로 설정했을 때 스켈레톤UI가 이상하게 보이는 현상 수정 필요
   // 0일때 768보다 작아서 pc화면에서도 모바일의 스켈레톤이 뜸 임시로 너비 1200으로 설정
-  const [windowWidth, setWindowWidth] = useState<number>(1200);
+  const [windowWidth, setWindowWidth] = useState<number>(0);
 
   useEffect(() => {
     // 클라이언트 사이드에서만 실행
