@@ -77,7 +77,9 @@ export default function Home() {
                 }
             </div>
             {/* 에디터픽 나올떄까지 임시 */}
-            <div className={`${index < 3 ? styles.midinner :''} `}>
+            <div 
+            className={`${index < 3 ? styles.midinner :styles.midinner_normal}`}
+            >
                 <div className={`${styles.mid}`}>
                 {/* Mid Section */}
                     {
@@ -87,7 +89,7 @@ export default function Home() {
                         // href={`/detail/${item.name}`}
                         key={`${item.name} ${idx}`}
                         className={styles['mid-section']}
-                        // target='_blank'
+                        target='_blank'
                         // onClick={()=>router.push(`/detail/${item.name}`)}
                         >
                             {/* <Link 
