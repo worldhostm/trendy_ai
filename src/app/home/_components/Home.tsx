@@ -10,6 +10,7 @@ interface AIItem {
     url: string;
     name: string;
     order: number;
+    description?:string;
   }
 
 export default function Home() {
@@ -116,7 +117,7 @@ export default function Home() {
                                             className='bodyM' 
                                             style={{
                                                 fontWeight:400
-                                            }}># One line review</div>
+                                            }}>{item.description}</div>
                                         </div>
                                 }
                                 {/* <div>
