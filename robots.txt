@@ -15,4 +15,4 @@ Allow: /
 Disallow: /
 
 
-Sitemap: https://trndyai.com/sitemap.xml
+Sitemap: https://31ais.com/sitemap.xml
