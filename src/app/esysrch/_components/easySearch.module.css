@@ -25,6 +25,13 @@
     grid-template-columns:  repeat(3, 1fr);
     gap: 15px;
 }
+.active{
+    border: 1px solid transparent !important;
+    background-image: linear-gradient(#F5F5F5, #F5F5F5), linear-gradient(to right, #006AFF, #D682FF) !important;
+    background-origin: border-box !important;
+    background-clip: content-box, border-box !important;
+}
+
 @media (max-width:768px) {
     .categoryname{
         width: 100% !important;
@@ -54,12 +61,6 @@
     }
     .padding12{
         padding : 12px !important;
-    }
-    .active{
-        border: 1px solid transparent!important;
-        background-image: linear-gradient(#F5F5F5, #F5F5F5), linear-gradient(to right, #006AFF, #D682FF) !important;
-        background-origin: border-box !important;
-        background-clip: content-box, border-box !important;
     }
     
     .mobileBottom{
@@ -97,8 +98,8 @@
         width: calc(219 / 375 * 100vw);
         height: calc(58 / 375 * 100vw);
         color: white;
-        background-image: linear-gradient(to right, #006AFF, #D682FF);
         border-radius: 4px;
+        background-image: linear-gradient(to right, #006AFF, #D682FF);
         background: var(--gradient-blue-45, linear-gradient(90deg, #006AFF 0%, #D682FF 100%));
         box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.04);
     }
@@ -108,7 +109,19 @@
         display: none;
     }
 }
+.grid_item_outer{
+    width: auto;
+    height: 121px;
+    border-radius: 8px;
+    border: 1px solid transparent !important;
+    background-image: linear-gradient(#F5F5F5, #F5F5F5), linear-gradient(to right, #006AFF, #D682FF) !important;
+    background-origin: border-box !important;
+    background-clip: content-box, border-box !important;
+    /* outline: 1px solid;
+    outline-color: linear-gradient(to right, #006AFF, #D682FF); */
+}
 .grid_item{
+    user-select: none;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -116,11 +129,11 @@
     background-color: #F5F5F5;
     width: auto;
     height: 120px;
-    border: 2px solid transparent;
     border-radius: 8px;
     background: var(--Foundation-Gray-gray-100, #F5F5F5);
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.04);
 }
+
 .categoryimg{
     display: flex;
     justify-content: flex-end;
