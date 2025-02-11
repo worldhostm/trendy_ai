@@ -1,4 +1,35 @@
 
+.container{
+  width: 100vw;
+  min-height: 50vh;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.input_container{
+  position: relative;
+  margin-top: 80px;
+  margin-bottom: 80px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.input_container .image_container{
+  position: absolute;
+  right: 28px;
+  top: 16px;
+  bottom: 0;
+}
+.input_container .searchforai{
+  position: absolute;
+  left: 28px;
+  top: 23px;
+  bottom: 0;
+}
+
  .grid-container *{
   color : var(--black);
   background : var(--white);
@@ -12,16 +43,44 @@
     column-gap: 24px;
     width: 1200px;
     margin-bottom: 80px;
-    /* padding: 20px; */
   }
 
   @media (max-width: 768px) {
-    .grid-container, .top-section, .mid{
+    .grid-container
+    , .top-section
+    , .input_container
+    , .mid-item
+    , .mid-section{
         width: 100% !important;
         /* padding : 20px ; */
     }
-     .grid-item {
+     .grid-item , .input ,.mid-item, .mid-section ,.mid{
       width: 95% !important;
+    }
+    .mid{
+      width: 93% !important;
+    }
+    .grid-container{
+      justify-content: center !important;
+      margin-top: unset !important;
+    }
+    .midcontent, .midcontent2 {
+      width: 100% !important;
+    }
+    .input_container{
+      display: flex !important;
+      align-items: center !important; 
+      justify-content: center !important;
+      margin-top: 24px !important;
+      margin-bottom: 24px !important;
+
+    }
+    .input{
+      height: 48px !important;
+    }
+    .image_container{
+      top: 12px !important;
+      right: 33px !important;
     }
     
     .grid-container{
@@ -34,6 +93,10 @@
     .grid-item{
       align-items: center;
       justify-content: center;
+    }
+    .input_container .searchforai{
+      left: 34px !important;
+      top: 18px !important;
     }
   }
   .grid-item > *{
@@ -60,7 +123,7 @@
   .top-section >*{
   }
   .top-section span{
-    margin-left: 4px;
+    margin-left: 8px;
   }
   .editorpick{
     padding : 0px 10px;
@@ -101,19 +164,17 @@
       flex-direction: column;
       gap: 12px;
       background-color: white;
-      height: 392px;
+      height: 372px;
       overflow: auto;
       border-radius: 8px;
-      padding : 20px;
-      scroll-padding-left: 100px;
-      scroll-padding-right: 100px;
+      margin : 20px 20px 0px 20px;
     }
     .midinner{
       background-image: var(--primary-linear-gradient);
       background-origin: border-box;
       background-clip: content-box, border-box;
       border: 1px solid transparent;
-      box-shadow: 2px 4px 20px 0px rgba(0, 0, 0, 0.08);
+      /* box-shadow: 2px 4px 20px 0px rgba(0, 0, 0, 0.08); */
       width: 100%;
       height: 395px;
       background-color: white;
@@ -235,4 +296,32 @@
   .top3{
     background: var(--background-grient);
     color: white !important;
+  }
+
+
+  .input {
+    display: flex;
+    width: 792px;
+    height: 56px;
+    padding: 0px 28px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  
+    border-radius: 60px;
+    border: 1px solid #48BED9;
+    background: #FFF;
+  
+    /* core shadow_w */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.04);
+  
+    font-size: 16px;
+    outline: none;
+  }
+  
+  .input:focus {
+    border-color: #3598B2;
+  }
+  .top-text{
+
   }

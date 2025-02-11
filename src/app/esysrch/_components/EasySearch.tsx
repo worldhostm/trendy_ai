@@ -53,41 +53,46 @@ export default function EasySearch() {
               aiCategories.map((e,idx)=>(
                 selectedCtgry.includes(e)
                 ?
-                <div 
-                key={e + '$$' + idx}
-                  // className={`${ styles.grid_item}`}
-                  className={`${ styles.grid_item}  styles.active} ${selectedCtgry.includes(e) && styles.paddingunset}`}
-                  onClick={()=>setselectedCtgry((prev)=>
-                    {
-                      const newValue = [...prev, e]
-                      if(prev.includes(e)){
-                      return prev.filter(ele=> ele !== e);
-                      }
-                      return newValue;
-                    })}
+                <div
+                  key={e + '$$' + idx}
+                  className={styles.grid_item_outer}
                 >
-                    <div className={`${styles.categoryname} ${innerWidth > 768 ? `titleM` : `titleS`}`}>{e.category}</div>
-                    <div className={`${styles.categoryimg}`}><Image src={'/category_default.svg'} width={40} height={40} alt="defulatcate"/></div>
-                  </div>
-                : 
-                <div 
-                key={e + '$$' + idx}
-                  className={`${ styles.grid_item}`}
-                  // className={`${ styles.grid_item} ${selectedCtgry.includes(e) && styles.active} ${selectedCtgry.includes(e) && styles.paddingunset}`}
-                  onClick={()=>setselectedCtgry((prev)=>
-                    {
-                      const newValue = [...prev, e]
-                      if(prev.includes(e)){
-                      return prev.filter(ele=> ele !== e);
-                      }
-                      return newValue;
-                    })}
-                >
-                  {/* <div className={`${ selectedCtgry.includes(e) && styles.grid_item}`}> */}
-                    <div className={`${styles.categoryname} ${innerWidth > 768 ? `titleM` : `titleS`}`}>{e.category}</div>
-                    <div className={`${styles.categoryimg}`}><Image src={'/category_default.svg'} width={40} height={40} alt="defulatcate"/></div>
-                  {/* </div> */}
+                  <div 
+                    key={e + '$$' + idx}
+                    // className={`${ styles.grid_item}`}
+                    className={`${ styles.grid_item}`}
+                    onClick={()=>setselectedCtgry((prev)=>
+                      {
+                        const newValue = [...prev, e]
+                        if(prev.includes(e)){
+                        return prev.filter(ele=> ele !== e);
+                        }
+                        return newValue;
+                      })}
+                  >
+                      <div className={`${styles.categoryname} ${innerWidth > 768 ? `titleM` : `titleS`}`}>{e.category}</div>
+                      <div className={`${styles.categoryimg}`}><Image src={'/category_default.svg'} width={40} height={40} alt="defulatcate"/></div>
+                    </div>
                 </div>
+                : 
+                  <div 
+                    key={e + '$$' + idx}
+                    className={`${ styles.grid_item}`}
+                    // className={`${ styles.grid_item} ${selectedCtgry.includes(e) && styles.active} ${selectedCtgry.includes(e) && styles.paddingunset}`}
+                    onClick={()=>setselectedCtgry((prev)=>
+                      {
+                        const newValue = [...prev, e]
+                        if(prev.includes(e)){
+                        return prev.filter(ele=> ele !== e);
+                        }
+                        return newValue;
+                      })}
+                  >
+                    {/* <div className={`${ selectedCtgry.includes(e) && styles.grid_item}`}> */}
+                      <div className={`${styles.categoryname} ${innerWidth > 768 ? `titleM` : `titleS`}`}>{e.category}</div>
+                      <div className={`${styles.categoryimg}`}><Image src={'/category_default.svg'} width={40} height={40} alt="defulatcate"/></div>
+                    {/* </div> */}
+                  </div>
               ))
             }
           </div>
