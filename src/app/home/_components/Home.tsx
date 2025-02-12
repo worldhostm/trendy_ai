@@ -35,7 +35,14 @@ export default function Home() {
     const [language] = useState<"en"|"ko">("en"); // 기본값: 영어
     const [items, setItems] = useState<Category[]>([]);  // 데이터를 저장할 상태
     const [isfocus,setisfocus] = useState<boolean>(false);
+    const [query, setQuery] = useState("");
     const router = useRouter();
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter" && query.trim()) {
+            router.push(`/srchresult?query=${query}`);
+        }
+      };
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -67,18 +74,22 @@ export default function Home() {
         process.env.NEXT_PUBLIC_ENV_VAR==='develop'
         ?
         <div className={`${styles.container}`}>
+            {/* 검색 인풋 컴포넌트화 예정 @todo */}
             <div className={`${styles.input_container}`}>
                 <input 
-                className={styles.input}
-                type="text" 
-                onFocus={()=>setisfocus(false)}
-                onBlur={()=>setisfocus(true)}
+                    className={styles.input}
+                    type="text" 
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onFocus={()=>setisfocus(true)}
+                    onBlur={()=>setisfocus(false)}
+                
                 />
                 <div className={`${styles.image_container}`}>
                     <Image src={'/gradientglass.svg'} width={24} height={24} alt="gradientglass"/>
                 </div>
                 {
-                isfocus &&
+                (!isfocus && !query) && 
                     <Image src={'/searchforai.svg'} className={styles.searchforai} width={94} height={24} alt='searchforai' />
                 }
             </div>
