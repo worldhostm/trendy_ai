@@ -8,16 +8,27 @@
         gap: 12px !important;
     }
     .content{
-        width: 100% !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
+        width: 95% !important;
     }
     .title 
     ,.content2
     ,.hashtags
     {
         width: 95% !important;
+    }
+
+    .hashtags::-webkit-scrollbar {
+     height: 4px; /* 스크롤바 높이 */
+    }
+    
+    .hashtags::-webkit-scrollbar-track {
+        background: transparent !important;
+        border-radius: 2px;
+    }
+    
+
+    .hashtags::-webkit-scrollbar-thumb:hover {
+        background-image: var(--background-grient);
     }
 }
 /* Tile.module.css */
@@ -43,20 +54,15 @@
     border-radius: 8px;
     color: white;
   }
-  .content{
+.content {
     width: 384px;
     height: 184px;
-}
-.content2 {
-    width: 384px;
-    height: 184px;
-    margin-bottom : 20px;
     background-color: white;
     border-radius: 8px;
     background: var(--Foundation-White, #FFF);
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
-    justify-content: center;
-    padding :  20px;
+    padding :  20px 20px 0 20px;
+    border-bottom : 20px solid white;
     display: -webkit-box;
     -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
@@ -70,7 +76,7 @@
     height: 46px;
     overflow: auto;
     display: flex;
-    gap: 12px;
+    gap: 4px;
     white-space: nowrap;
   }
 

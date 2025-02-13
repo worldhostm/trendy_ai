@@ -1,11 +1,14 @@
 /* 화면이 768px 이하일 때 요소를 세로로 배치 */
 @media screen and (max-width: 768px) {
+    .container{
+        margin: 24px !important;
+    }
     .grid_container {
-        width: 100%; /* 가로 폭을 100%로 설정 */
-        grid-template-columns: 1fr; /* 한 줄에 1개씩 배치 */
+        width: 100% !important; /* 가로 폭을 100%로 설정 */
+        grid-template-columns: 1fr !important; /* 한 줄에 1개씩 배치 */
     }
     .title{
-        width: 100% !important;
+        width: 95% !important;
     }
 }
 .container{
@@ -15,6 +18,7 @@
     justify-content: center;
     flex-direction: column;
     margin-top: 40px;
+    margin-bottom: 80px;
 }
 .title{
     width: 1200px;

@@ -29,11 +29,6 @@
   top: 23px;
   bottom: 0;
 }
-
- .grid-container *{
-  color : var(--black);
-  background : var(--white);
-}
 .grid-container {
     margin-top: 20px;
     display: grid;

@@ -1,29 +1,31 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styles from './srchResult.module.css';
 import Tile from './Tile';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { useLanguage } from '@/app/common/_components/LanguageContext';
+import { json } from 'stream/consumers';
 
 // 검색결과, 연관검색결과 아이템 인터페이스
-interface ResultItem{
+export interface ResultItem{
     serviceTitle : string;
     description : string;
     hashtags : string[];
+    url : string;
 }
 
 export default function SrchResult() {
-    const context = useLanguage();
+    const {language,setresultData, setrelresultData} = useLanguage();
     // 검색 결과 
-    const [results, setresults] = useState<ResultItem[]>();
+    const [results, setresults] = useState<ResultItem[]>([]);
     // 연관 검색결과 
-    const [relresults, setrelresults] = useState<ResultItem[]>();
+    const [relresults, setrelresults] = useState<ResultItem[]>([]);
 
     const [isfocus,setisfocus] = useState<boolean>(false);
     const searchparam = useSearchParams();
-    const [query, setQuery] = useState("");
+    const [query, setQuery] = useState(searchparam.get("query")??'');
     const router = useRouter();
     
     const sampleData = Array.from({ length: 10 }, (_, index) => ({
@@ -32,43 +34,57 @@ export default function SrchResult() {
         hashtags: ["React", "CSSModules", "Component", "Tile"]
       }));
 
-      
-      useEffect(() => {
-        // 샘플데이터
-        // if(sampleData){
-        //     setresults(sampleData);
-        //     setrelresults(sampleData);
-        //     return;
-        // }
-        const fetchItems = async () => {
-        try {
-            const response = await fetch(`/api/search/${context.language}/${searchparam.get("query")}`,{
-                headers : {
-                    'Accept' : 'application/json',
-                    'Content-Type' : 'application/json',
-                    'Access-Control-Allow-Origin':'*'
-                }
-            });  // API 호출
-            if (!response.ok) {
-            throw new Error('네트워크 응답에 문제가 있습니다.');
-            }
-            const data = await response.json();  // JSON 데이터 파싱
-            setresults(data.result);  // 데이터 상태 업데이트
-            setrelresults(data.relatedResult);  // 데이터 상태 업데이트
-            
-        } catch (err: unknown ) {
-            console.error(err);
-            // setError(err.message);  // 에러 상태 업데이트
-        } finally {
-            // setLoading(false);  // 로딩 상태 종료
-        }
-        };
-        fetchItems();  // 함수 호출
-    }, []);  // 컴포넌트 마운트 시 한 번만 실행
+  const [debouncedQuery, setDebouncedQuery] = useState(""); // ✅ 디바운스된 검색어 상태
 
+// ✅ fetchItems를 useCallback으로 분리
+  const fetchItems = useCallback(async (searchQuery: string) => {
+    try {
+      const response = await fetch(`/api/search/${language}/${searchQuery}`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("네트워크 응답에 문제가 있습니다.");
+      }
+
+      const data = await response.json();
+      setresults(data.result);
+      setrelresults(data.relatedResult);
+      localStorage.setItem("result", JSON.stringify(data.result));
+      localStorage.setItem("relresults", JSON.stringify(data.relatedResult));
+    } catch (err) {
+      console.error("API 호출 오류:", err);
+    }
+  }, [language]); // ✅ query 또는 language 변경 시 다시 생성됨
+
+    // ✅ 사용자가 입력을 멈춘 후 일정 시간 후에 `debouncedQuery` 업데이트
+    useEffect(() => {
+        const handler = setTimeout(() => {
+        setDebouncedQuery(query); // 사용자가 입력을 멈춘 후 `query` 값을 `debouncedQuery`로 업데이트
+        }, 500); // 500ms 동안 입력이 없으면 실행
+
+        return () => clearTimeout(handler); // 기존 타이머 취소하여 불필요한 호출 방지
+    }, [query]);
+
+  // ✅ useEffect에서 fetchItems 호출
+  useEffect(() => {
+    if (debouncedQuery) {
+      fetchItems(debouncedQuery);
+    }
+  }, [debouncedQuery, fetchItems]);
+   // ✅ fetchItems가 변경될 때마다 실행됨
+    const path = usePathname();
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && query.trim()) {
-            router.push(`/srchresult?query=${query}`);
+            !path.includes('srchresult')
+            ?
+            router.push(`/srchresult?query=${query}`)
+            :
+            fetchItems(query)
         }
     }; 
   return (
@@ -96,42 +112,66 @@ export default function SrchResult() {
          {/* 검색결과 컨테이너 */}
         <div className={`${styles.subtitle} titleM`}>검색결과</div>
         <div className={`${styles.srchrslt_container}`}>
-        {results && results.slice(0,3).map((e,idx)=>
+        {
+        results.length > 0
+        ? results.slice(0,3).map((e,idx)=>
             <Tile
                 key={e.serviceTitle + '$$' + idx} 
                 title={e.serviceTitle}
                 content={e.description}
                 hashtags={e.hashtags}
+                url = {e.url}
             />
-        )}
+        )
+        :<div className={`${styles.nodata} bodyL`}>
+            <Image src="/31ais_logo.svg" width={80} height={80} alt="logo"/>
+            No data available
+        </div>
+        }
         </div>
         {/* 검색결과더보기버튼 */}
-        <div 
-        className={`${styles.viewmoreBtn}`}
-        onClick={()=>router.push(`/resultdetail?type=rslt`)}
-        >
-            검색 결과 더보기
-            <Image src={'/viewmore.svg'} alt='' width={20} height={20}/>
-        </div>
+        {
+            results?.length > 0 &&
+            <div 
+            className={`${styles.viewmoreBtn}`}
+            onClick={()=>router.push(`/resultdetail?type=rslt`)}
+            >
+                검색 결과 더보기
+                <Image src={'/viewmore.svg'} alt='' width={20} height={20}/>
+            </div>
+        }
         {/* 연관 검색 결과 컨테이너 */}
         <div className={`${styles.subtitle} titleM`}>연관 검색 결과</div>
         <div className={`${styles.featured_container}`}>
-        {relresults && relresults.slice(0,9).map((e,idx)=>
+        {
+        relresults.length > 0
+        ? 
+        relresults.slice(0,9).map((e,idx)=>
             <Tile
                 key={e.serviceTitle + '$$' + idx}  
                 title={e.serviceTitle}
                 content={e.description}
                 hashtags={e.hashtags}
+                url={e.url}
             />
-        )}
+        )
+        :
+        <div className={`${styles.nodata} bodyL`}>
+            <Image src="/31ais_logo.svg" width={80} height={80} alt="logo"/>
+            No data available
         </div>
-        <div 
-        className={`${styles.viewmoreBtn}`}
-        onClick={()=>router.push(`/resultdetail?type=related`)}
-        >
-            연관 검색 결과 더보기
-            <Image src={'/viewmore.svg'} alt='' width={20} height={20}/>
+        }
         </div>
+        {
+            relresults.length > 9 &&
+                <div 
+                className={`${styles.viewmoreBtn}`}
+                onClick={()=>router.push(`/resultdetail?type=related`)}
+                >
+                    연관 검색 결과 더보기
+                    <Image src={'/viewmore.svg'} alt='' width={20} height={20}/>
+                </div>
+        }
     </div>
   )
 }
