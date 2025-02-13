@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import CategoryImage from '@/app/common/_components/ImageComponent';
 import Link from 'next/link';
+import Loading from '@/app/common/_components/Loading';
 // import { useRouter } from 'next/navigation';
 
 // interface AIItem {
