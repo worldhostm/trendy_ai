@@ -5,19 +5,19 @@ import styles from './ResultDetail.module.css';
 import Tile from '@/app/srchresult/_components/Tile';
 import { useSearchParams } from 'next/navigation';
 import { useWindowWidth } from '@/app/common/_components/_libs/useWindowWidth';
+import { ResultItem } from '@/app/srchresult/_components/SrchResult';
 
 // 검색 결과 상세페이지
 export default function ResultDetail() {
-    // const {resultData,relresultData, setresultData} = useLanguage();
     const innerWidth = useWindowWidth();
     const searchparam = useSearchParams();
     const resultType = searchparam.get("type");
-    const [resultData, setResultData] = useState<any>(() => {
+    const [resultData, setResultData] = useState<ResultItem[] | null>(() => {
     const storedResult = localStorage.getItem("result");
     return storedResult ? JSON.parse(storedResult) : null;
     });
 
-    const [relresultData, setRelresultData] = useState<any>(() => {
+    const [relresultData] = useState<ResultItem[] | null>(() => {
     const storedRelResult = localStorage.getItem("relresults");
     return storedRelResult ? JSON.parse(storedRelResult) : null;
     });
@@ -64,10 +64,8 @@ export default function ResultDetail() {
             
         </div>
         <div className={`${styles.grid_container}`}>
-        {/* { */}
         {
-         (resultType ==='rslt' ? resultData : relresultData) && (resultType ==='rslt' ? resultData : relresultData)
-         .map((e:any,idx:number)=>
+         (resultType ==='rslt' ? resultData : relresultData)?.map((e,idx)=>
             <Tile
                 key={e.serviceTitle + '$$' + idx}
                 title={e.serviceTitle}

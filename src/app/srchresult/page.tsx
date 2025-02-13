@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import SrchResult from './_components/SrchResult'
 
 export default function page() {
   return (
-    <SrchResult />
+    <Suspense>
+      <SrchResult />
+    </Suspense>
   )
 }

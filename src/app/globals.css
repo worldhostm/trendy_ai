@@ -32,7 +32,7 @@ body{
 
 @font-face {
   font-family: 'Pretendard';
-  src: url('/static/fonts/Pretendard-Regular.otf') format('woff');
+  src: url('/static/fonts/Pretendard-Regular.otf') format('otf');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -41,7 +41,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-SemiBold';
-  src: url('/static/fonts/Pretendard-SemiBold.otf') format('woff');
+  src: url('/static/fonts/Pretendard-SemiBold.otf') format('otf');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -50,7 +50,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-ExtraBold';
-  src: url('/static/fonts/Pretendard-ExtraBold.otf') format('woff');
+  src: url('/static/fonts/Pretendard-ExtraBold.otf') format('otf');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -60,7 +60,7 @@ body{
 
 @font-face {
   font-family: 'Pretendard-Black';
-  src: url('/static/fonts/Pretendard-Black.otf') format('woff');
+  src: url('/static/fonts/Pretendard-Black.otf') format('otf');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -69,7 +69,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-Bold';
-  src: url('/static/fonts/Pretendard-Bold.otf') format('woff');
+  src: url('/static/fonts/Pretendard-Bold.otf') format('otf');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -78,7 +78,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-Light';
-  src: url('/static/fonts/Pretendard-Light.otf') format('woff');
+  src: url('/static/fonts/Pretendard-Light.otf') format('otf');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -87,7 +87,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-Thin';
-  src: url('/static/fonts/Pretendard-Thin.otf') format('woff');
+  src: url('/static/fonts/Pretendard-Thin.otf') format('otf');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -96,7 +96,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-Medium';
-  src: url('/static/fonts/Pretendard-Medium.otf') format('woff');
+  src: url('/static/fonts/Pretendard-Medium.otf') format('otf');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -105,7 +105,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-ExtraLight';
-  src: url('/static/fonts/Pretendard-ExtraLight.otf') format('woff');
+  src: url('/static/fonts/Pretendard-ExtraLight.otf') format('otf');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

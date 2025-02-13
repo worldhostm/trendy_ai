@@ -45,9 +45,14 @@ export default function RootLayout({
             {children}
           <Footer />
         </LanguageProvider>
-        {/* <GoogleAnalytics  
-          gaId={`${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}`}
-        /> */}
+        {/* 운영 환경에서만 구글 데이터수집 */}
+        {
+          process.env.NEXT_PUBLIC_ENV_VAR ==='product'
+          &&
+          <GoogleAnalytics  
+            gaId={`${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}`}
+          />
+        }
       </body>
     </html>
   );

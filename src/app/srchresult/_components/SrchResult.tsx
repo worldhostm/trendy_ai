@@ -6,7 +6,6 @@ import Tile from './Tile';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { useLanguage } from '@/app/common/_components/LanguageContext';
-import { json } from 'stream/consumers';
 
 // 검색결과, 연관검색결과 아이템 인터페이스
 export interface ResultItem{
@@ -17,7 +16,7 @@ export interface ResultItem{
 }
 
 export default function SrchResult() {
-    const {language,setresultData, setrelresultData} = useLanguage();
+    const {language} = useLanguage();
     // 검색 결과 
     const [results, setresults] = useState<ResultItem[]>([]);
     // 연관 검색결과 
@@ -27,39 +26,38 @@ export default function SrchResult() {
     const searchparam = useSearchParams();
     const [query, setQuery] = useState(searchparam.get("query")??'');
     const router = useRouter();
-    
-    const sampleData = Array.from({ length: 10 }, (_, index) => ({
-        serviceTitle: `타일 제목 ${index + 1}`,
-        description: `첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄`,
-        hashtags: ["React", "CSSModules", "Component", "Tile"]
-      }));
 
-  const [debouncedQuery, setDebouncedQuery] = useState(""); // ✅ 디바운스된 검색어 상태
+    // const sampleData = Array.from({ length: 10 }, (_, index) => ({
+    //     serviceTitle: `타일 제목 ${index + 1}`,
+    //     description: `첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄`,
+    //     hashtags: ["React", "CSSModules", "Component", "Tile"]
+    //   }));
+        const [debouncedQuery, setDebouncedQuery] = useState(""); // ✅ 디바운스된 검색어 상태
 
-// ✅ fetchItems를 useCallback으로 분리
-  const fetchItems = useCallback(async (searchQuery: string) => {
-    try {
-      const response = await fetch(`/api/search/${language}/${searchQuery}`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      });
+    // ✅ fetchItems를 useCallback으로 분리
+    const fetchItems = useCallback(async (searchQuery: string) => {
+        try {
+        const response = await fetch(`/api/search/${language}/${searchQuery}`, {
+            headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            },
+        });
 
-      if (!response.ok) {
-        throw new Error("네트워크 응답에 문제가 있습니다.");
-      }
+        if (!response.ok) {
+            throw new Error("네트워크 응답에 문제가 있습니다.");
+        }
 
-      const data = await response.json();
-      setresults(data.result);
-      setrelresults(data.relatedResult);
-      localStorage.setItem("result", JSON.stringify(data.result));
-      localStorage.setItem("relresults", JSON.stringify(data.relatedResult));
-    } catch (err) {
-      console.error("API 호출 오류:", err);
-    }
-  }, [language]); // ✅ query 또는 language 변경 시 다시 생성됨
+        const data = await response.json();
+        setresults(data.result);
+        setrelresults(data.relatedResult);
+        localStorage.setItem("result", JSON.stringify(data.result));
+        localStorage.setItem("relresults", JSON.stringify(data.relatedResult));
+        } catch (err) {
+        console.error("API 호출 오류:", err);
+        }
+    }, [language]); // ✅ query 또는 language 변경 시 다시 생성됨
 
     // ✅ 사용자가 입력을 멈춘 후 일정 시간 후에 `debouncedQuery` 업데이트
     useEffect(() => {
@@ -70,21 +68,23 @@ export default function SrchResult() {
         return () => clearTimeout(handler); // 기존 타이머 취소하여 불필요한 호출 방지
     }, [query]);
 
-  // ✅ useEffect에서 fetchItems 호출
-  useEffect(() => {
+    // ✅ useEffect에서 fetchItems 호출
+    useEffect(() => {
     if (debouncedQuery) {
-      fetchItems(debouncedQuery);
+        fetchItems(debouncedQuery);
     }
-  }, [debouncedQuery, fetchItems]);
-   // ✅ fetchItems가 변경될 때마다 실행됨
+    }, [debouncedQuery, fetchItems]);
+
+    // ✅ fetchItems가 변경될 때마다 실행됨
     const path = usePathname();
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && query.trim()) {
-            !path.includes('srchresult')
-            ?
-            router.push(`/srchresult?query=${query}`)
-            :
-            fetchItems(query)
+            if(!path.includes('srchresult'))
+            {
+                router.push(`/srchresult?query=${query}`)
+            }else{
+                fetchItems(query)
+            }
         }
     }; 
   return (
