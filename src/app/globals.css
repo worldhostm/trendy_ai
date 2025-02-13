@@ -32,7 +32,9 @@ body{
 
 @font-face {
   font-family: 'Pretendard';
-  src: url('/static/fonts/Pretendard-Regular.otf') format('otf');
+  src:  url('/static/fonts/Pretendard-Regular.otf') format('opentype'),
+        url('/static/fonts/Pretendard-Regular.woff') format('woff'),
+        url('/static/fonts/Pretendard-Regular.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -41,7 +43,9 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-SemiBold';
-  src: url('/static/fonts/Pretendard-SemiBold.otf') format('otf');
+  src: url('/static/fonts/Pretendard-SemiBold.otf') format('opentype'),
+        url('/static/fonts/Pretendard-SemiBold.woff') format('woff'),
+        url('/static/fonts/Pretendard-SemiBold.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -50,7 +54,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-ExtraBold';
-  src: url('/static/fonts/Pretendard-ExtraBold.otf') format('otf');
+  src: url('/static/fonts/Pretendard-ExtraBold.otf') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -60,7 +64,7 @@ body{
 
 @font-face {
   font-family: 'Pretendard-Black';
-  src: url('/static/fonts/Pretendard-Black.otf') format('otf');
+  src: url('/static/fonts/Pretendard-Black.otf') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -69,7 +73,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-Bold';
-  src: url('/static/fonts/Pretendard-Bold.otf') format('otf');
+  src: url('/static/fonts/Pretendard-Bold.otf') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -78,7 +82,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-Light';
-  src: url('/static/fonts/Pretendard-Light.otf') format('otf');
+  src: url('/static/fonts/Pretendard-Light.otf') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -87,7 +91,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-Thin';
-  src: url('/static/fonts/Pretendard-Thin.otf') format('otf');
+  src: url('/static/fonts/Pretendard-Thin.otf') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -96,7 +100,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-Medium';
-  src: url('/static/fonts/Pretendard-Medium.otf') format('otf');
+  src: url('/static/fonts/Pretendard-Medium.otf') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -105,7 +109,7 @@ body{
 }
 @font-face {
   font-family: 'Pretendard-ExtraLight';
-  src: url('/static/fonts/Pretendard-ExtraLight.otf') format('otf');
+  src: url('/static/fonts/Pretendard-ExtraLight.otf') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -117,10 +121,10 @@ body{
 .headlineM{font-size: 28px !important; line-height : 36px !important; font-family: Pretendard-Bold !important;}
 .headlineS{font-size: 24px !important; line-height : 32px !important; font-family: Pretendard-Bold !important;}
 .titleL   {font-size: 22px !important; line-height : 28px !important; font-family: Pretendard-Bold !important;}
-.titleM   {font-size: 16px !important; line-height : 25px !important; font-family: Pretendard-SemiBold !important;}
-.titleS   {font-size: 14px !important; line-height : 20px !important; font-family: Pretendard-Bold !important;}
+.titleM   {font-size: 16px !important; line-height : 25px !important; font-family: Pretendard-SemiBold !important; font-weight: 100 !important;}
+.titleS   {font-size: 14px !important; line-height : 20px !important; font-family: Pretendard-Bold !important; font-weight: 200 !important;}
 .bodyL    {font-size: 16px !important; line-height : 28px !important; font-family: Pretendard !important;}
-.bodyM    {font-size: 14px !important; line-height : 24px !important; font-family: 'Pretendard' !important;}
+.bodyM    {font-size: 14px !important; line-height : 24px !important; font-family: Pretendard !important;}
 .bodyS    {font-size: 12px !important; line-height : 20px !important; font-family: Pretendard !important;}
 .labelL   {font-size: 16px !important; line-height : 24px !important; font-family: Pretendard !important;}
 .labelM   {font-size: 14px !important; line-height : 20px !important; font-family: Pretendard !important;}
