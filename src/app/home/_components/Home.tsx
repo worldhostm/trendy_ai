@@ -85,8 +85,8 @@ export default function Home() {
             textAlign:'center'
         
         }}
-        > Service temporarily unavailable <br/><br/>
-        We are sorry for any inconvenience.
+        > The service may be temporarily unavailable due to an update. <br/><br/>
+        We apologize for any inconvenience caused.
         
         </div>
         :process.env.NEXT_PUBLIC_ENV_VAR==='develop'
