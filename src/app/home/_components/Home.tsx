@@ -71,7 +71,21 @@ export default function Home() {
     }, [language]);  // 컴포넌트 마운트 시 한 번만 실행
     // process.env.NEXT_PUBLIC_ENV_VAR==='develop'
     return (
-        process.env.NEXT_PUBLIC_ENV_VAR==='develop'
+        process.env.NEXT_PUBLIC_SERVICE_UNABLE==='true'
+        ?
+        <div
+        className={`headlineL`}
+        style={{
+            width: '100%',
+            height : '80vh',
+            display:'flex',
+            justifyContent:'center',
+            alignItems:'center',
+            fontSize : '64px',
+        
+        }}
+        > Service temporarily unavailable </div>
+        :process.env.NEXT_PUBLIC_ENV_VAR==='develop'
         ?
         <div className={`${styles.container}`}>
             {/* 검색 인풋 컴포넌트화 예정 @todo */}
