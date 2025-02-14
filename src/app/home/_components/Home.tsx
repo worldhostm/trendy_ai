@@ -82,9 +82,13 @@ export default function Home() {
             justifyContent:'center',
             alignItems:'center',
             fontSize : '64px',
+            textAlign:'center'
         
         }}
-        > Service temporarily unavailable </div>
+        > Service temporarily unavailable <br/><br/>
+        We are sorry for any inconvenience.
+        
+        </div>
         :process.env.NEXT_PUBLIC_ENV_VAR==='develop'
         ?
         <div className={`${styles.container}`}>
