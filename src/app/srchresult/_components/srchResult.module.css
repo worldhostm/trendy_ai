@@ -39,6 +39,9 @@
   .input_container .searchforai{
     left: 38px !important;
   }
+  .input_container .image_container{
+    right: 45px !important;
+  }
 }
 
 @media screen and (max-width: 1024px) {
@@ -64,7 +67,7 @@
     width: 1200px;
     display: flex;
     gap: 24px;
-    overflow: auto;
+    /* overflow: auto; */
 }
 .featured_container {
     width: 1200px;
@@ -128,9 +131,12 @@
     justify-content: center !important;
   }
   .input_container .image_container{
+    display: flex;
+    align-items: center;
+    height: 56px;
     position: absolute;
     right: 28px;
-    top: 16px;
+    top: 0px;
     bottom: 0;
   }
   .input_container .searchforai{

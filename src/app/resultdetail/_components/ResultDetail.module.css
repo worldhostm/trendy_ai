@@ -5,7 +5,8 @@
     }
     .grid_container {
         width: 100% !important; /* 가로 폭을 100%로 설정 */
-        grid-template-columns: 1fr !important; /* 한 줄에 1개씩 배치 */
+        display: flex !important;
+        flex-direction: column !important;
     }
     .title{
         width: 95% !important;

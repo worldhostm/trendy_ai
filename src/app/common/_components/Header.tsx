@@ -25,7 +25,7 @@ export default function Header() {
             </Link>
             <nav className={styles['menu-section']}>
                 {
-                    //  임시
+                    //  임시 @todo
                     process.env.NEXT_PUBLIC_ENV_VAR === 'develop'
                     ?
                     <ul className={styles['menu-list']}>

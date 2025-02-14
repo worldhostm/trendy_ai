@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import CategoryImage from '@/app/common/_components/ImageComponent';
 import Link from 'next/link';
-import Loading from '@/app/common/_components/Loading';
 // import { useRouter } from 'next/navigation';
 
 // interface AIItem {
@@ -183,6 +182,24 @@ export default function Home() {
         :
         //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  NEXT_PUBLIC_ENV_VAR !== 'develop' @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         <div className={`${styles.container}`}>
+            <div className={`${styles.input_container}`}>
+                <input 
+                    className={styles.input}
+                    type="text" 
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onFocus={()=>setisfocus(true)}
+                    onBlur={()=>setisfocus(false)}
+                
+                />
+                <div className={`${styles.image_container}`}>
+                    <Image src={'/gradientglass.svg'} width={24} height={24} alt="gradientglass"/>
+                </div>
+                {
+                (!isfocus && !query) && 
+                    <Image src={'/searchforai.svg'} className={styles.searchforai} width={94} height={24} alt='searchforai' />
+                }
+            </div>
             <div className={styles['grid-container']}>
             {
             items 
@@ -229,9 +246,10 @@ export default function Home() {
                                 {
                                     item.service && item.service.map(e=>
                                         <Link
-                                            href={`${e.url}`}
-                                            key={`${e.serviceTitle} ${index}`}
-                                            className={styles['mid-section']}
+                                        key={`${e.serviceTitle} ${index}`}
+                                        className={styles['mid-section']}
+                                        href={`${e.url}`}
+                                        target='_blank'
                                             // onClick={()=>router.push(`/detail/${e.serviceTitle}`)}
                                         >
                                             <div 

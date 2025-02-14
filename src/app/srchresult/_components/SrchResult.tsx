@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { Suspense, useCallback, useEffect, useState } from 'react'
 import styles from './srchResult.module.css';
 import Tile from './Tile';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { useLanguage } from '@/app/common/_components/LanguageContext';
+import Loading from '@/app/common/_components/Loading';
 
 // 검색결과, 연관검색결과 아이템 인터페이스
 export interface ResultItem{
@@ -26,13 +27,12 @@ export default function SrchResult() {
     const searchparam = useSearchParams();
     const [query, setQuery] = useState(searchparam.get("query")??'');
     const router = useRouter();
-
     // const sampleData = Array.from({ length: 10 }, (_, index) => ({
     //     serviceTitle: `타일 제목 ${index + 1}`,
     //     description: `첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄`,
     //     hashtags: ["React", "CSSModules", "Component", "Tile"]
     //   }));
-        const [debouncedQuery, setDebouncedQuery] = useState(""); // ✅ 디바운스된 검색어 상태
+    const [debouncedQuery, setDebouncedQuery] = useState(""); // ✅ 디바운스된 검색어 상태
 
     // ✅ fetchItems를 useCallback으로 분리
     const fetchItems = useCallback(async (searchQuery: string) => {
@@ -76,102 +76,107 @@ export default function SrchResult() {
     }, [debouncedQuery, fetchItems]);
 
     // ✅ fetchItems가 변경될 때마다 실행됨
-    const path = usePathname();
+    // const path = usePathname();
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && query.trim()) {
-            if(!path.includes('srchresult'))
-            {
+        //     if(!path.includes('srchresult'))
+        //     {
                 router.push(`/srchresult?query=${query}`)
-            }else{
-                fetchItems(query)
-            }
+            // }else{
+            //     fetchItems(query)
+            // }
         }
     }; 
   return (
-    <div className={`${styles.container}`}>
-        {/* 검색창 */}
-        <div className={`${styles.input_container}`}>
-            <input 
-                className={styles.input}
-                type="text" 
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={handleKeyDown}
-                onFocus={()=>setisfocus(false)}
-                onBlur={()=>setisfocus(true)}
-                // autoComplete=''
-            />
-            <div className={`${styles.image_container}`}>
-                <Image src={'/gradientglass.svg'} width={24} height={24} alt="gradientglass"/>
+    <Suspense fallback={<Loading />}>
+        <div className={`${styles.container}`}>
+            {/* 검색창 */}
+            <div className={`${styles.input_container}`}>
+                <input 
+                    className={styles.input}
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onFocus={()=>setisfocus(false)}
+                    onBlur={()=>setisfocus(true)}
+                    // autoComplete=''
+                />
+                <div className={`${styles.image_container}`}>
+                    <Image src={'/gradientglass.svg'} width={24} height={24} alt="gradientglass"/>
+                </div>
+                {
+                (isfocus && !query) &&
+                    <Image src={'/searchforai.svg'} className={styles.searchforai} width={94} height={24} alt='searchforai' />
+                }
             </div>
+            {/* 검색창 end */}
+            {/* 검색결과 컨테이너 */}
+            <div className={`${styles.subtitle} titleM`}>검색결과</div>
+            <div className={`${styles.srchrslt_container}`}>
             {
-            (isfocus && !query) &&
-                <Image src={'/searchforai.svg'} className={styles.searchforai} width={94} height={24} alt='searchforai' />
-            }
-        </div>
-        {/* 검색창 end */}
-         {/* 검색결과 컨테이너 */}
-        <div className={`${styles.subtitle} titleM`}>검색결과</div>
-        <div className={`${styles.srchrslt_container}`}>
-        {
-        results.length > 0
-        ? results.slice(0,3).map((e,idx)=>
-            <Tile
-                key={e.serviceTitle + '$$' + idx} 
-                title={e.serviceTitle}
-                content={e.description}
-                hashtags={e.hashtags}
-                url = {e.url}
-            />
-        )
-        :<div className={`${styles.nodata} bodyL`}>
-            <Image src="/31ais_logo.svg" width={80} height={80} alt="logo"/>
-            No data available
-        </div>
-        }
-        </div>
-        {/* 검색결과더보기버튼 */}
-        {
-            results?.length > 0 &&
-            <div 
-            className={`${styles.viewmoreBtn}`}
-            onClick={()=>router.push(`/resultdetail?type=rslt`)}
-            >
-                검색 결과 더보기
-                <Image src={'/viewmore.svg'} alt='' width={20} height={20}/>
+            results.length > 0
+            ? results.slice(0,3).map((e,idx)=>
+                <Tile
+                    key={e.serviceTitle + '$$' + idx} 
+                    title={e.serviceTitle}
+                    content={e.description}
+                    hashtags={e.hashtags}
+                    url = {e.url}
+                    setquery={setQuery}
+                />
+            )
+            :<div className={`${styles.nodata} bodyL`}>
+                <Image src="/31ais_logo.svg" width={80} height={80} alt="logo"/>
+                No data available
             </div>
-        }
-        {/* 연관 검색 결과 컨테이너 */}
-        <div className={`${styles.subtitle} titleM`}>연관 검색 결과</div>
-        <div className={`${styles.featured_container}`}>
-        {
-        relresults.length > 0
-        ? 
-        relresults.slice(0,9).map((e,idx)=>
-            <Tile
-                key={e.serviceTitle + '$$' + idx}  
-                title={e.serviceTitle}
-                content={e.description}
-                hashtags={e.hashtags}
-                url={e.url}
-            />
-        )
-        :
-        <div className={`${styles.nodata} bodyL`}>
-            <Image src="/31ais_logo.svg" width={80} height={80} alt="logo"/>
-            No data available
-        </div>
-        }
-        </div>
-        {
-            relresults.length > 9 &&
+            }
+            </div>
+            {/* 검색결과더보기버튼 */}
+            {
+                results?.length > 0 &&
                 <div 
                 className={`${styles.viewmoreBtn}`}
-                onClick={()=>router.push(`/resultdetail?type=related`)}
+                onClick={()=>router.push(`/resultdetail?type=rslt`)}
                 >
-                    연관 검색 결과 더보기
+                    검색 결과 더보기
                     <Image src={'/viewmore.svg'} alt='' width={20} height={20}/>
                 </div>
-        }
-    </div>
+            }
+            {/* 연관 검색 결과 컨테이너 */}
+            <div className={`${styles.subtitle} titleM`}>연관 검색 결과</div>
+            <div className={`${styles.featured_container}`}>
+            {
+            relresults.length > 0
+            ? 
+            relresults.slice(0,9).map((e,idx)=>
+                <Tile
+                    key={e.serviceTitle + '$$' + idx}  
+                    title={e.serviceTitle}
+                    content={e.description}
+                    hashtags={e.hashtags}
+                    url={e.url}
+                    setquery={setQuery}
+                />
+            )
+            :
+            <div className={`${styles.nodata} bodyL`}>
+                <Image src="/31ais_logo.svg" width={80} height={80} alt="logo"/>
+                No data available
+            </div>
+            }
+            </div>
+            {
+                relresults.length > 9 &&
+                    <div 
+                    className={`${styles.viewmoreBtn}`}
+                    onClick={()=>router.push(`/resultdetail?type=related`)}
+                    >
+                        연관 검색 결과 더보기
+                        <Image src={'/viewmore.svg'} alt='' width={20} height={20}/>
+                    </div>
+            }
+        </div>
+    </Suspense>
   )
 }
