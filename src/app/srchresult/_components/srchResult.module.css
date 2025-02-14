@@ -1,0 +1,216 @@
+/* 반응형: 768px 이하일 때 한 줄 배치 */
+@media screen and (max-width: 768px) {
+  .container{
+    background : white !important;
+  }
+  .srchrslt_container {
+      width: 100% !important;
+      flex-direction: column !important;
+      align-items: center !important;
+  }
+  .featured_container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    /* grid-template-columns: 1fr !important; */
+    width: 100% !important;
+  }
+  .title {
+    width: 100% !important;
+    text-align: center !important;
+  }
+  .input_container {
+    width: 100% !important;
+    flex-direction: column !important;
+    margin-top: 24px !important;
+    margin-bottom: 20px !important;
+  }
+  .input {
+    width: 90% !important;
+  }
+  .subtitle {
+    margin-top: unset !important;
+    width: 90% !important;
+  }
+  .viewmoreBtn {
+    width: 90% !important;
+    margin-bottom: 60px !important;
+  }
+  .input_container .searchforai{
+    left: 38px !important;
+  }
+  .input_container .image_container{
+    right: 45px !important;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .featured_container {
+      width: 100%;
+      grid-template-columns: repeat(2, 1fr);
+  }
+  .input {
+    width: 80%;
+}
+}
+
+.container{
+    width: 100vw;
+    min-height: 50vh;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 60px;
+}
+.srchrslt_container{
+    width: 1200px;
+    display: flex;
+    gap: 24px;
+    /* overflow: auto; */
+}
+.featured_container {
+    width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개씩 배치 */
+    gap: 16px; /* 요소 간 간격 조정 */
+    align-items: start; /* 요소들이 세로 정렬될 때 위쪽 정렬 */
+}
+
+.title {
+    width: 384px;
+    height: 44px;
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .content {
+    display: flex;
+    height: 184px;
+    padding: 20px;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    aspect-ratio: 48/23;
+    border-radius: 8px;
+    background: var(--Foundation-White, #FFF);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+  .hashtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .hashtag {
+    display: flex;
+    padding: 4px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    border-radius: 16px;
+    border: 1px solid var(--Foundation-Gray-gray-300----, #E0E0E0);
+    background: var(--Foundation-White, #FFF);
+    font-size: 12px;
+    color: #555;
+  }
+
+  .input_container{
+    position: relative;
+    margin-top: 80px;
+    margin-bottom: 40px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .input_container .image_container{
+    display: flex;
+    align-items: center;
+    height: 56px;
+    position: absolute;
+    right: 28px;
+    top: 0px;
+    bottom: 0;
+  }
+  .input_container .searchforai{
+    position: absolute;
+    left: 28px;
+    top: 23px;
+    bottom: 0;
+  }
+  .input {
+    display: flex;
+    width: 792px;
+    height: 56px;
+    padding: 0px 28px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  
+    border-radius: 60px;
+    border: 1px solid #48BED9;
+    background: #FFF;
+  
+    /* core shadow_w */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.04);
+  
+    font-size: 16px;
+    outline: none;
+  }
+
+  .input:focus {
+    border-color: #3598B2;
+  }
+  .subtitle{
+    width: 1200px;
+    margin : 20px 0px;
+  }
+  
+  .srchrslt_container::-webkit-scrollbar {
+    height: 4px; /* 스크롤바 높이 */
+  }
+  
+  .srchrslt_container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05); /* 트랙 색상 */
+    border-radius: 2px;
+  }
+  
+
+  .srchrslt_container::-webkit-scrollbar-thumb {
+    background-image: var(--background-grient);
+  }
+
+  .viewmoreBtn{
+    color: #616161;
+    margin-top: 24px;
+    width: 1200px;
+    height: 56px;
+    background-color: transparent;
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid var(--Foundation-Gray-gray-300----, #E0E0E0);
+    /* core shadow_w */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+  }
+
+.nodata{
+  width: 1200px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  gap: 24px;
+}

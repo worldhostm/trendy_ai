@@ -1,0 +1,36 @@
+/* 화면이 768px 이하일 때 요소를 세로로 배치 */
+@media screen and (max-width: 768px) {
+    .container{
+        margin: 24px !important;
+    }
+    .grid_container {
+        width: 100% !important; /* 가로 폭을 100%로 설정 */
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    .title{
+        width: 95% !important;
+    }
+}
+.container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 40px;
+    margin-bottom: 80px;
+}
+.title{
+    width: 1200px;
+
+}
+.grid_container{
+    margin-top: 20px;
+    width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개씩 배치 */
+    row-gap: 24px; /* 요소 간 간격 조정 */
+    column-gap: 32px;
+    align-items: start; /* 요소들이 세로 정렬될 때 위쪽 정렬 */
+}

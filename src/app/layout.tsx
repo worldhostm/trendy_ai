@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./common/_components/Header";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Footer from "./common/_components/Footer";
+import { LanguageProvider } from "./common/_components/LanguageContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,19 +40,19 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        {/* {
-          pathname !== '/' &&
-          <ShowSubMenus 
-           menu="홈"
-           menu2="2뎁스"
+        <LanguageProvider>
+          <Header />
+            {children}
+          <Footer />
+        </LanguageProvider>
+        {/* 운영 환경에서만 구글 데이터수집 */}
+        {
+          process.env.NEXT_PUBLIC_ENV_VAR ==='product'
+          &&
+          <GoogleAnalytics  
+            gaId={`${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}`}
           />
-        } */}
-        {children}
-        <Footer />
-        <GoogleAnalytics  
-          gaId={`${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}`}
-        />
+        }
       </body>
     </html>
   );

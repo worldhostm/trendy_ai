@@ -1,0 +1,101 @@
+@media (max-width:768px) {
+    .tileContainer{
+        width: 100% !important;
+        height: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 12px !important;
+    }
+    .content{
+        width: 95% !important;
+    }
+    .title 
+    ,.content2
+    ,.hashtags
+    {
+        width: 95% !important;
+    }
+    .hashtags{
+        overflow: auto !important;
+    }
+    .hashtags::-webkit-scrollbar {
+     height: 4px; /* 스크롤바 높이 */
+    }
+    
+    .hashtags::-webkit-scrollbar-track {
+        background: transparent !important;
+        border-radius: 2px;
+    }
+    
+
+    .hashtags::-webkit-scrollbar-thumb:hover {
+        background-image: transparent !important;
+    }
+}
+/* Tile.module.css */
+.tileContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* 요소들 간 간격 */
+    width: 384px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.title {
+    background: var(--gradient-blue-45, linear-gradient(323deg, #48BED9 0.76%, #787CFE 99.24%));
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
+    width: 384px;
+    height: 44px;
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    color: white;
+  }
+.content {
+    width: 384px;
+    height: 184px;
+    background-color: white;
+    border-radius: 8px;
+    background: var(--Foundation-White, #FFF);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
+    padding :  20px 20px 0 20px;
+    border-bottom : 20px solid white;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+  }
+  
+  .hashtags {
+    width: 384px;
+    height: 46px;
+    overflow: hidden;
+    cursor: grab;
+    display: flex;
+    gap: 4px;
+    white-space: nowrap;
+    user-select: none; /* 텍스트 선택 방지 */
+  }
+
+  .hashtag {
+    height: 28px;
+    display: flex;
+    padding: 4px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    border-radius: 16px;
+    border: 1px solid var(--Foundation-Gray-gray-300----, #E0E0E0);
+    background: var(--Foundation-White, #FFF);
+    font-size: 12px;
+    color: #555;
+  }
+
+  
