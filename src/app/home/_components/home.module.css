@@ -20,8 +20,13 @@
 .input_container .image_container{
   position: absolute;
   right: 28px;
-  top: 16px;
+  top: 0;
   bottom: 0;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 .input_container .searchforai{
   position: absolute;

@@ -83,7 +83,6 @@ export default function Home() {
             alignItems:'center',
             fontSize : '64px',
             textAlign:'center'
-        
         }}
         > The service may be temporarily unavailable due to an update. <br/><br/>
         We apologize for any inconvenience caused.
@@ -210,7 +209,10 @@ export default function Home() {
                     onBlur={()=>setisfocus(false)}
                 
                 />
-                <div className={`${styles.image_container}`}>
+                <div 
+                className={`${styles.image_container}`}
+                onClick={()=>router.push(`/srchresult?query=${query}`)}
+                >
                     <Image src={'/gradientglass.svg'} width={24} height={24} alt="gradientglass"/>
                 </div>
                 {

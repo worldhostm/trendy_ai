@@ -26,13 +26,13 @@ export default function SrchResult() {
     const [isfocus,setisfocus] = useState<boolean>(false);
     const searchparam = useSearchParams();
     const [query, setQuery] = useState(searchparam.get("query")??'');
+    const [debouncedQuery, setDebouncedQuery] = useState(""); // ✅ 디바운스된 검색어 상태
     const router = useRouter();
     // const sampleData = Array.from({ length: 10 }, (_, index) => ({
     //     serviceTitle: `타일 제목 ${index + 1}`,
     //     description: `첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄`,
     //     hashtags: ["React", "CSSModules", "Component", "Tile"]
     //   }));
-    const [debouncedQuery, setDebouncedQuery] = useState(""); // ✅ 디바운스된 검색어 상태
 
     // ✅ fetchItems를 useCallback으로 분리
     const fetchItems = useCallback(async (searchQuery: string) => {
@@ -57,8 +57,13 @@ export default function SrchResult() {
         } catch (err) {
         console.error("API 호출 오류:", err);
         }
-    }, [language]); // ✅ query 또는 language 변경 시 다시 생성됨
+    }, [language,query]); // ✅language 변경 시 다시 생성됨
 
+    // 페이지 진입시 쿼리스트링으로 검색
+    useEffect(() => {
+      fetchItems(query);
+    }, [])
+    
     // ✅ 사용자가 입력을 멈춘 후 일정 시간 후에 `debouncedQuery` 업데이트
     useEffect(() => {
         const handler = setTimeout(() => {
@@ -69,23 +74,22 @@ export default function SrchResult() {
     }, [query]);
 
     // ✅ useEffect에서 fetchItems 호출
-    useEffect(() => {
-    if (debouncedQuery) {
-        fetchItems(debouncedQuery);
-    }
-    }, [debouncedQuery, fetchItems]);
+    // useEffect(() => {
+    // if (debouncedQuery) {
+    //     fetchItems(debouncedQuery);
+    // }
+    // }, [debouncedQuery]);
 
     // ✅ fetchItems가 변경될 때마다 실행됨
     // const path = usePathname();
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && query.trim()) {
+        if (e.key === "Enter" && debouncedQuery.trim()) {
         //     if(!path.includes('srchresult'))
         //     {
-                router.push(`/srchresult?query=${query}`)
+                // router.push(`/srchresult?query=${query}`)
             // }else{
-            //     fetchItems(query)
-            // }
-        }
+                fetchItems(debouncedQuery);
+            }
     }; 
   return (
     <Suspense fallback={<Loading />}>
@@ -102,7 +106,10 @@ export default function SrchResult() {
                     onBlur={()=>setisfocus(true)}
                     // autoComplete=''
                 />
-                <div className={`${styles.image_container}`}>
+                <div 
+                className={`${styles.image_container}`}
+                onClick={()=>fetchItems(query)}
+                >
                     <Image src={'/gradientglass.svg'} width={24} height={24} alt="gradientglass"/>
                 </div>
                 {
