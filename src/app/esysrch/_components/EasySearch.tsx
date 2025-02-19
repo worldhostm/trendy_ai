@@ -4,42 +4,87 @@ import React, { useEffect, useState } from 'react';
 import styles from './easySearch.module.css';
 import Image from 'next/image';
 import { useWindowWidth } from '@/app/common/_components/_libs/useWindowWidth';
+import { useLanguage } from '@/app/common/_components/LanguageContext';
+import { serviceStore } from '@/store/serviceStore';
+import { useRouter } from 'next/navigation';
 
 interface AIServiceCategory {
-  category: string;
+  categoryName: string;
+  logo: string;
 }
 
-const aiCategories: AIServiceCategory[] = [
-  { category: "Natural Language Processing" },
-  { category: "Computer Vision" },
-  { category: "Speech Recognition" },
-  { category: "Reinforcement Learning" },
-  { category: "Generative AI" },
-  { category: "Machine Learning Models" },
-  { category: "Recommendation Systems" },
-  { category: "AI Ethics & Fairness" },
-  { category: "Data Annotation & Labeling" },
-  { category: "AI Hardware Optimization" },
-  { category: "AI-Powered Search Engines" },
-  { category: "Robotics & Automation" },
-  { category: "AI for Healthcare" },
-  { category: "AI for Finance" },
-  { category: "AI for Cybersecurity" },
-  { category: "AI-Powered Chatbots" },
-  { category: "AI-Powered Virtual Assistants" },
-  { category: "AI for Autonomous Vehicles" },
-  { category: "AI for Supply Chain" },
-  { category: "AI for Gaming" },
-  { category: "AI for Marketing & Ads" }
-];
-
 export default function EasySearch() {
-  const innerWidth = useWindowWidth();
-  const [selectedCtgry, setselectedCtgry] = useState<AIServiceCategory[]>([]);
+  const {setselectedCategories,selectedCategories} = serviceStore.getState();
   useEffect(() => {
-    console.info(selectedCtgry);
-  }, [selectedCtgry]);
+    console.info('selectedCategories :: ',selectedCategories);
+    return () => {
+    }
+  }, [selectedCategories])
   
+  const {language} = useLanguage();
+  const innerWidth = useWindowWidth();
+  const [category, setcategory] = useState<AIServiceCategory[]>([]);
+  const [selectedCtgry, setselectedCtgry] = useState<string[]>([]);
+  const [resultCount,setresultCount] = useState<number>(0);
+
+  const router = useRouter();
+
+  const fetchCategory = async () => {
+    try {
+        const response = await fetch(`/api/all-category`,{
+            method:'POST',
+            body : JSON.stringify({short:true, lang:language}),
+            headers : {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json',
+                'Access-Control-Allow-Origin':'*'
+            }
+        });  // API 호출
+        if (!response.ok) {
+        throw new Error('네트워크 응답에 문제가 있습니다.');
+        }
+        const catedata = await response.json();  // JSON 데이터 파싱
+        setcategory(catedata);
+    } catch (err: unknown ) {
+        console.error(err);
+        // setError(err.message);  // 에러 상태 업데이트
+    } finally {
+        // setLoading(false);  // 로딩 상태 종료
+    }
+    };
+  const fetchFunc = async () => {
+    try {
+        const response = await fetch(`/api/category-count`,{
+            method:'POST',
+            body : JSON.stringify({category:selectedCtgry, lang:language}),
+            headers : {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json',
+                'Access-Control-Allow-Origin':'*'
+            }
+        });  // API 호출
+        if (!response.ok) {
+        throw new Error('네트워크 응답에 문제가 있습니다.');
+        }
+        const data = await response.json();  // JSON 데이터 파싱
+        setresultCount(data);
+    } catch (err: unknown ) {
+        console.error(err);
+        // setError(err.message);  // 에러 상태 업데이트
+    } finally {
+        // setLoading(false);  // 로딩 상태 종료
+    }
+    };
+
+    useEffect(() => {
+        fetchCategory();
+    }, []);
+    useEffect(() => {
+      fetchFunc();
+      return () => {}
+    }, [selectedCtgry])
+    
+
   return (
     <div className={styles.container}>
       <div className={styles.esrch_container}>
@@ -50,47 +95,52 @@ export default function EasySearch() {
           </div>
           <div className={styles.esrchgrid}>
             {
-              aiCategories.map((e,idx)=>(
-                selectedCtgry.includes(e)
+              category.map((e,idx)=>(
+                selectedCtgry.includes(e.categoryName)
                 ?
                 <div
                   key={e + '$$' + idx}
-                  className={styles.grid_item_outer}
+                  className={`${styles.grid_item_outer}`}
                 >
                   <div 
                     key={e + '$$' + idx}
                     // className={`${ styles.grid_item}`}
                     className={`${ styles.grid_item}`}
-                    onClick={()=>setselectedCtgry((prev)=>
-                      {
-                        const newValue = [...prev, e]
-                        if(prev.includes(e)){
-                        return prev.filter(ele=> ele !== e);
+                    onClick={()=>{setselectedCtgry((prev)=>{
+                        const newValue = [...prev, e.categoryName]
+                        if(prev.includes(e.categoryName)){
+                        return prev.filter(ele=> ele !== e.categoryName);
                         }
+                        console.info(newValue);
+                        // setselectedCategories(newValue);
                         return newValue;
-                      })}
+                      })
+                      console.info('clk');
+                      }
+                    }
                   >
-                      <div className={`${styles.categoryname} ${innerWidth > 768 ? `titleM` : `titleS`}`}>{e.category}</div>
-                      <div className={`${styles.categoryimg}`}><Image src={'/category_default.svg'} width={40} height={40} alt="defulatcate"/></div>
+                      <div className={`${styles.categoryname} ${innerWidth > 768 ? `titleM` : `titleS`}`}>{e.categoryName}</div>
+                      <div className={`${styles.categoryimg}`}><Image src={e.logo} width={40} height={40} alt="defulatcate"/></div>
                     </div>
                 </div>
                 : 
                   <div 
                     key={e + '$$' + idx}
-                    className={`${ styles.grid_item}`}
-                    // className={`${ styles.grid_item} ${selectedCtgry.includes(e) && styles.active} ${selectedCtgry.includes(e) && styles.paddingunset}`}
-                    onClick={()=>setselectedCtgry((prev)=>
-                      {
-                        const newValue = [...prev, e]
-                        if(prev.includes(e)){
-                        return prev.filter(ele=> ele !== e);
+                    className={`${styles.grid_item}`}
+                    onClick={() => setselectedCtgry((prev) => {
+                      console.info('setselectedCtgry');
+                        if (prev.includes(e.categoryName)) {
+                            return prev.filter((ele) => ele !== e.categoryName);
                         }
+                        const newValue = [...prev, e.categoryName];
+                        setselectedCategories(newValue);
                         return newValue;
-                      })}
+                      })
+                    }
                   >
-                    {/* <div className={`${ selectedCtgry.includes(e) && styles.grid_item}`}> */}
-                      <div className={`${styles.categoryname} ${innerWidth > 768 ? `titleM` : `titleS`}`}>{e.category}</div>
-                      <div className={`${styles.categoryimg}`}><Image src={'/category_default.svg'} width={40} height={40} alt="defulatcate"/></div>
+                    {/* <div className={`${ category.includes(e) && styles.grid_item}`}> */}
+                      <div className={`${styles.categoryname} ${innerWidth > 768 ? `titleM` : `titleS`}`}>{e.categoryName}</div>
+                      <div className={`${styles.categoryimg}`}><Image src={e.logo} width={40} height={40} alt="defulatcate"/></div>
                     {/* </div> */}
                   </div>
               ))
@@ -100,12 +150,12 @@ export default function EasySearch() {
       </div>
       <div className={`${styles.result_container}`}>
         <div className={`${styles.resultinner_container}`}>
-          <div className={`${ styles.number_container} titleM`}><span className={`${styles.srchnumber} headlineL`}>20</span>개</div>
+          <div className={`${ styles.number_container} titleM`}><span className={`${styles.srchnumber} headlineL`}>{resultCount}</span>개</div>
           <div className='titleM'>AI를 선별하였습니다.</div>
-          <div className={`${styles.likebtn} titleM`}>선별된 AI 확인하기</div>
+          <div className={`${styles.likebtn} titleM`} onClick={()=>router.push(`/resultdetail?type=simple`)}>선별된 AI 확인하기</div>
           <div className={`${styles.result_bottom_container}`}>
             <div><Image src="/ArrowCounterClockwise.svg" width={20} height={20} alt="ArrowCounterClockwise"/></div>
-            <div className='bodyM'>검색 초기화</div>
+            <div className='bodyM' onClick={()=>setselectedCtgry([])}>검색 초기화</div>
           </div>
         </div>
       </div>

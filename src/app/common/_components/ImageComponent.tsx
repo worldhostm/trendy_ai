@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 interface Props{
     category:string;
-    className:string;
+    className?:string;
 }
 
 const CategoryImage = ({ category,className }:Props) => {

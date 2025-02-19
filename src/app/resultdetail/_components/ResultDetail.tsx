@@ -6,9 +6,11 @@ import Tile from '@/app/srchresult/_components/Tile';
 import { useSearchParams } from 'next/navigation';
 import { useWindowWidth } from '@/app/common/_components/_libs/useWindowWidth';
 import { ResultItem } from '@/app/srchresult/_components/SrchResult';
+import { serviceStore } from '@/store/serviceStore';
 
 // 검색 결과 상세페이지
 export default function ResultDetail() {
+    const {selectedCategories} = serviceStore.getState();
     const innerWidth = useWindowWidth();
     const searchparam = useSearchParams();
     const resultType = searchparam.get("type");
@@ -23,9 +25,6 @@ export default function ResultDetail() {
     });
 
     useEffect(() => {
-    console.info("resultData가 비어있는가?", !resultData);
-    console.info("relresultData가 비어있는가?", !relresultData);
-
     // ✅ `resultData`와 `relresultData`가 없을 때만 localStorage에서 값 가져오기
     if (!resultData && !relresultData) {
         const storedResult =
@@ -33,35 +32,38 @@ export default function ResultDetail() {
             ? localStorage.getItem("relresults")
             : localStorage.getItem("result");
 
-        console.info("저장된 데이터 확인:", storedResult);
+            // rslt
+            // simple
 
         if (storedResult) {
-        try {
-            const parsedResult = JSON.parse(storedResult);
-            setResultData(parsedResult);
-        } catch (error) {
-            console.error("JSON 파싱 오류:", error);
-        }
+            try {
+                const parsedResult = JSON.parse(storedResult);
+                setResultData(parsedResult);
+            } catch (error) {
+                console.error("JSON 파싱 오류:", error);
+            }
         }
     }
     },[]);
-    // const sampleData = Array.from({ length: 10 }, (_, index) => ({
-    //     serviceTitle: `타일 제목 ${index + 1}`,
-    //     description: `첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄`,
-    //     hashtags: ["React", "CSSModules", "Component", "Tile"],
-    //     url:''
-    //   }));
-
     
     return (
     <div className={`${styles.container}`}>
         <div className={`${styles.title} ${innerWidth > 768 ? `titleL`: `titleS`}`}>
             {
-                resultType ==='rslt' 
+                resultType === 'rslt' 
                 ? '검색 결과'
-                : '연관 검색 결과'
+                : resultType === 'simple'
+                ? '간편 검색 결과'
+                : resultType === 'related'
+                ? '연관 검색 결과'
+                :''
             }
-            
+        </div>
+        {/* 검색 조건 */}
+        <div className={`${styles.conditions}`}>
+            {
+                selectedCategories.map(e=><div className={`${styles.condition} bodyS`}>{e}</div>)
+            }
         </div>
         <div className={`${styles.grid_container}`}>
         {

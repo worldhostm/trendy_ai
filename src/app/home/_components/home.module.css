@@ -132,7 +132,7 @@
     align-items: center;
     margin-right: 8px;
     color :white;
-    background-image: var(--background-grient);
+    background-image: var(--primary-grient);
     width: 97px;
     height: 24px;
   }
@@ -294,7 +294,7 @@
     margin-right: 12px;
   }
   .top3{
-    background: var(--background-grient);
+    background: var(--primary-grient);
     color: white !important;
   }
 

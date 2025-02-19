@@ -184,7 +184,7 @@
   
 
   .srchrslt_container::-webkit-scrollbar-thumb {
-    background-image: var(--background-grient);
+    background-image: var(--primary-grient);
   }
 
   .viewmoreBtn{
