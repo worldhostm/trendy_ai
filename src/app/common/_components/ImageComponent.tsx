@@ -5,9 +5,10 @@ import Image from "next/image";
 interface Props{
     category:string;
     className?:string;
+    size?:number
 }
 
-const CategoryImage = ({ category,className }:Props) => {
+const CategoryImage = ({ category,className, size=32}:Props) => {
   const [imgSrc, setImgSrc] = useState(
     `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/category-logo/${category}`
   );
@@ -17,8 +18,8 @@ const CategoryImage = ({ category,className }:Props) => {
       src={imgSrc}
       alt="Thumbnail"
       className={className}
-      width={32}
-      height={32}
+      width={size}
+      height={size}
       onError={() => setImgSrc("/category_default.svg")} // 이미지 로드 실패 시 기본 이미지로 변경
     />
   );

@@ -7,9 +7,12 @@ import { useSearchParams } from 'next/navigation';
 import { useWindowWidth } from '@/app/common/_components/_libs/useWindowWidth';
 import { ResultItem } from '@/app/srchresult/_components/SrchResult';
 import { serviceStore } from '@/store/serviceStore';
+import { useLanguage } from '@/app/common/_components/LanguageContext';
+import CategoryImage from '@/app/common/_components/ImageComponent';
 
 // 검색 결과 상세페이지
 export default function ResultDetail() {
+    const {language} = useLanguage();
     const {selectedCategories} = serviceStore.getState();
     const innerWidth = useWindowWidth();
     const searchparam = useSearchParams();
@@ -23,6 +26,32 @@ export default function ResultDetail() {
     const storedRelResult = localStorage.getItem("relresults");
     return storedRelResult ? JSON.parse(storedRelResult) : null;
     });
+
+    // 쿼리스트링 simple일때 간편 검색 
+    const fetchSimple = async () => {
+        try {
+            const response = await fetch(`/api/category-service`,{
+                method:'POST',
+                body : JSON.stringify({category:selectedCategories, lang:language}),
+                headers : {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json',
+                    'Access-Control-Allow-Origin':'*'
+                }
+            });  // API 호출
+            if (!response.ok) {
+            throw new Error('네트워크 응답에 문제가 있습니다.');
+            }
+            const data = await response.json();  // JSON 데이터 파싱
+            // setItems(data);  // 데이터 상태 업데이트
+            setResultData(data)
+        } catch (err: unknown ) {
+            console.error(err);
+            // setError(err.message);  // 에러 상태 업데이트
+        } finally {
+            // setLoading(false);  // 로딩 상태 종료
+        }
+        };
 
     useEffect(() => {
     // ✅ `resultData`와 `relresultData`가 없을 때만 localStorage에서 값 가져오기
@@ -44,7 +73,13 @@ export default function ResultDetail() {
             }
         }
     }
+    if(resultType === "simple"){
+        console.info('resultType === "simple"');
+        fetchSimple();
+    }
     },[]);
+
+
     
     return (
     <div className={`${styles.container}`}>
@@ -60,14 +95,29 @@ export default function ResultDetail() {
             }
         </div>
         {/* 검색 조건 */}
-        <div className={`${styles.conditions}`}>
-            {
-                selectedCategories.map(e=><div className={`${styles.condition} bodyS`}>{e}</div>)
-            }
-        </div>
+        {
+            resultType ==='simple' && 
+                <div className={`${styles.conditions}`}>
+                    {
+
+                            selectedCategories.map((e,idx)=>
+                            <div 
+                            key={e+'$$'+idx}
+                            className={`${styles.condition} bodyS`}>
+                                {e}
+                                <CategoryImage 
+                                    category={e}
+                                    size={24}
+                                />
+                            </div>
+
+                            )
+                    }
+                </div>
+        }
         <div className={`${styles.grid_container}`}>
         {
-         (resultType ==='rslt' ? resultData : relresultData)?.map((e,idx)=>
+         ((resultType ==='rslt' || resultType ==='simple') ? resultData : relresultData)?.map((e,idx)=>
             <Tile
                 key={e.serviceTitle + '$$' + idx}
                 title={e.serviceTitle}
