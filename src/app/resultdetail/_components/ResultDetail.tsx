@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import styles from './ResultDetail.module.css';
 import Tile from '@/app/srchresult/_components/Tile';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -11,11 +11,11 @@ import { useLanguage } from '@/app/common/_components/LanguageContext';
 import CategoryImage from '@/app/common/_components/ImageComponent';
 import Image from 'next/image';
 import NoData from '@/app/common/_components/NoData';
-import Loading from '@/app/common/_components/Loading';
+// import Loading from '@/app/common/_components/Loading';
 
 // 검색 결과 상세페이지
 export default function ResultDetail() {
-    const [loading ,setloading] = useState(true);
+    // const [loading ,setloading] = useState(true);
     const {language} = useLanguage();
     const {selectedCategories,setselectedCategories, relatedsrchresults, srchresults} = serviceStore.getState();
     const innerWidth = useWindowWidth();
@@ -64,89 +64,97 @@ export default function ResultDetail() {
         }
         };
     useEffect(() => {
-    setTimeout(()=>{
-        setloading(false);
-    }, 1000)
-    if(resultType === "simple"){
-        fetchSimple();
-    }
+        setTimeout(()=>{
+            // setloading(false);
+        }, 1000)
+        if(resultType === "simple"){
+            fetchSimple();
+        }
     },[]);
 
 
     
     return (
-    !loading
-    ?
-    <div className={`${styles.container}`}>
-        <div className={`${styles.title} ${innerWidth > 768 ? `titleL`: `titleS`}`}>
+    <Suspense>
+    {
+        // !loading
+        // ?
+        <div className={`${styles.container}`}>
+            <div className={`${styles.title} ${innerWidth > 768 ? `titleL`: `titleS`}`}>
+                {
+                    resultType &&
+                    searchTypes[language][resultType]
+                }
+            </div>
             {
-                resultType &&
-                searchTypes[language][resultType]
+                resultType === 'related' &&
+                    <div className={`${styles.subtitle}`}> 
+                        {
+                            subtitles[language]
+                        }
+                    </div>
+            }
+            {/* 검색 조건 */}
+            {
+                resultType ==='simple' && 
+                    <div className={`${styles.conditions}`}>
+                        <div 
+                        className={styles.resetbtn}
+                        onClick={()=>{
+                            router.push('/esysrch');
+                            setselectedCategories([]);
+                        }
+                        }
+                        >
+                            <span className="pretendard-bold" style={{width:'73px', }}>
+                                Reset
+                            </span>
+                            <Image src="/reset.svg" width={16} height={14} alt="reset"/>
+                        </div>
+                        {
+
+                            selectedCategories &&  selectedCategories.map((e,idx)=>
+                                <div 
+                                key={e+'$$'+idx}
+                                className={`${styles.condition} bodyS`}>
+                                    <span>
+                                        {e}
+                                    </span>
+                                    <div style={{width:'24px'}}>
+                                        <CategoryImage 
+                                            category={e}
+                                            size={24}
+                                        />
+                                    </div>
+                                </div>
+                                )
+                        }
+                    </div>
+            }
+            <div className={`${styles.grid_container}`}>
+            {
+                (resultData && resultData.length > 0)
+                ?
+                resultData.slice(0,viewCount * 9).map((e,idx)=>
+                    <Tile
+                        key={e.serviceTitle + '$$' + idx}
+                        title={e.serviceTitle}
+                        content={e.description}
+                        hashtags={e.hashtags}
+                        url={e.url}
+                    />
+                )
+                :<NoData />
+            }
+            </div>
+            {
+                (resultData && resultData.length > 9) && (resultData && resultData.length > viewCount * 9 )
+                &&
+                <div className={`${styles.morebtn}`} onClick={()=>setviewCount(viewCount+1)}>View More</div>
             }
         </div>
-        {
-            resultType === 'related' &&
-                <div className={`${styles.subtitle}`}> 
-                    {
-                        subtitles[language]
-                    }
-                </div>
-        }
-        {/* 검색 조건 */}
-        {
-            resultType ==='simple' && 
-                <div className={`${styles.conditions}`}>
-                    <div 
-                    className={styles.resetbtn}
-                    onClick={()=>router.push('/esysrch')}
-                    >
-                        <span className="pretendard-bold" style={{width:'73px', }}>
-                            Reset
-                        </span>
-                        <Image src="/reset.svg" width={16} height={14} alt="reset"/>
-                    </div>
-                    {
-
-                        selectedCategories &&  selectedCategories.map((e,idx)=>
-                            <div 
-                            key={e+'$$'+idx}
-                            className={`${styles.condition} bodyS`}>
-                                <span>
-                                    {e}
-                                </span>
-                                <div style={{width:'24px'}}>
-                                    <CategoryImage 
-                                        category={e}
-                                        size={24}
-                                    />
-                                </div>
-                            </div>
-                            )
-                    }
-                </div>
-        }
-        <div className={`${styles.grid_container}`}>
-        {
-            (resultData && resultData.length > 0)
-            ?
-            resultData.slice(0,viewCount * 9).map((e,idx)=>
-                <Tile
-                    key={e.serviceTitle + '$$' + idx}
-                    title={e.serviceTitle}
-                    content={e.description}
-                    hashtags={e.hashtags}
-                    url={e.url}
-                />
-            )
-            :<NoData />
-        }
-        </div>
-        {
-            (resultData && resultData.length > 9) && (resultData && resultData.length > viewCount * 9 )
-            &&
-            <div className={`${styles.morebtn}`} onClick={()=>setviewCount(viewCount+1)}>View More</div>
-        }
-    </div>
-    :<Loading />
+        // :<Loading />
+    }
+    </Suspense>
   )
 }

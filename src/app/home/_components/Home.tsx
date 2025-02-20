@@ -1,20 +1,11 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import styles from './home.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import CategoryImage from '@/app/common/_components/ImageComponent';
 import Link from 'next/link';
-// import { useRouter } from 'next/navigation';
 
-// interface AIItem {
-//     categoryName: string;
-    
-//     url: string;
-//     name: string;
-//     order: number;
-//     description?:string;
-// }
 interface Service {
     serviceTitle: string;
     url: string;
@@ -28,8 +19,6 @@ interface Service {
     editorPick: boolean;
     service: Service[];
   }
-  
-
 
 export default function Home() {
     const [language] = useState<"en"|"ko">("en"); // 기본값: 영어
@@ -71,241 +60,116 @@ export default function Home() {
     }, [language]);  // 컴포넌트 마운트 시 한 번만 실행
     // process.env.NEXT_PUBLIC_ENV_VAR==='develop'
     return (
-        process.env.NEXT_PUBLIC_SERVICE_UNABLE==='true'
-        ?
-        <div
-        className={`headlineL`}
-        style={{
-            width: '100%',
-            height : '80vh',
-            display:'flex',
-            justifyContent:'center',
-            alignItems:'center',
-            fontSize : '64px',
-            textAlign:'center'
-        }}
-        > The service may be temporarily unavailable due to an update. <br/><br/>
-        We apologize for any inconvenience caused.
-        
-        </div>
-        :process.env.NEXT_PUBLIC_ENV_VAR==='develop'
-        ?
-        <div className={`${styles.container}`}>
-            {/* 검색 인풋 컴포넌트화 예정 @todo */}
-            <div className={`${styles.input_container}`}>
-                <input 
-                    className={styles.input}
-                    type="text" 
-                    onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    onFocus={()=>setisfocus(true)}
-                    onBlur={()=>setisfocus(false)}
-                
-                />
-                <div className={`${styles.image_container}`}>
-                    <Image src={'/gradientglass.svg'} width={24} height={24} alt="gradientglass"/>
-                </div>
-                {
-                (!isfocus && !query) && 
-                    <Image src={'/searchforai.svg'} className={styles.searchforai} width={94} height={24} alt='searchforai' />
-                }
-            </div>
-            <div className={styles['grid-container']}>
-            {
-            items 
-            ?
-            items.sort((a,b)=>{
-                const priorityCategories = ["Beauty", "Creative Content", "Face Creator"];
-                const aIndex = priorityCategories.indexOf(a.categoryName);
-                const bIndex = priorityCategories.indexOf(b.categoryName);
-
-                if (aIndex === -1 && bIndex === -1) return 0; // 둘 다 우선순위 X → 변경 없음
-                if (aIndex === -1) return 1; // A가 우선순위 X → 뒤로
-                if (bIndex === -1) return -1; // B가 우선순위 X → 앞으로
-                return aIndex - bIndex; // 우선순위 배열 내 순서대로 정렬
-            }).map((item,index) => (
-                <div 
-                key={`${item.categoryName} ${index}`} className={styles['grid-item']}>
-                {/* Top Section */}
-                <div className={styles['top-section']}>
-                    <div className={styles.topimgdiv}>
-                    {/* /category_default.svg */}
-                             {/* <Image src= alt="Thumbnail" className={styles['top-image']} width={32} height={32}/> */}
-                        <CategoryImage 
-                        category={`${item.categoryName}`}
-                        className={styles['top-image']}
-                        />
-                        <span className={`${styles['top-text']} titleM`}>{`${item.categoryName}`}</span>
+        <Suspense>
+            <div className={`${styles.container}`}>
+                <div className={`${styles.input_container}`}>
+                    <input 
+                        className={styles.input}
+                        type="text" 
+                        onChange={(e) => setQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        onFocus={()=>setisfocus(true)}
+                        onBlur={()=>setisfocus(false)}
+                    
+                    />
+                    <div 
+                    className={`${styles.image_container}`}
+                    onClick={()=>router.push(`/srchresult?query=${query}`)}
+                    >
+                        <Image src={'/gradientglass.svg'} width={24} height={24} alt="gradientglass"/>
                     </div>
                     {
-                        // 상위 3개 에디터픽 표시
-                        index < 3 &&
-                            <div className={`${styles.editorpick}`}>
-                                <Image  src={'/editorpick.svg'} width={16} height={16} alt="editorpick"/>
-                                <span className='bodyS' style={{whiteSpace:'nowrap', fontWeight:400}}>
-                                    Editor Pick
-                                </span>
-                            </div>
+                    (!isfocus && !query) && 
+                        <Image src={'/searchforai.svg'} className={styles.searchforai} width={94} height={24} alt='searchforai' />
                     }
                 </div>
-                {/* 에디터픽 나올떄까지 임시 */}
-                        <div 
-                            className={`${index < 3 ? styles.midinner :styles.midinner_normal}`}
-                        >
-                            <div className={`${styles.mid}`}>
-                            {/* Mid Section */}
-                                {
-                                    item.service && item.service.map((e,idx)=>
-                                        <div
-                                            key={`${e.serviceTitle} ${idx}`}
+                <div className={styles['grid-container']}>
+                {
+                items 
+                ?
+                items.sort((a,b)=>{
+                    const priorityCategories = ["Beauty", "Creative Content", "Face Creator"];
+                    const aIndex = priorityCategories.indexOf(a.categoryName);
+                    const bIndex = priorityCategories.indexOf(b.categoryName);
+    
+                    if (aIndex === -1 && bIndex === -1) return 0; // 둘 다 우선순위 X → 변경 없음
+                    if (aIndex === -1) return 1; // A가 우선순위 X → 뒤로
+                    if (bIndex === -1) return -1; // B가 우선순위 X → 앞으로
+                    return aIndex - bIndex; // 우선순위 배열 내 순서대로 정렬
+                }).map((item,index) => (
+                    <div key={`${item.categoryName}`} className={styles['grid-item']}>
+                    {/* Top Section */}
+                    <div className={styles['top-section']}>
+                        <div className={styles.topimgdiv}>
+                        {/* /category_default.svg */}
+                                 {/* <Image src= alt="Thumbnail" className={styles['top-image']} width={32} height={32}/> */}
+                            <CategoryImage 
+                            category={`${item.categoryName}`}
+                            className={styles['top-image']}
+                            />
+                            <span className={`${styles['top-text']} titleM`}>{`${item.categoryName}`}</span>
+                        </div>
+                        {
+                            // 상위 3개 에디터픽 표시
+                            index < 3 &&
+                                <div className={`${styles.editorpick}`}>
+                                    <Image  src={'/editorpick.svg'} width={16} height={16} alt="editorpick"/>
+                                    <span className='bodyS' style={{whiteSpace:'nowrap', fontWeight:400}}>
+                                        Editor Pick
+                                    </span>
+                                </div>
+                        }
+                    </div>
+                    {/* 에디터픽 나올떄까지 임시 */}
+                            <div 
+                                className={`${index < 3 ? styles.midinner :styles.midinner_normal}`}
+                            >
+                                <div className={`${styles.mid}`}>
+                                {/* Mid Section */}
+                                    {
+                                        item.service && item.service.map(e=>
+                                            <Link
+                                            key={`${e.serviceTitle} ${index}`}
                                             className={styles['mid-section']}
-                                            onClick={()=>router.push(`/detail/${e.serviceTitle}`)}
-                                        >
-                                            <div 
-                                            className={styles['mid-item']}
+                                            href={`${e.url}`}
+                                            target='_blank'
+                                                // onClick={()=>router.push(`/detail/${e.serviceTitle}`)}
                                             >
                                                 <div 
-                                                    className={styles.midcontent}
+                                                className={styles['mid-item']}
                                                 >
-                                                    <div className={`${styles.ranknum} ${e.order < 4 && styles.top3} titleS`}>{e.order}</div>
-                                                    {/* <img src={e.logo} alt="Logo" className={styles['mid-logo']} /> */}
-                                                    <span className='titleS'>{e.serviceTitle}</span>
+                                                    <div 
+                                                        className={styles.midcontent}
+                                                    >
+                                                        <div className={`${styles.ranknum} ${e.order < 4 && styles.top3} titleS`}>{e.order}</div>
+                                                        {/* <img src={e.logo} alt="Logo" className={styles['mid-logo']} /> */}
+                                                        <span className='titleS'>{e.serviceTitle}</span>
+                                                    </div>
+                                                    {/* 상위 3개만 노출 @todo 임시 */}
+                                                    {
+                                                        index < 3 &&
+                                                            <div className={styles.midcontent2}>
+                                                                <div className={`${styles.ranknum}`} 
+                                                                style={{backgroundColor:'transparent', color:'transparent'}}>{e.order}</div>
+                                                                <div 
+                                                                className='bodyM' 
+                                                                style={{
+                                                                    fontWeight:400
+                                                                }}>{e.editorComment}</div>
+                                                            </div>
+                                                    }
                                                 </div>
-                                                {/* 상위 3개만 노출 @todo 임시 */}
-                                                {
-                                                    index < 3 &&
-                                                        <div className={styles.midcontent2}>
-                                                            <div className={`${styles.ranknum}`} 
-                                                            style={{backgroundColor:'transparent', color:'transparent'}}>{e.order}</div>
-                                                            <div 
-                                                            className='bodyM' 
-                                                            style={{
-                                                                fontWeight:400
-                                                            }}>{e.editorComment}</div>
-                                                        </div>
-                                                }
-                                            </div>
-                                        </div>
-                                    )
-                                }
+                                            </Link>
+                                        )
+                                    }
+                                </div>
                             </div>
-                        </div>
-                </div>
-            ))
-            :<div> 데이터가 없습니다.</div>
-            }
-            </div>
-        </div>
-        :
-        //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  NEXT_PUBLIC_ENV_VAR !== 'develop' @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        <div className={`${styles.container}`}>
-            <div className={`${styles.input_container}`}>
-                <input 
-                    className={styles.input}
-                    type="text" 
-                    onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    onFocus={()=>setisfocus(true)}
-                    onBlur={()=>setisfocus(false)}
-                
-                />
-                <div 
-                className={`${styles.image_container}`}
-                onClick={()=>router.push(`/srchresult?query=${query}`)}
-                >
-                    <Image src={'/gradientglass.svg'} width={24} height={24} alt="gradientglass"/>
-                </div>
-                {
-                (!isfocus && !query) && 
-                    <Image src={'/searchforai.svg'} className={styles.searchforai} width={94} height={24} alt='searchforai' />
-                }
-            </div>
-            <div className={styles['grid-container']}>
-            {
-            items 
-            ?
-            items.sort((a,b)=>{
-                const priorityCategories = ["Beauty", "Creative Content", "Face Creator"];
-                const aIndex = priorityCategories.indexOf(a.categoryName);
-                const bIndex = priorityCategories.indexOf(b.categoryName);
-
-                if (aIndex === -1 && bIndex === -1) return 0; // 둘 다 우선순위 X → 변경 없음
-                if (aIndex === -1) return 1; // A가 우선순위 X → 뒤로
-                if (bIndex === -1) return -1; // B가 우선순위 X → 앞으로
-                return aIndex - bIndex; // 우선순위 배열 내 순서대로 정렬
-            }).map((item,index) => (
-                <div key={`${item.categoryName}`} className={styles['grid-item']}>
-                {/* Top Section */}
-                <div className={styles['top-section']}>
-                    <div className={styles.topimgdiv}>
-                    {/* /category_default.svg */}
-                             {/* <Image src= alt="Thumbnail" className={styles['top-image']} width={32} height={32}/> */}
-                        <CategoryImage 
-                        category={`${item.categoryName}`}
-                        className={styles['top-image']}
-                        />
-                        <span className={`${styles['top-text']} titleM`}>{`${item.categoryName}`}</span>
                     </div>
-                    {
-                        // 상위 3개 에디터픽 표시
-                        index < 3 &&
-                            <div className={`${styles.editorpick}`}>
-                                <Image  src={'/editorpick.svg'} width={16} height={16} alt="editorpick"/>
-                                <span className='bodyS' style={{whiteSpace:'nowrap', fontWeight:400}}>
-                                    Editor Pick
-                                </span>
-                            </div>
-                    }
+                ))
+                :<div> 데이터가 없습니다.</div>
+                }
                 </div>
-                {/* 에디터픽 나올떄까지 임시 */}
-                        <div 
-                            className={`${index < 3 ? styles.midinner :styles.midinner_normal}`}
-                        >
-                            <div className={`${styles.mid}`}>
-                            {/* Mid Section */}
-                                {
-                                    item.service && item.service.map(e=>
-                                        <Link
-                                        key={`${e.serviceTitle} ${index}`}
-                                        className={styles['mid-section']}
-                                        href={`${e.url}`}
-                                        target='_blank'
-                                            // onClick={()=>router.push(`/detail/${e.serviceTitle}`)}
-                                        >
-                                            <div 
-                                            className={styles['mid-item']}
-                                            >
-                                                <div 
-                                                    className={styles.midcontent}
-                                                >
-                                                    <div className={`${styles.ranknum} ${e.order < 4 && styles.top3} titleS`}>{e.order}</div>
-                                                    {/* <img src={e.logo} alt="Logo" className={styles['mid-logo']} /> */}
-                                                    <span className='titleS'>{e.serviceTitle}</span>
-                                                </div>
-                                                {/* 상위 3개만 노출 @todo 임시 */}
-                                                {
-                                                    index < 3 &&
-                                                        <div className={styles.midcontent2}>
-                                                            <div className={`${styles.ranknum}`} 
-                                                            style={{backgroundColor:'transparent', color:'transparent'}}>{e.order}</div>
-                                                            <div 
-                                                            className='bodyM' 
-                                                            style={{
-                                                                fontWeight:400
-                                                            }}>{e.editorComment}</div>
-                                                        </div>
-                                                }
-                                            </div>
-                                        </Link>
-                                    )
-                                }
-                            </div>
-                        </div>
-                </div>
-            ))
-            :<div> 데이터가 없습니다.</div>
-            }
             </div>
-        </div>
-    );
+        </Suspense>
+        )
 }

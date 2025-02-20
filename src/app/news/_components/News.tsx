@@ -1,7 +1,11 @@
-import React from 'react'
+'use client'
+
+import React, { Suspense } from 'react'
 
 export default function News() {
   return (
-    <div>News</div>
+    <Suspense>
+      <div>News</div>
+    </Suspense>
   )
 }

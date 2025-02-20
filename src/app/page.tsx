@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Home from "./home/_components/Home";
 import { Metadata } from "next";
 
@@ -16,6 +17,8 @@ export const metadata :Metadata={
 }
 export default function page() {
   return (
-   <Home />
+    <Suspense>
+      <Home />
+    </Suspense>
   );
 }

@@ -6,7 +6,7 @@ export interface ResultItem{
     description : string;
     hashtags : string[];
     url : string;
-    searchTypes : {}
+    searchTypes : 0
 }
 
 interface StateInterface{

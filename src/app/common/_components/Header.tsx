@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import styles from './header.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -14,54 +14,51 @@ export default function Header() {
     const innerWidth = useWindowWidth();
     const path = usePathname();
     const searchParam = useSearchParams().get('type');
-    const [selected, setselected] = useState(false);
     const [isOpen, setisOpen] = useState(false);
-    useEffect(()=>{
-        if(path.includes('esysrch') || searchParam ==='simple') setselected(true);
-    },[])
     const router = useRouter();
     return (
-        <div style={{
-            width : '100vw',
-            backgroundColor : 'white',
-            borderBottom: '1px solid #ddd',
-        }}>
-            <header className={styles['header-container']}>
-            <Link
-            href='/' 
-            className={styles['logo-section']}>
-                <Image src="/31ais_logo.svg" alt="Company Logo" className={styles['logo-image']} width={74} height={24} priority={false} />
-                {/* <span className={styles['company-name']}>트랜디 AI</span> */}
-            </Link>
-            <nav className={styles['menu-section']}>
+        <Suspense>
+            <div style={{
+                width : '100vw',
+                backgroundColor : 'white',
+                borderBottom: '1px solid #ddd',
+            }}>
+                <header className={styles['header-container']}>
+                <Link
+                href='/' 
+                className={styles['logo-section']}>
+                    <Image src="/31ais_logo.svg" alt="Company Logo" className={styles['logo-image']} width={74} height={24} priority={false} />
+                    {/* <span className={styles['company-name']}>트랜디 AI</span> */}
+                </Link>
+                <nav className={styles['menu-section']}>
+                    {
+                        //  임시 @todo
+                        process.env.NEXT_PUBLIC_ENV_VAR === 'develop'
+                        ?
+                        <ul className={styles['menu-list']}>
+                            <li className={`${styles['menu-item']} titleM ${(path==='/') && 'selected'}`} onClick={()=>router.push('/')}>All Categories</li>
+                            <li className={`${styles['menu-item']} titleM ${(path.includes('esysrch') || searchParam ==='simple') && `selected`}`} onClick={()=>router.push('/esysrch')}>Quick Search</li>
+                        {/*<li className={styles['menu-item']}>AI 상세검색</li>
+                        <li className={styles['menu-item']} onClick={()=>router.push('/news')}>뉴스 페이지</li>
+                        <li className={styles['menu-item']}>콘텐츠 </li> */}
+                        </ul>
+                        :
+                        <ul className={styles['menu-list']}>
+                            <li className={`${styles['menu-item']} titleM ${(path==='/') && 'selected'}`} onClick={()=>router.push('/')}>All Categories</li>
+                            <li className={`${styles['menu-item']} titleM ${(path.includes('esysrch') || searchParam ==='simple') && `selected`}`} onClick={()=>router.push('/esysrch')}>Quick Search</li>
+                        </ul>
+                    }
+                </nav>
                 {
-                    //  임시 @todo
-                    process.env.NEXT_PUBLIC_ENV_VAR === 'develop'
-                    ?
-                    <ul className={styles['menu-list']}>
-                        <li className={`${styles['menu-item']} titleM ${(path==='/') && 'selected'}`} onClick={()=>router.push('/')}>All Categories</li>
-                        <li className={`${styles['menu-item']} titleM ${(path.includes('esysrch') || searchParam ==='simple') && `selected`}`} onClick={()=>router.push('/esysrch')}>Quick Search</li>
-                    {/*<li className={styles['menu-item']}>AI 상세검색</li>
-                    <li className={styles['menu-item']} onClick={()=>router.push('/news')}>뉴스 페이지</li>
-                    <li className={styles['menu-item']}>콘텐츠 </li> */}
-                    </ul>
-                    :
-                    <ul className={styles['menu-list']}>
-                        <li className={`${styles['menu-item']} titleM ${(path==='/') && 'selected'}`} onClick={()=>router.push('/')}>All Categories</li>
-                        <li className={`${styles['menu-item']} titleM ${(path.includes('esysrch') || searchParam ==='simple') && `selected`}`} onClick={()=>router.push('/esysrch')}>Quick Search</li>
-                    </ul>
+                    innerWidth < 769 &&
+                    <Image src="/list.svg" alt='list' width={24} height={24} onClick={()=>setisOpen(!isOpen)} style={{zIndex:999}}/>
                 }
-            </nav>
-            {
-                innerWidth < 769 &&
-                <Image src="/list.svg" alt='list' width={24} height={24} onClick={()=>setisOpen(!isOpen)} style={{zIndex:999}}/>
-            }
-            </header>
-            {/* {isOpen && <MobileSideMenu />} */}
-            {
-                (innerWidth < 769 && isOpen) &&
-                <SideMenu isOpen={isOpen}/>
-            }
-        </div>
+                </header>
+                {
+                    (innerWidth < 769 && isOpen) &&
+                    <SideMenu isOpen={isOpen}/>
+                }
+            </div>
+        </Suspense>
       );
 }

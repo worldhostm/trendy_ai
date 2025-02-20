@@ -1,21 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./common/_components/Header";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Footer from "./common/_components/Footer";
 import { LanguageProvider } from "./common/_components/LanguageContext";
-import MenuPath from "./common/_components/MenuPath";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { Suspense } from "react";
 
 export const metadata :Metadata={
   openGraph:{
@@ -40,8 +29,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <LanguageProvider>
-          <Header />
-          <MenuPath />
+          <Suspense>
+            <Header />
+          </Suspense>
+          {/* <MenuPath /> */}
             {children}
           <Footer />
         </LanguageProvider>

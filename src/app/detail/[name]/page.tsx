@@ -1,6 +1,5 @@
 
-
-import React from 'react'
+import React, { Suspense } from 'react'
 import AiSupDetail from './_components/AiSupDetail'
 import { Metadata } from 'next'
 
@@ -20,6 +19,8 @@ export const metadata :Metadata={
 
 export default function page() {
   return (
-    <AiSupDetail />
+    <Suspense>
+      <AiSupDetail />
+    </Suspense>
   )
 }

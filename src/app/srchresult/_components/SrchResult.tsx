@@ -6,8 +6,9 @@ import Tile from './Tile';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { useLanguage } from '@/app/common/_components/LanguageContext';
-import Loading from '@/app/common/_components/Loading';
+// import Loading from '@/app/common/_components/Loading';
 import { serviceStore } from '@/store/serviceStore';
+import Loading from '@/app/common/_components/Loading';
 
 // 검색결과, 연관검색결과 아이템 인터페이스
 export interface ResultItem{

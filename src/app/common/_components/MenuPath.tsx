@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Fragment } from 'react'
+import React, { Suspense } from 'react'
 import styles from '@/app/detail/[name]/_components/aiSupDetail.module.css';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -10,7 +10,7 @@ export default function MenuPath() {
   return (
     // 간편검색에만 임시로 처리 
     parr.includes('esysrch') && 
-    <Fragment>
+    <Suspense>
         <div 
         className={`${styles.menupath} bodyS`}
         style={{
@@ -34,6 +34,6 @@ export default function MenuPath() {
             {parr[3]??''}
         </div>
         {/* 서브헤더 */}
-    </Fragment>
+    </Suspense>
   )
 }

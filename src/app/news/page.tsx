@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 export const metadata :Metadata={
   openGraph:{
@@ -16,6 +16,8 @@ export const metadata :Metadata={
 }
 export default function page() {
   return (
-    <div>News Page</div>
+    <Suspense>
+      <div>News Page</div>
+    </Suspense>
   )
 }

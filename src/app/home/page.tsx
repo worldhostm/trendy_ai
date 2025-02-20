@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import Home from './_components/Home'
 import { Metadata } from 'next'
 export const metadata :Metadata={
@@ -16,7 +16,8 @@ export const metadata :Metadata={
 }
 export default function page() {
   return (
-    // <div>예시</div>
-    <Home />
+    <Suspense>
+      <Home />
+    </Suspense>
   )
 }
