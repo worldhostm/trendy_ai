@@ -42,7 +42,9 @@ export const serviceStore = create<StateInterface>()(
                 const newValue = newArr.filter((e,idx)=> newArr.indexOf(e) === idx); 
                 set({selectedCategories:newValue});
             }
-        }
+        },
+        setsrchresults : (arr)=>{set({srchresults:arr})},
+        setrelatedsrchresults : (arr)=>{set({relatedsrchresults:arr})},
       })
       ,
       {

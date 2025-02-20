@@ -15,21 +15,14 @@ import NoData from '@/app/common/_components/NoData';
 // 검색 결과 상세페이지
 export default function ResultDetail() {
     const {language} = useLanguage();
-    const {selectedCategories,setselectedCategories} = serviceStore.getState();
+    const {selectedCategories,setselectedCategories, relatedsrchresults, srchresults} = serviceStore.getState();
     const innerWidth = useWindowWidth();
-    const searchparam = useSearchParams();
-    const resultType = searchparam.get("type");
-    const [resultData, setResultData] = useState<ResultItem[] | null>(() => {
-        const storedResult = resultType ==='rslt' ? window.localStorage.getItem("result") : null;
-        return storedResult ? JSON.parse(storedResult) : null;
-    });
-    const [relresultData] = useState<ResultItem[] | null>(() => {
-
-        const storedRelResult = resultType ==='related' ? window.localStorage.getItem("relresults") : null;
-        return storedRelResult ? JSON.parse(storedRelResult) : null;
-    });
+    const resultType = useSearchParams().get("type");
+    const [resultData, setResultData] = useState<ResultItem[] | null>(resultType === 'rslt'? srchresults : resultType === 'related'?relatedsrchresults:[]);
     const [viewCount, setviewCount] = useState(1);
-
+    const router = useRouter();
+    const titles = {}
+    const subtitles = {en:'Provides the most relevant services based on the AI service description and search query.',ko:'AI 서비스의 설명을 토대로 검색어와 가장 관련 높은 서비스를 제공'}
     // 쿼리스트링 simple일때 간편 검색 
     const fetchSimple = async () => {
         try {
@@ -55,33 +48,13 @@ export default function ResultDetail() {
             // setLoading(false);  // 로딩 상태 종료
         }
         };
-
+    console.info('relatedsrchresults :: ', relatedsrchresults);
     useEffect(() => {
-    // ✅ `resultData`와 `relresultData`가 없을 때만 localStorage에서 값 가져오기
-    if (!resultData && !relresultData) {
-        const storedResult =
-        resultType === "related"
-            ? localStorage.getItem("relresults")
-            : localStorage.getItem("result");
-
-            // rslt
-            // simple
-
-        if (storedResult) {
-            try {
-                const parsedResult = JSON.parse(storedResult);
-                setResultData(parsedResult);
-            } catch (error) {
-                console.error("JSON 파싱 오류:", error);
-            }
-        }
-    }
     if(resultType === "simple"){
         fetchSimple();
     }
     },[]);
 
-    const router = useRouter();
 
     
     return (
@@ -95,6 +68,11 @@ export default function ResultDetail() {
                 : resultType === 'related'
                 ? '연관 검색 결과'
                 :''
+            }
+        </div>
+        <div className={`${styles.subtitle}`}> 
+            {
+                subtitles[language]
             }
         </div>
         {/* 검색 조건 */}
@@ -132,9 +110,9 @@ export default function ResultDetail() {
         }
         <div className={`${styles.grid_container}`}>
         {
-            resultData && resultData.length > 0
+            (resultData && resultData.length > 0)
             ?
-            ((resultType ==='rslt' || resultType ==='simple') ? resultData : relresultData)?.slice(0,viewCount * 9).map((e,idx)=>
+            resultData.slice(0,viewCount * 9).map((e,idx)=>
                 <Tile
                     key={e.serviceTitle + '$$' + idx}
                     title={e.serviceTitle}
@@ -147,10 +125,7 @@ export default function ResultDetail() {
         }
         </div>
         {
-            (resultData && resultData.length > 9 || relresultData && relresultData.length > 9) && (resultData && resultData.length > viewCount * 9 )
-            ||
-            (relresultData && relresultData.length > 9 || relresultData && relresultData.length > 9) && (relresultData && relresultData.length > viewCount * 9 )
-            
+            (resultData && resultData.length > 9) && (resultData && resultData.length > viewCount * 9 )
             &&
             <div className={`${styles.morebtn}`} onClick={()=>setviewCount(viewCount+1)}>더보기</div>
         }

@@ -54,6 +54,7 @@ export default function SrchResult() {
         const data = await response.json();
         setsrchresults(data.result);
         setrelatedsrchresults(data.relatedResult);
+        console.info(data.relatedResult);
         setresults(data.result);
         setrelresults(data.relatedResult);
         // localStorage.setItem("result", JSON.stringify(data.result));
@@ -65,6 +66,7 @@ export default function SrchResult() {
 
     // 페이지 진입시 쿼리스트링으로 검색
     useEffect(() => {
+        console.info(query);
       fetchItems(query);
     }, [])
     
