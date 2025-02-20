@@ -1,0 +1,22 @@
+.container{
+    position: absolute;
+    z-index: 998;
+    background-color: white;
+    color: black;
+    top: 65px;
+    width: 60vw;
+    height: 100vh;
+    transition: 1s;
+    padding: 40px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+.inactive{
+    right: 0;
+}
+@media (max-width:768px) {
+    .container{
+        width: 100% !important;
+    }
+}

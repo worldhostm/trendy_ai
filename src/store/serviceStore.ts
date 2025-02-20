@@ -6,6 +6,7 @@ export interface ResultItem{
     description : string;
     hashtags : string[];
     url : string;
+    searchTypes : {}
 }
 
 interface StateInterface{
@@ -19,6 +20,18 @@ interface StateInterface{
     setrelatedsrchresults : (arr:ResultItem[])=>void;
     selectedCategories : string[];
     setselectedCategories : (category?:string[] | string)=>void;
+    searchTypes :{
+        ko: {
+          rslt: "검색결과",
+          related: "연관 검색 결과",
+          simple: "간편 검색 결과",
+        },
+        en: {
+          rslt: "Search Result",
+          related: "Related Search Result",
+          simple: "Quick Search Result",
+        },
+      };
 }
 
 const initialState : StateInterface = {
@@ -27,7 +40,19 @@ const initialState : StateInterface = {
     srchresults : [],
     setsrchresults :  ()=>{},
     selectedCategories : [],
-    setselectedCategories : ()=>{}
+    setselectedCategories : ()=>{},
+    searchTypes :{
+        ko: {
+          rslt: "검색결과",
+          related: "연관 검색 결과",
+          simple: "간편 검색 결과",
+        },
+        en: {
+          rslt: "Search Result",
+          related: "Related Search Result",
+          simple: "Quick Search Result",
+        },
+      }
 }
 
 export const serviceStore = create<StateInterface>()(

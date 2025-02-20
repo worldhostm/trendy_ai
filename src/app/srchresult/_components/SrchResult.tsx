@@ -29,7 +29,7 @@ export default function SrchResult() {
     const [query, setQuery] = useState(searchparam.get("query")??'');
     const [debouncedQuery, setDebouncedQuery] = useState(""); // ✅ 디바운스된 검색어 상태
     const router = useRouter();
-    const {setsrchresults, setrelatedsrchresults} = serviceStore.getState();
+    const {setsrchresults, setrelatedsrchresults,searchTypes} = serviceStore.getState();
     // const sampleData = Array.from({ length: 10 }, (_, index) => ({
     //     serviceTitle: `타일 제목 ${index + 1}`,
     //     description: `첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄`,
@@ -54,11 +54,8 @@ export default function SrchResult() {
         const data = await response.json();
         setsrchresults(data.result);
         setrelatedsrchresults(data.relatedResult);
-        console.info(data.relatedResult);
         setresults(data.result);
         setrelresults(data.relatedResult);
-        // localStorage.setItem("result", JSON.stringify(data.result));
-        // localStorage.setItem("relresults", JSON.stringify(data.relatedResult));
         } catch (err) {
         console.error("API 호출 오류:", err);
         }
@@ -66,7 +63,6 @@ export default function SrchResult() {
 
     // 페이지 진입시 쿼리스트링으로 검색
     useEffect(() => {
-        console.info(query);
       fetchItems(query);
     }, [])
     
@@ -90,10 +86,6 @@ export default function SrchResult() {
     // const path = usePathname();
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && debouncedQuery.trim()) {
-        //     if(!path.includes('srchresult'))
-        //     {
-                // router.push(`/srchresult?query=${query}`)
-            // }else{
                 fetchItems(debouncedQuery);
             }
     }; 
@@ -125,7 +117,8 @@ export default function SrchResult() {
             </div>
             {/* 검색창 end */}
             {/* 검색결과 컨테이너 */}
-            <div className={`${styles.subtitle} titleM`}>검색결과</div>
+            {/* 검색 결과 페이지 서브 타이틀 */}
+            <div className={`${styles.subtitle} titleM`} style={{marginBottom:'20px'}}>{searchTypes[language]['rslt']}</div>
             <div className={`${styles.srchrslt_container}`}>
             {
             results.length > 0
@@ -147,18 +140,22 @@ export default function SrchResult() {
             </div>
             {/* 검색결과더보기버튼 */}
             {
-                // 3개씩 보여줘서 3 이상이면 더보기 버튼 보여줌
+                // 3개씩 보여줘서 3 이상이면 View More 버튼 보여줌
                 results?.length > 3 &&
                 <div 
                 className={`${styles.viewmoreBtn}`}
                 onClick={()=>router.push(`/resultdetail?type=rslt`)}
                 >
-                    검색 결과 더보기
+                    {/* 검색 결과 View More */}
+                    View More
                     <Image src={'/viewmore.svg'} alt='' width={20} height={20}/>
                 </div>
             }
             {/* 연관 검색 결과 컨테이너 */}
-            <div className={`${styles.subtitle} titleM`}>연관 검색 결과</div>
+            <div className={`${styles.subtitle} titleM`}>{searchTypes[language]['related']}</div>
+            <div className={`${styles.subtitle_desc} bodyM`}>
+            Provides the most relevant services based on the AI service description and search query.
+            </div>
             <div className={`${styles.featured_container}`}>
             {
             relresults.length > 0
@@ -186,7 +183,8 @@ export default function SrchResult() {
                     className={`${styles.viewmoreBtn}`}
                     onClick={()=>router.push(`/resultdetail?type=related`)}
                     >
-                        연관 검색 결과 더보기
+                        {/* 연관 검색 결과 View More */}
+                        View More
                         <Image src={'/viewmore.svg'} alt='' width={20} height={20}/>
                     </div>
             }

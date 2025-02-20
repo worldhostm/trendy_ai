@@ -40,27 +40,14 @@
     column-gap: 32px;
     align-items: start; /* 요소들이 세로 정렬될 때 위쪽 정렬 */
 }
-.conditions::-webkit-scrollbar { 
-    width:  6px;  /* 스크롤바 전체 너비 */
-    height: 6px; /* 가로 스크롤바 높이 */
-}
-
-.conditions::-webkit-scrollbar-thumb {
-    background-color: gray; /* 스크롤바 색상 */
-    border-radius: 10px; /* 둥근 모서리 */
-}
-
-.conditions::-webkit-scrollbar-track {
-    background-color: transparent; /* 배경 투명 */
-}
 .conditions{
     margin-top: 12px;
     margin-bottom: 20px;
     width: 1200px;
-    height: 80px;
+    /* height: 80px; */
     display: flex;
     gap: 8px;
-    overflow-x: scroll;
+    overflow-x: hidden;
 }
 .condition{
     background: white;
@@ -86,6 +73,7 @@
     background: var(--primary-grient);
     color: white;
     gap: 12px;
+    cursor: pointer;
 }
 
 .morebtn {
@@ -97,6 +85,7 @@
     border: 8px;
     background: var(--gray);
     padding: 12px;
+    cursor: pointer;
 }
 
 

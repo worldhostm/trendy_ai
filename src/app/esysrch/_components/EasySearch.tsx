@@ -79,6 +79,7 @@ export default function EasySearch() {
         fetchCategory();
         // 스토어 상태값 초기화
         setselectedCategories([]);
+        console.info(innerWidth);
     }, []);
     useEffect(() => {
       fetchFunc();
@@ -91,13 +92,16 @@ export default function EasySearch() {
       <div className={styles.esrch_container}>
         <div className={`${styles.grid_container}`}>
           <div className={styles.title_container}>
-            <div className={`${styles.title} titleM`}>Serive Name : Description and images</div>
-            <div className={`${styles.cntnts} bodyM`}>하단 카테고리를 선택하여 필요한 AI를 찾아보세요.</div>
+            <div className={`${styles.title} titleM`}>Quick Search</div>
+            <div className={`${styles.cntnts} bodyM`}>
+              {/* 하단 카테고리를 선택하여 필요한 AI를 찾아보세요. */}
+              Select a category below to find the AI you need
+              </div>
           </div>
           <div className={styles.esrchgrid}>
             {
               category.map((e,idx)=>(
-                selectedCtgry.includes(e.categoryName)
+                !selectedCtgry.includes(e.categoryName)
                 ?
                 <div
                   key={e + '$$' + idx}
@@ -112,11 +116,9 @@ export default function EasySearch() {
                         if(prev.includes(e.categoryName)){
                         return prev.filter(ele=> ele !== e.categoryName);
                         }
-                        console.info(newValue);
                         // setselectedCategories(newValue);
                         return newValue;
                       })
-                      console.info('clk');
                       }
                     }
                   >
@@ -148,24 +150,27 @@ export default function EasySearch() {
           </div>
         </div>
       </div>
-      <div className={`${styles.result_container}`}>
-        <div className={`${styles.resultinner_container}`}>
-          <div className={`${ styles.number_container} titleM`}><span className={`${styles.srchnumber} headlineL`}>{resultCount}</span>개</div>
-          <div className='titleM'>AI를 선별하였습니다.</div>
-          <div className={`${styles.likebtn} titleM`} onClick={()=>router.push(`/resultdetail?type=simple`)}>선별된 AI 확인하기</div>
-          <div className={`${styles.result_bottom_container}`}>
-            <div><Image src="/ArrowCounterClockwise.svg" width={20} height={20} alt="ArrowCounterClockwise"/></div>
-            <div className='bodyM' onClick={()=>setselectedCtgry([])}>검색 초기화</div>
+      {
+        innerWidth > 768 &&
+        <div className={`${styles.result_container}`}>
+          <div className={`${styles.resultinner_container}`}>
+            <div className={`${ styles.number_container} titleM`}><span className={`${styles.srchnumber} headlineL`}>{resultCount}</span>AIs</div>
+            <div className='titleM'>have been selected.</div>
+            <div className={`${styles.likebtn} titleM`} onClick={()=>router.push(`/resultdetail?type=simple`)}>Check AI Services </div>
+            <div className={`${styles.result_bottom_container}`}>
+              <div><Image src="/ArrowCounterClockwise.svg" width={20} height={20} alt="ArrowCounterClockwise"/></div>
+              <div className='bodyM' onClick={()=>setselectedCtgry([])}>Reset</div>
+            </div>
           </div>
         </div>
-      </div>
-      {
+      }
+      {/* {
         innerWidth < 768 &&
           <div className={styles.mobileBottom}>
             <div className={`${styles.button1} titleM`}>검색 초기화</div>
             <div className={`${styles.button2} titleM`}>선별된 AI 확인하기</div>
           </div>
-      }
+      } */}
     </div>
   )
 }

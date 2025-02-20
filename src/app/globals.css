@@ -19,9 +19,8 @@
     --white : white;
   }
 }
-body *{
-}
 body{
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -137,4 +136,10 @@ body{
 
 .visible {
   visibility: visible;
+}
+
+.selected{
+  background : var(--primary-grient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

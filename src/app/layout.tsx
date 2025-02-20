@@ -5,6 +5,7 @@ import Header from "./common/_components/Header";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Footer from "./common/_components/Footer";
 import { LanguageProvider } from "./common/_components/LanguageContext";
+import MenuPath from "./common/_components/MenuPath";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,11 +38,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
         <LanguageProvider>
           <Header />
+          <MenuPath />
             {children}
           <Footer />
         </LanguageProvider>

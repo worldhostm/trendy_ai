@@ -170,7 +170,6 @@
   }
   .subtitle{
     width: 1200px;
-    margin : 20px 0px;
   }
   
   .srchrslt_container::-webkit-scrollbar {
@@ -213,4 +212,11 @@
   justify-content: center;
   color: black;
   gap: 24px;
+}
+.subtitle_desc{
+  width: 1200px;
+  margin-bottom: 24px;
+}
+.subtitle :nth-child(2){
+  margin-bottom: unset !important;
 }

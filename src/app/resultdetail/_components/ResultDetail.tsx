@@ -11,17 +11,32 @@ import { useLanguage } from '@/app/common/_components/LanguageContext';
 import CategoryImage from '@/app/common/_components/ImageComponent';
 import Image from 'next/image';
 import NoData from '@/app/common/_components/NoData';
+import Loading from '@/app/common/_components/Loading';
 
 // 검색 결과 상세페이지
 export default function ResultDetail() {
+    const [loading ,setloading] = useState(true);
     const {language} = useLanguage();
     const {selectedCategories,setselectedCategories, relatedsrchresults, srchresults} = serviceStore.getState();
     const innerWidth = useWindowWidth();
-    const resultType = useSearchParams().get("type");
-    const [resultData, setResultData] = useState<ResultItem[] | null>(resultType === 'rslt'? srchresults : resultType === 'related'?relatedsrchresults:[]);
+    const searchParam = useSearchParams();
+    const resultType = searchParam.get("type") as 'rslt' | 'related' | 'simple' | null;
+    const [resultData, setResultData] = useState<ResultItem[] | null>(resultType === 'rslt'? srchresults : resultType === 'related'? relatedsrchresults:[]);
     const [viewCount, setviewCount] = useState(1);
     const router = useRouter();
-    const titles = {}
+
+    const searchTypes = {
+        ko: {
+          rslt: "검색결과",
+          related: "연관 검색 결과",
+          simple: "간편 검색 결과",
+        },
+        en: {
+          rslt: "Search Result",
+          related: "Related Search Result",
+          simple: "Quick Search Result",
+        },
+      };
     const subtitles = {en:'Provides the most relevant services based on the AI service description and search query.',ko:'AI 서비스의 설명을 토대로 검색어와 가장 관련 높은 서비스를 제공'}
     // 쿼리스트링 simple일때 간편 검색 
     const fetchSimple = async () => {
@@ -48,8 +63,10 @@ export default function ResultDetail() {
             // setLoading(false);  // 로딩 상태 종료
         }
         };
-    console.info('relatedsrchresults :: ', relatedsrchresults);
     useEffect(() => {
+    setTimeout(()=>{
+        setloading(false);
+    }, 1000)
     if(resultType === "simple"){
         fetchSimple();
     }
@@ -58,23 +75,23 @@ export default function ResultDetail() {
 
     
     return (
+    !loading
+    ?
     <div className={`${styles.container}`}>
         <div className={`${styles.title} ${innerWidth > 768 ? `titleL`: `titleS`}`}>
             {
-                resultType === 'rslt' 
-                ? '검색 결과'
-                : resultType === 'simple'
-                ? '간편 검색 결과'
-                : resultType === 'related'
-                ? '연관 검색 결과'
-                :''
+                resultType &&
+                searchTypes[language][resultType]
             }
         </div>
-        <div className={`${styles.subtitle}`}> 
-            {
-                subtitles[language]
-            }
-        </div>
+        {
+            resultType === 'related' &&
+                <div className={`${styles.subtitle}`}> 
+                    {
+                        subtitles[language]
+                    }
+                </div>
+        }
         {/* 검색 조건 */}
         {
             resultType ==='simple' && 
@@ -83,8 +100,8 @@ export default function ResultDetail() {
                     className={styles.resetbtn}
                     onClick={()=>router.push('/esysrch')}
                     >
-                        <span style={{width:'73px', }}>
-                            검색 초기화
+                        <span className="pretendard-bold" style={{width:'73px', }}>
+                            Reset
                         </span>
                         <Image src="/reset.svg" width={16} height={14} alt="reset"/>
                     </div>
@@ -127,8 +144,9 @@ export default function ResultDetail() {
         {
             (resultData && resultData.length > 9) && (resultData && resultData.length > viewCount * 9 )
             &&
-            <div className={`${styles.morebtn}`} onClick={()=>setviewCount(viewCount+1)}>더보기</div>
+            <div className={`${styles.morebtn}`} onClick={()=>setviewCount(viewCount+1)}>View More</div>
         }
     </div>
+    :<Loading />
   )
 }
