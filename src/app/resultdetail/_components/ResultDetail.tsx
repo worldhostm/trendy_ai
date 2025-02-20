@@ -3,29 +3,32 @@
 import React, { useEffect, useState } from 'react'
 import styles from './ResultDetail.module.css';
 import Tile from '@/app/srchresult/_components/Tile';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useWindowWidth } from '@/app/common/_components/_libs/useWindowWidth';
 import { ResultItem } from '@/app/srchresult/_components/SrchResult';
 import { serviceStore } from '@/store/serviceStore';
 import { useLanguage } from '@/app/common/_components/LanguageContext';
 import CategoryImage from '@/app/common/_components/ImageComponent';
+import Image from 'next/image';
+import NoData from '@/app/common/_components/NoData';
 
 // 검색 결과 상세페이지
 export default function ResultDetail() {
     const {language} = useLanguage();
-    const {selectedCategories} = serviceStore.getState();
+    const {selectedCategories,setselectedCategories} = serviceStore.getState();
     const innerWidth = useWindowWidth();
     const searchparam = useSearchParams();
     const resultType = searchparam.get("type");
     const [resultData, setResultData] = useState<ResultItem[] | null>(() => {
-    const storedResult = localStorage.getItem("result");
-    return storedResult ? JSON.parse(storedResult) : null;
+        const storedResult = resultType ==='rslt' ? window.localStorage.getItem("result") : null;
+        return storedResult ? JSON.parse(storedResult) : null;
     });
-
     const [relresultData] = useState<ResultItem[] | null>(() => {
-    const storedRelResult = localStorage.getItem("relresults");
-    return storedRelResult ? JSON.parse(storedRelResult) : null;
+
+        const storedRelResult = resultType ==='related' ? window.localStorage.getItem("relresults") : null;
+        return storedRelResult ? JSON.parse(storedRelResult) : null;
     });
+    const [viewCount, setviewCount] = useState(1);
 
     // 쿼리스트링 simple일때 간편 검색 
     const fetchSimple = async () => {
@@ -74,11 +77,11 @@ export default function ResultDetail() {
         }
     }
     if(resultType === "simple"){
-        console.info('resultType === "simple"');
         fetchSimple();
     }
     },[]);
 
+    const router = useRouter();
 
     
     return (
@@ -98,35 +101,59 @@ export default function ResultDetail() {
         {
             resultType ==='simple' && 
                 <div className={`${styles.conditions}`}>
+                    <div 
+                    className={styles.resetbtn}
+                    onClick={()=>router.push('/esysrch')}
+                    >
+                        <span style={{width:'73px', }}>
+                            검색 초기화
+                        </span>
+                        <Image src="/reset.svg" width={16} height={14} alt="reset"/>
+                    </div>
                     {
 
-                            selectedCategories.map((e,idx)=>
+                        selectedCategories &&  selectedCategories.map((e,idx)=>
                             <div 
                             key={e+'$$'+idx}
                             className={`${styles.condition} bodyS`}>
-                                {e}
-                                <CategoryImage 
-                                    category={e}
-                                    size={24}
-                                />
+                                <span>
+                                    {e}
+                                </span>
+                                <div style={{width:'24px'}}>
+                                    <CategoryImage 
+                                        category={e}
+                                        size={24}
+                                    />
+                                </div>
                             </div>
-
                             )
                     }
                 </div>
         }
         <div className={`${styles.grid_container}`}>
         {
-         ((resultType ==='rslt' || resultType ==='simple') ? resultData : relresultData)?.map((e,idx)=>
-            <Tile
-                key={e.serviceTitle + '$$' + idx}
-                title={e.serviceTitle}
-                content={e.description}
-                hashtags={e.hashtags}
-                url={e.url}
-            />
-        )}
+            resultData && resultData.length > 0
+            ?
+            ((resultType ==='rslt' || resultType ==='simple') ? resultData : relresultData)?.slice(0,viewCount * 9).map((e,idx)=>
+                <Tile
+                    key={e.serviceTitle + '$$' + idx}
+                    title={e.serviceTitle}
+                    content={e.description}
+                    hashtags={e.hashtags}
+                    url={e.url}
+                />
+            )
+            :<NoData />
+        }
         </div>
+        {
+            (resultData && resultData.length > 9 || relresultData && relresultData.length > 9) && (resultData && resultData.length > viewCount * 9 )
+            ||
+            (relresultData && relresultData.length > 9 || relresultData && relresultData.length > 9) && (relresultData && relresultData.length > viewCount * 9 )
+            
+            &&
+            <div className={`${styles.morebtn}`} onClick={()=>setviewCount(viewCount+1)}>더보기</div>
+        }
     </div>
   )
 }

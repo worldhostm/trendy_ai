@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { useLanguage } from '@/app/common/_components/LanguageContext';
 import Loading from '@/app/common/_components/Loading';
+import { serviceStore } from '@/store/serviceStore';
 
 // 검색결과, 연관검색결과 아이템 인터페이스
 export interface ResultItem{
@@ -28,6 +29,7 @@ export default function SrchResult() {
     const [query, setQuery] = useState(searchparam.get("query")??'');
     const [debouncedQuery, setDebouncedQuery] = useState(""); // ✅ 디바운스된 검색어 상태
     const router = useRouter();
+    const {setsrchresults, setrelatedsrchresults} = serviceStore.getState();
     // const sampleData = Array.from({ length: 10 }, (_, index) => ({
     //     serviceTitle: `타일 제목 ${index + 1}`,
     //     description: `첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄첫번째 줄`,
@@ -50,10 +52,12 @@ export default function SrchResult() {
         }
 
         const data = await response.json();
+        setsrchresults(data.result);
+        setrelatedsrchresults(data.relatedResult);
         setresults(data.result);
         setrelresults(data.relatedResult);
-        localStorage.setItem("result", JSON.stringify(data.result));
-        localStorage.setItem("relresults", JSON.stringify(data.relatedResult));
+        // localStorage.setItem("result", JSON.stringify(data.result));
+        // localStorage.setItem("relresults", JSON.stringify(data.relatedResult));
         } catch (err) {
         console.error("API 호출 오류:", err);
         }
@@ -141,7 +145,8 @@ export default function SrchResult() {
             </div>
             {/* 검색결과더보기버튼 */}
             {
-                results?.length > 0 &&
+                // 3개씩 보여줘서 3 이상이면 더보기 버튼 보여줌
+                results?.length > 3 &&
                 <div 
                 className={`${styles.viewmoreBtn}`}
                 onClick={()=>router.push(`/resultdetail?type=rslt`)}

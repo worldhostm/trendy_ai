@@ -13,11 +13,12 @@ const CategoryImage = ({ category,className, size=32}:Props) => {
     `${process.env.NEXT_PUBLIC_API_ADDRESS}/api/category-logo/${category}`
   );
 
+
   return (
     <Image
       src={imgSrc}
       alt="Thumbnail"
-      className={className}
+      className={`${className}`}
       width={size}
       height={size}
       onError={() => setImgSrc("/category_default.svg")} // 이미지 로드 실패 시 기본 이미지로 변경

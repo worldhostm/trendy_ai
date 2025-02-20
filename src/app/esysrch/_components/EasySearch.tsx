@@ -16,7 +16,6 @@ interface AIServiceCategory {
 export default function EasySearch() {
   const {setselectedCategories,selectedCategories} = serviceStore.getState();
   useEffect(() => {
-    console.info('selectedCategories :: ',selectedCategories);
     return () => {
     }
   }, [selectedCategories])
@@ -78,6 +77,8 @@ export default function EasySearch() {
 
     useEffect(() => {
         fetchCategory();
+        // 스토어 상태값 초기화
+        setselectedCategories([]);
     }, []);
     useEffect(() => {
       fetchFunc();
@@ -128,7 +129,6 @@ export default function EasySearch() {
                     key={e + '$$' + idx}
                     className={`${styles.grid_item}`}
                     onClick={() => setselectedCtgry((prev) => {
-                      console.info('setselectedCtgry');
                         if (prev.includes(e.categoryName)) {
                             return prev.filter((ele) => ele !== e.categoryName);
                         }

@@ -11,9 +11,15 @@
     .title{
         width: 95% !important;
     }
+    .conditions{
+        margin-left: 16px;
+        width: 100% !important;
+        display: flex;
+        justify-content: baseline;
+    }
 }
 .container{
-    width: 100%;
+    width: 100%;            
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,14 +40,29 @@
     column-gap: 32px;
     align-items: start; /* 요소들이 세로 정렬될 때 위쪽 정렬 */
 }
+.conditions::-webkit-scrollbar { 
+    width:  6px;  /* 스크롤바 전체 너비 */
+    height: 6px; /* 가로 스크롤바 높이 */
+}
+
+.conditions::-webkit-scrollbar-thumb {
+    background-color: gray; /* 스크롤바 색상 */
+    border-radius: 10px; /* 둥근 모서리 */
+}
+
+.conditions::-webkit-scrollbar-track {
+    background-color: transparent; /* 배경 투명 */
+}
 .conditions{
+    margin-top: 12px;
+    margin-bottom: 20px;
     width: 1200px;
+    height: 80px;
     display: flex;
     gap: 8px;
-    overflow: auto;
+    overflow-x: scroll;
 }
 .condition{
-    white-space: nowrap;
     background: white;
     border-radius: 12px;
     width: auto;
@@ -50,4 +71,31 @@
     padding: 8px 12px 8px 16px;
     align-items: center;
     gap: 12px;
+    white-space: nowrap;
+    box-shadow: 0px 0px 20px 0px rgba(0 , 0, 0, 0.04);
 }
+.resetbtn{
+    font-size: 12px;
+    line-height: 20px;
+    font-family: Pretendard;
+    display: flex;
+    height: 40px;
+    padding: 8px 12px 8px 16px;
+    border-radius: 8px;
+    align-items: center;
+    background: var(--primary-grient);
+    color: white;
+    gap: 12px;
+}
+
+.morebtn {
+    border: 1px solid #212121;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90vw;
+    border: 8px;
+    background: var(--gray);
+    padding: 12px;
+}
+
