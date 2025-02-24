@@ -177,7 +177,10 @@ export default function EasySearch() {
           innerWidth < 768 &&
             <div className={styles.mobileBottom}>
               <div className={`${styles.button1} titleM`} onClick={()=>setselectedCtgry([])}>검색 초기화</div>
-              <div className={`${styles.button2} titleM`} onClick={()=>router.push(`/resultdetail?type=simple`)}>선별된 AI 확인하기</div>
+              <div 
+              className={`${styles.button2} titleM ${resultCount === 0 && styles.backgroundGray}`} 
+              onClick={()=>{!(resultCount === 0) && router.push(`/resultdetail?type=simple`)}}
+              >선별된 AI 확인하기</div>
             </div>
         }
       </div>

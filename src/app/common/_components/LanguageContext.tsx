@@ -15,6 +15,8 @@ interface LanguageContextProps {
   // 연관 검색 결과
   relresultData : ResultItem[];
   setrelresultData : Dispatch<SetStateAction<ResultItem[]>>;
+  setIsOpen : Dispatch<SetStateAction<boolean>>;
+  isOpen : boolean;
 }
 
 // 5. Context 생성 (초기값은 `undefined`, Provider에서 값 제공)
@@ -29,6 +31,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   const [language, setLanguage] = useState<Language>("en"); // 기본 언어 설정
   const [resultData, setresultData] = useState<ResultItem[]>([]); // Initialize with empty array
   const [relresultData, setrelresultData] = useState<ResultItem[]>([]); // Initialize with empty array
+  const [isOpen,setIsOpen] = useState<boolean>(false);
 
   // 언어 변경 함수
   const switchLanguage = (lang: Language) => {
@@ -36,7 +39,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   };
 
   return (
-    <LanguageContext.Provider value={{ language, switchLanguage, setresultData, resultData, setrelresultData, relresultData}}>
+    <LanguageContext.Provider value={{ language, switchLanguage, setresultData, resultData, setrelresultData, relresultData, setIsOpen, isOpen}}>
       {children}
     </LanguageContext.Provider>
   );

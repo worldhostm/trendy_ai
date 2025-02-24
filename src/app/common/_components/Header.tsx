@@ -1,21 +1,23 @@
 'use client'
 
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import styles from './header.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useWindowWidth } from './_libs/useWindowWidth';
 import SideMenu from './SideMenu';
+import { useLanguage } from './LanguageContext';
 
 // import MobileSideMenu from './MobileSideMenu';
 
 export default function Header() {
+    const {isOpen,setIsOpen} = useLanguage();
     const innerWidth = useWindowWidth();
     const path = usePathname();
     const searchParam = useSearchParams().get('type');
-    const [isOpen, setisOpen] = useState(false);
     const router = useRouter();
+    
     return (
         <Suspense>
             <div style={{
@@ -51,12 +53,12 @@ export default function Header() {
                 </nav>
                 {
                     innerWidth < 769 &&
-                    <Image src="/list.svg" alt='list' width={24} height={24} onClick={()=>setisOpen(!isOpen)} style={{zIndex:999}}/>
+                    <Image src="/list.svg" alt='list' width={24} height={24} onClick={()=>setIsOpen(!isOpen)} style={{zIndex:999}}/>
                 }
                 </header>
                 {
                     (innerWidth < 769 && isOpen) &&
-                    <SideMenu isOpen={isOpen}/>
+                    <SideMenu />
                 }
             </div>
         </Suspense>

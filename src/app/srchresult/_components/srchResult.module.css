@@ -1,5 +1,8 @@
 /* 반응형: 768px 이하일 때 한 줄 배치 */
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
+  .nodata{
+    width: 100% !important;
+  }
   .container{
     background : white !important;
   }
@@ -28,8 +31,11 @@
   .input {
     width: 90% !important;
   }
-  .subtitle {
+  .subtitle{
     margin-top: unset !important;
+    width: 90% !important;
+  }
+  .subtitle_desc{
     width: 90% !important;
   }
   .viewmoreBtn {
