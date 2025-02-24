@@ -91,9 +91,7 @@ export default function EasySearch() {
       fetchFunc();
       return () => {}
     }, [selectedCtgry]);
-    
 
-    const [value,setValue] = useState(0);
   return (
     <Suspense>
       <div className={styles.container}>
