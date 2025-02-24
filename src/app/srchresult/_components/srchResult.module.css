@@ -73,6 +73,7 @@
     width: 1200px;
     display: flex;
     gap: 24px;
+    margin-bottom: 28px;
     /* overflow: auto; */
 }
 .featured_container {

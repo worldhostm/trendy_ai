@@ -57,7 +57,7 @@ export default function Header() {
                 }
                 </header>
                 {
-                    (innerWidth < 769 && isOpen) &&
+                    innerWidth < 769  &&
                     <SideMenu />
                 }
             </div>
