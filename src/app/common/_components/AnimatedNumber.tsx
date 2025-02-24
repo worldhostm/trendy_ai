@@ -1,33 +1,39 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
-interface AnimatedNumberProps {
-    value: number; // 최종 목표 값
-    duration?: number; // 애니메이션 지속 시간 (기본값 1초)
-}
-
-const AnimatedNumber: React.FC<AnimatedNumberProps> = ({ value, duration = 1000 }) => {
-    const [count, setCount] = useState(0); // 애니메이션되는 상태값
+const AnimatedCounter = ({ targetValue }: { targetValue: number }) => {
+    const [currentValue, setCurrentValue] = useState(targetValue);
+    const latestTargetValue = useRef(targetValue); // 최신 targetValue 저장
+    const isAnimating = useRef(false); // 애니메이션 중복 실행 방지
 
     useEffect(() => {
-        let start: number | null = null;
-        const startValue = count; // 현재 값에서 시작 (0부터가 아닐 수도 있음)
-        const change = value - startValue; // 목표값 - 시작값
-        const step = (timestamp: number) => {
-            if (start === null) start = timestamp;
-            const progress = Math.min((timestamp - start) / duration, 1); // 진행률 0~1 사이
-            setCount(startValue + Math.floor(progress * change));
+        latestTargetValue.current = targetValue; // 최신 값 업데이트
+        if (!isAnimating.current) {
+            isAnimating.current = true; // 애니메이션 시작 표시
 
-            if (progress < 1) {
-                requestAnimationFrame(step);
-            }
-        };
+            const animate = () => {
+                setCurrentValue((prev) => {
+                    const difference = latestTargetValue.current - prev;
+                    if (Math.abs(difference) < 0.1) {
+                        isAnimating.current = false; // 애니메이션 종료
+                        return latestTargetValue.current; // 정확한 값 설정
+                    }
+                    return prev + difference * 0.1; // 부드러운 보간
+                });
 
-        requestAnimationFrame(step);
-    }, [value, duration]); // value가 변경될 때마다 실행
+                if (Math.abs(latestTargetValue.current - currentValue) > 0.1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    isAnimating.current = false;
+                }
+            };
 
-    return <div>{count}</div>;
+            requestAnimationFrame(animate);
+        }
+    }, [targetValue]); // API가 targetValue를 변경할 때마다 실행
+
+    return <span style={{background: 'var(--primary-grient)',WebkitBackgroundClip: 'text',WebkitTextFillColor: 'transparent', }}>{currentValue.toFixed(0)}</span>;
 };
 
-export default AnimatedNumber;
+export default AnimatedCounter;

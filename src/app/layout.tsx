@@ -5,6 +5,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import Footer from "./common/_components/Footer";
 import { LanguageProvider } from "./common/_components/LanguageContext";
 import { Suspense } from "react";
+import MenuPath from "./common/_components/MenuPath";
 
 export const metadata :Metadata={
   openGraph:{
@@ -32,7 +33,7 @@ export default function RootLayout({
           <Suspense>
             <Header />
           </Suspense>
-          {/* <MenuPath /> */}
+          <MenuPath />
             {children}
           <Footer />
         </LanguageProvider>

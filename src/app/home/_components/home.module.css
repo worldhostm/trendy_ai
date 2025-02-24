@@ -35,7 +35,6 @@
   bottom: 0;
 }
 .grid-container {
-    margin-top: 20px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
@@ -56,6 +55,9 @@
     }
      .grid-item , .input ,.mid-item, .mid-section ,.mid{
       width: 95% !important;
+    }
+    .top-section{
+      margin-bottom: 12px !important;
     }
     .mid{
       width: 93% !important;

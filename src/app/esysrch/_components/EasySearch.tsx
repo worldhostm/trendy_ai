@@ -7,6 +7,7 @@ import { useWindowWidth } from '@/app/common/_components/_libs/useWindowWidth';
 import { useLanguage } from '@/app/common/_components/LanguageContext';
 import { serviceStore } from '@/store/serviceStore';
 import { useRouter } from 'next/navigation';
+import AnimatedCounter from '@/app/common/_components/AnimatedNumber';
 
 interface AIServiceCategory {
   categoryName: string;
@@ -31,6 +32,7 @@ export default function EasySearch() {
     return () => {}
   }, [setselectedCategories])
   
+  // 카테고리 리스트 api
   const fetchCategory = async () => {
     try {
         const response = await fetch(`/api/all-category`,{
@@ -54,6 +56,8 @@ export default function EasySearch() {
         // setLoading(false);  // 로딩 상태 종료
     }
   };
+
+  // 검색된 갯수를 리턴해주는 api 
   const fetchFunc = async () => {
     try {
         const response = await fetch(`/api/category-count`,{
@@ -89,6 +93,7 @@ export default function EasySearch() {
     }, [selectedCtgry]);
     
 
+    const [value,setValue] = useState(0);
   return (
     <Suspense>
       <div className={styles.container}>
@@ -156,9 +161,13 @@ export default function EasySearch() {
           innerWidth > 768 &&
           <div className={`${styles.result_container}`}>
             <div className={`${styles.resultinner_container}`}>
-              <div className={`${ styles.number_container} titleM`}><span className={`${styles.srchnumber} headlineL`}>{resultCount}</span>AIs</div>
+              <div className={`${ styles.number_container} titleM`}><span className={`${styles.srchnumber} headlineL`}><AnimatedCounter targetValue={resultCount}/></span>AIs</div>
               <div className='titleM'>have been selected.</div>
-              <div className={`${styles.likebtn} titleM`} onClick={()=>router.push(`/resultdetail?type=simple`)}>Check AI Services </div>
+              <div 
+              className={`${styles.likebtn} titleM ${resultCount === 0 && styles.backgroundGray}`} 
+              onClick={()=>router.push(`/resultdetail?type=simple`)}
+              aria-disabled={resultCount === 0 }
+              >Check AI Services </div>
               <div className={`${styles.result_bottom_container}`}>
                 <div><Image src="/ArrowCounterClockwise.svg" width={20} height={20} alt="ArrowCounterClockwise"/></div>
                 <div className='bodyM' onClick={()=>setselectedCtgry([])} style={{cursor:'pointer'}}>Reset</div>

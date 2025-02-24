@@ -30,7 +30,9 @@
     background-origin: border-box !important;
     background-clip: content-box, border-box !important;
 }
-
+.backgroundGray{
+    background: #9E9E9E !important;
+}
 @media (max-width:768px) {
     .esrch_container{
         width: 100% !important;
