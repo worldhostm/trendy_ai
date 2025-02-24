@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense } from 'react';
 import styles from './header.module.css';
 import Link from 'next/link';
 import Image from 'next/image';

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './sidemenu.module.css';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from './LanguageContext';

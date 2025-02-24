@@ -89,7 +89,6 @@ export default function EasySearch() {
 
     useEffect(() => {
       fetchFunc();
-      return () => {}
     }, [selectedCtgry]);
 
   return (
@@ -179,7 +178,7 @@ export default function EasySearch() {
               <div className={`${styles.button1} titleM`} onClick={()=>setselectedCtgry([])}>검색 초기화</div>
               <div 
               className={`${styles.button2} titleM ${resultCount === 0 && styles.backgroundGray}`} 
-              onClick={()=>{!(resultCount === 0) && router.push(`/resultdetail?type=simple`)}}
+              onClick={()=>{if(resultCount !== 0) router.push(`/resultdetail?type=simple`)}}
               >선별된 AI 확인하기</div>
             </div>
         }
