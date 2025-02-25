@@ -86,9 +86,12 @@
     align-items: center;
     width: 1200px;
     border: 8px;
-    background: var(--gray);
     padding: 12px;
     cursor: pointer;
+    border-radius: 8px;
+    background: var(--Foundation-White, #FFF);
+    /* 4면 그림자 Black */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
 }
 
 
