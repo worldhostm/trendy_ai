@@ -160,7 +160,7 @@ export default function EasySearch() {
           <div className={`${styles.resultinner_container}`}>
             <div className={`${ styles.number_container} titleM`}><span className={`${styles.srchnumber} headlineL`}>{resultCount}</span>AIs</div>
             <div className='titleM'>have been selected.</div>
-            <div className={`${styles.likebtn} titleM`} onClick={()=>resultCount !== 0 && router.push(`/resultdetail?type=simple`)}>Check AI Services </div>
+            <div className={`${styles.likebtn} titleM ${resultCount === 0 && styles.backgroundGray}`} onClick={()=>resultCount !== 0 && router.push(`/resultdetail?type=simple`)}>Check AI Services </div>
             <div className={`${styles.result_bottom_container}`}>
               <div><Image src="/ArrowCounterClockwise.svg" width={20} height={20} alt="ArrowCounterClockwise"/></div>
               <div className='bodyM' onClick={()=>setselectedCtgry([])}>Reset</div>
@@ -172,7 +172,10 @@ export default function EasySearch() {
         innerWidth < 768 &&
           <div className={styles.mobileBottom}>
             <div className={`${styles.button1} titleM`}>Reset</div>
-            <div className={`${styles.button2} titleM`}>Check AI Services</div>
+            <div 
+            className={`${styles.button2} titleM ${resultCount === 0 && styles.backgroundGray}`}
+            onClick={()=>resultCount !== 0 && router.push(`/resultdetail?type=simple`)}
+            >Check AI Services</div>
           </div>
       }
     </div>
