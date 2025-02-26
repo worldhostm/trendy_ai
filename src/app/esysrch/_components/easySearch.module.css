@@ -109,8 +109,7 @@
         height: calc(58 / 375 * 100vw);
         color: white;
         border-radius: 4px;
-        background-image: linear-gradient(to right, #006AFF, #D682FF);
-        background: var(--gradient-blue-45, linear-gradient(90deg, #006AFF 0%, #D682FF 100%));
+        background: var(--primary-grient);
         box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.04);
     }
 }
