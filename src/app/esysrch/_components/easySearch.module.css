@@ -34,6 +34,12 @@
     background: #9E9E9E !important;
 }
 @media (max-width:768px) {
+    .mobileResult{
+        width:100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     .esrch_container{
         width: 100% !important;
     }
@@ -50,6 +56,8 @@
     .container{
         width: 100vw !important;
         margin-bottom: unset !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
     .esrchgrid{
         grid-template-columns:  repeat(2, 1fr) !important;

@@ -169,6 +169,16 @@ export default function EasySearch() {
       }
       {
         innerWidth < 768 &&
+        <div className={`${styles.mobileResult}`}>
+            <div 
+            className={`${styles.button2} titleM`}
+            onClick={()=>resultCount !== 0 && router.push(`/resultdetail?type=simple`)}
+            style={{borderRadius:'20px', height:'40px', padding:'unset', marginBottom:'12px'}}
+            >{resultCount} AIs Check AI Services</div>
+        </div>
+      }
+      {
+        innerWidth < 768 &&
           <div className={styles.mobileBottom}>
             <div className={`${styles.button1} titleM`}>Reset</div>
             <div 
