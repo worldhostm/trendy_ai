@@ -7,7 +7,6 @@ import { useWindowWidth } from '@/app/common/_components/_libs/useWindowWidth';
 import { useLanguage } from '@/app/common/_components/LanguageContext';
 import { serviceStore } from '@/store/serviceStore';
 import { useRouter } from 'next/navigation';
-import AnimatedCounter from '@/app/common/_components/AnimatedNumber';
 
 interface AIServiceCategory {
   categoryName: string;
