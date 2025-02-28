@@ -115,6 +115,9 @@ export default function EasySearch() {
                       key={e + '$$' + idx}
                       // className={`${ styles.grid_item}`}
                       className={`${ styles.grid_item}`}
+                      style={{
+                        padding : '19px 23px'
+                      }}
                       onClick={()=>{setselectedCtgry((prev)=>{
                           const newValue = [...prev, e.categoryName]
                           if(prev.includes(e.categoryName)){
@@ -126,7 +129,7 @@ export default function EasySearch() {
                       }
                     >
                         <div className={`${styles.categoryname} ${innerWidth > 768 ? `titleM` : `titleS`}`}>{e.categoryName}</div>
-                        <div className={`${styles.categoryimg}`}><Image src={e.logo} width={40} height={40} alt="defulatcate"/></div>
+                        <div className={`${styles.categoryimg}`} style={{marginTop:'1px'}}><Image src={e.logo} width={40} height={40} alt="defulatcate"/></div>
                       </div>
                   </div>
                   : 
