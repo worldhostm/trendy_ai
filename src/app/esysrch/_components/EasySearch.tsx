@@ -91,7 +91,7 @@ export default function EasySearch() {
     }, [selectedCtgry]);
 
   return (
-        process.env.NEXT_PUBLIC_ENV_VAR !== 'develop'
+        process.env.NEXT_PUBLIC_ENV_VAR !== 'product'
         ?
         <Suspense>
         <div className={styles.container}>
