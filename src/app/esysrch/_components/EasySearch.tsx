@@ -7,6 +7,7 @@ import { useWindowWidth } from '@/app/common/_components/_libs/useWindowWidth';
 import { useLanguage } from '@/app/common/_components/LanguageContext';
 import { serviceStore } from '@/store/serviceStore';
 import { useRouter } from 'next/navigation';
+import AnimatedCounter from '@/app/common/_components/AnimatedNumber';
 
 interface AIServiceCategory {
   categoryName: string;
@@ -160,7 +161,7 @@ export default function EasySearch() {
           innerWidth > 768 &&
           <div className={`${styles.result_container}`}>
             <div className={`${styles.resultinner_container}`}>
-              <div className={`${ styles.number_container} titleM`}><span className={`${styles.srchnumber} headlineL`}>{resultCount}</span>AIs</div>
+            <div className={`${ styles.number_container} titleM`}><span className={`${styles.srchnumber} headlineL`}><AnimatedCounter targetValue={resultCount}/></span>AIs</div>
               <div className='titleM'>have been selected.</div>
               <div className={`${styles.likebtn} titleM ${resultCount === 0 && styles.backgroundGray}`} onClick={()=>resultCount !== 0 && router.push(`/resultdetail?type=simple`)}>Check AI Services </div>
               <div className={`${styles.result_bottom_container}`}>
