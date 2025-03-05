@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Fragment, Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import styles from './easySearch.module.css';
 import Image from 'next/image';
 import { useWindowWidth } from '@/app/common/_components/_libs/useWindowWidth';
@@ -91,8 +91,6 @@ export default function EasySearch() {
     }, [selectedCtgry]);
 
   return (
-        process.env.NEXT_PUBLIC_ENV_VAR !== 'product'
-        ?
         <Suspense>
         <div className={styles.container}>
           <div className={styles.esrch_container}>
@@ -193,26 +191,6 @@ export default function EasySearch() {
             </div>
         }
       </div>
-      </Suspense>
-        :
-        <Fragment>
-          <div 
-          className={`headlineS `}
-          style={{
-            width : '100vw',
-            height: '60vh',
-            display:'flex',
-            justifyContent:'center',
-            alignItems:'center',
-            fontFamily:'Pretendard',
-            wordBreak:'break-all',
-            padding : '20px',
-          }}>
-            The service may be temporarily unavailable due to an update(03/04 - 03/05).
-            <br/>
-            <br/>
-            We apologize for any inconvenience caused.
-          </div>
-        </Fragment>
+        </Suspense>
   )
 }
