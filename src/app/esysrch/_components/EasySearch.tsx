@@ -17,7 +17,6 @@ interface AIServiceCategory {
 export default function EasySearch() {
   const {setselectedCategories,selectedCategories} = serviceStore.getState();
   useEffect(() => {
-    return () => {}
   }, [selectedCategories])
   
   const {language} = useLanguage();
@@ -27,10 +26,9 @@ export default function EasySearch() {
   const [resultCount,setresultCount] = useState<number>(0);
   const router = useRouter();
 
-  useEffect(() => {
-    setselectedCategories(selectedCtgry);
-    return () => {}
-  }, [setselectedCategories])
+  // useEffect(() => {
+  //   setselectedCategories(selectedCtgry);
+  // }, [selectedCtgry])
   
   // 카테고리 리스트 api
   const fetchCategory = async () => {
@@ -89,6 +87,7 @@ export default function EasySearch() {
 
     useEffect(() => {
       fetchFunc();
+      setselectedCategories(selectedCtgry);
     }, [selectedCtgry]);
 
   return (
@@ -119,14 +118,13 @@ export default function EasySearch() {
                         style={{
                           padding : '19px 23px'
                         }}
-                        onClick={()=>{setselectedCtgry((prev)=>{
+                        onClick={()=>setselectedCtgry((prev)=>{
                             const newValue = [...prev, e.categoryName]
                             if(prev.includes(e.categoryName)){
-                            return prev.filter(ele=> ele !== e.categoryName);
+                              return prev.filter((ele) => ele !== e.categoryName);
                             }
                             return newValue;
                           })
-                          }
                         }
                       >
                           <div className={`${styles.categoryname} ${innerWidth > 768 ? `titleM` : `titleS`}`}>{e.categoryName}</div>
@@ -138,10 +136,10 @@ export default function EasySearch() {
                         key={e + '$$' + idx}
                         className={`${styles.grid_item}`}
                         onClick={() => setselectedCtgry((prev) => {
+                          const newValue = [...prev, e.categoryName];
                             if (prev.includes(e.categoryName)) {
                                 return prev.filter((ele) => ele !== e.categoryName);
                             }
-                            const newValue = [...prev, e.categoryName];
                             setselectedCategories(newValue);
                             return newValue;
                           })

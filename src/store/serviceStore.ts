@@ -60,13 +60,7 @@ export const serviceStore = create<StateInterface>()(
         ...initialState,
         setselectedCategories : (category)=>{
             if(!category) set({selectedCategories:[]});
-            else{
-                const {selectedCategories} = get();
-                const newCategories = Array.isArray(category) ? category : [category];
-                const newArr = [...selectedCategories, ...newCategories];
-                const newValue = newArr.filter((e,idx)=> newArr.indexOf(e) === idx); 
-                set({selectedCategories:newValue});
-            }
+            else{set({ selectedCategories: [...category]});}
         },
         setsrchresults : (arr)=>{set({srchresults:arr})},
         setrelatedsrchresults : (arr)=>{set({relatedsrchresults:arr})},
