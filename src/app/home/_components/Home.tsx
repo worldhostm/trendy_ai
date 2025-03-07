@@ -20,6 +20,11 @@ interface Service {
     service: Service[];
   }
 
+  // 소스에서 href에 노출되는 데이터를 숨기고 아웃링크를 태운다.
+  const handleClick = (url:string) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
 export default function Home() {
     const [language] = useState<"en"|"ko">("en"); // 기본값: 영어
     const [items, setItems] = useState<Category[]>([]);  // 데이터를 저장할 상태
@@ -131,7 +136,8 @@ export default function Home() {
                                             <Link
                                             key={`${e.serviceTitle} ${index}`}
                                             className={styles['mid-section']}
-                                            href={`${e.url}`}
+                                            href={`#`}
+                                            onClick={()=>{handleClick(e.url)}}
                                             target='_blank'
                                                 // onClick={()=>router.push(`/detail/${e.serviceTitle}`)}
                                             >
