@@ -56,7 +56,7 @@ const initialState : StateInterface = {
 }
 
 export const serviceStore = create<StateInterface>()(
-    persist((set, get) => ({
+    persist((set) => ({
         ...initialState,
         setselectedCategories : (category)=>{
             if(!category) set({selectedCategories:[]});
