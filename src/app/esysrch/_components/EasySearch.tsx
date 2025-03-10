@@ -169,7 +169,7 @@ export default function EasySearch() {
             </div>
           </div>
         }
-        {
+        {/* {
           innerWidth < 768 &&
           <div className={`${styles.mobileResult}`}>
               <div 
@@ -178,7 +178,7 @@ export default function EasySearch() {
               style={{borderRadius:'20px', height:'40px', padding:'unset', marginBottom:'12px'}}
               >{resultCount} AIs Check AI Services</div>
           </div>
-        }
+        } */}
         {
           innerWidth < 768 &&
             <div className={styles.mobileBottom}>
@@ -186,7 +186,7 @@ export default function EasySearch() {
               <div 
               className={`${styles.button2} titleM ${resultCount === 0 && styles.backgroundGray}`}
               onClick={()=>resultCount !== 0 && router.push(`/resultdetail?type=simple`)}
-              >Check AI Services</div>
+              > Check {resultCount} AI Services</div>
             </div>
         }
       </div>

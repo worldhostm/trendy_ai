@@ -100,7 +100,7 @@
         z-index: 99;
     }
     .button1, .button2{
-        padding : 9px 24px;
+        padding : 9px;
         height: calc(58 / 375 * 100vw);
         display: flex;
         justify-content: center;
