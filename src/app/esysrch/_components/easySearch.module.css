@@ -20,6 +20,7 @@
 }
 .esrchgrid{
     width: auto;
+    height: 1070px;
     display: grid;
     grid-template-columns:  repeat(3, 1fr);
     gap: 15px;
@@ -147,8 +148,11 @@
     /* outline: 1px solid;
     outline-color: linear-gradient(to right, #006AFF, #D682FF); */
 }
+.grid_item_outer .grid_item .categoryname{
+}
 .grid_item{
-    position: relative;
+    /* position: relative; */
+    position: static;
     width: 272px;
     user-select: none;
     display: flex;

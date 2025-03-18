@@ -111,6 +111,7 @@ export default function Home() {
                             <CategoryImage 
                             category={`${item.categoryName}`}
                             className={styles['top-image']}
+                            type='category'
                             />
                             <span className={`${styles['top-text']} titleM`}>{`${item.categoryName}`}</span>
                         </div>
@@ -136,10 +137,10 @@ export default function Home() {
                                             <Link
                                             key={`${e.serviceTitle} ${index}`}
                                             className={styles['mid-section']}
-                                            href={`#`}
-                                            onClick={()=>{handleClick(e.url)}}
+                                            href={`/detail/${e.serviceTitle}`}
+                                            // onClick={()=>{handleClick(e.url)}}
                                             target='_blank'
-                                                // onClick={()=>router.push(`/detail/${e.serviceTitle}`)}
+                                            // onClick={()=>router.push(`/detail/${e.serviceTitle}`)}
                                             >
                                                 <div 
                                                 className={styles['mid-item']}

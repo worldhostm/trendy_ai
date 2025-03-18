@@ -1,11 +1,12 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import style from './aiSupDetail.module.css';
 import ReadOnlyStarRating from '@/app/common/_components/ReadOnlyStartRating';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useLanguage } from '@/app/common/_components/LanguageContext';
 
 interface Detail {
     category: string;
@@ -14,26 +15,65 @@ interface Detail {
     company: string;
     description: string;
     instructions: string[];
-    alternative : {name:string, description:string, order:number}[]
+    alternative : {serviceTitle:string, description:string, order:number}[]
   }
 
 export default function AiSupDetail() {
+    const {language} = useLanguage();
     const {name} = useParams<{name:string}>();
     const [detail , setDetail] = useState<Detail>();
     // const [error, setError] = useState<string | null>(null);
     // const [loading, setLoading] = useState(true);
-    const hashtags = ['#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그'];
+    const [imgSrc, setImgSrc] = useState('/default_service.png');
+    const [hashtags,setHashtag] = useState([]);
+    // const hashtags = ['#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그','#해시태그'];
     const router =  useRouter();
+
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
+
+    const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!scrollRef.current) return;
+        setIsDragging(true);
+        setStartX(e.pageX - scrollRef.current.offsetLeft);
+        setScrollLeft(scrollRef.current.scrollLeft);
+        scrollRef.current.style.cursor = "grabbing"; // 드래그 중 손모양 변경
+    };
+
+    const handleMouseLeave = () => {
+        setIsDragging(false);
+        if (scrollRef.current) scrollRef.current.style.cursor = "grab";
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+        if (scrollRef.current) scrollRef.current.style.cursor = "grab";
+    };
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isDragging || !scrollRef.current) return;
+        e.preventDefault();
+        const x = e.pageX - scrollRef.current.offsetLeft;
+        const walk = (x - startX) * 1.5; // 드래그 이동 속도 조절
+        scrollRef.current.scrollLeft = scrollLeft - walk;
+    };
+
     useEffect(() => {
+        setImgSrc(`/api/service-page-image/${name}`);
         const fetchItems = async () => {
+            console.info(name);
         try {
-            const response = await fetch(`/api/detail-service/${name}`,{
+            const response = await fetch(`/api/detail-service/${language}/${name}`,{
             });  // API 호출
             if (!response.ok) {
             throw new Error('네트워크 응답에 문제가 있습니다.');
             }
             const data = await response.json();  // JSON 데이터 파싱
             setDetail(data);  // 데이터 상태 업데이트
+            setHashtag(data.hashtags);
+            console.info(data.hashtags);
         } catch (err: unknown) {
             // setError(err.message);  // 에러 상태 업데이트
             console.error(err);
@@ -73,8 +113,21 @@ export default function AiSupDetail() {
             {/* 이미지 및 요약 */}
             <div className={style.topcontainer}>
                 <div className={style.flex1}>
-                    <Image src="/default_service.png" width={462} height={260} alt="defaultimg"/>
-                    <div className={style.hashtagdiv}>
+                {/* /default_service.png */}
+                    <Image 
+                    src={imgSrc} 
+                    width={462} height={260} 
+                    alt={`${name}`}
+                    onError={()=>setImgSrc('/default_service.png')}
+                    />
+                    <div 
+                        className={style.hashtagdiv}
+                        ref={scrollRef}
+                        onMouseDown={handleMouseDown}
+                        onMouseLeave={handleMouseLeave}
+                        onMouseUp={handleMouseUp}
+                        onMouseMove={handleMouseMove}
+                    >
                         {
                             hashtags.map((e,idx)=>(
                                 <div 
@@ -134,7 +187,7 @@ export default function AiSupDetail() {
                 {
                     detail?.alternative.map((e,idx)=>
                             <div
-                            key={e.name + '$$' + idx}
+                            key={e.serviceTitle + '$$' + idx}
                             className={style.featured}
                             >
                                 <span className={style.order}>
@@ -142,8 +195,8 @@ export default function AiSupDetail() {
                                 </span>
                                 <span 
                                 className={`${style.fname} bodyMixed`}
-                                onClick={()=>router.push(`/detail/${e.name}`)}
-                                > {e.name} : </span>
+                                onClick={()=>router.push(`/detail/${e.serviceTitle}`)}
+                                > {e.serviceTitle} : </span>
                                 <div className={`${style.f_desc} bodyM`}>
                                     {e.description ? e.description:'설명글이 없습니다'}
                                 </div>
@@ -154,38 +207,6 @@ export default function AiSupDetail() {
             {/* 관련뉴스 */}
             <div className={style.newsContainer}>
                 <div className={style.subtitle}>관련 뉴스</div>
-                <Link href='#' className={style.newsrow}>
-                    <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
-                    <div className={`${style.from} bodyM`}>출처</div>
-                </Link>
-                <Link href='#' className={style.newsrow}>
-                    <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
-                    <div className={`${style.from} bodyM`}>출처</div>
-                </Link>
-                <Link href='#' className={style.newsrow}>
-                    <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
-                    <div className={`${style.from} bodyM`}>출처</div>
-                </Link>
-                <Link href='#' className={style.newsrow}>
-                    <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
-                    <div className={`${style.from} bodyM`}>출처</div>
-                </Link>
-                <Link href='#' className={style.newsrow}>
-                    <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
-                    <div className={`${style.from} bodyM`}>출처</div>
-                </Link>
-                <Link href='#' className={style.newsrow}>
-                    <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
-                    <div className={`${style.from} bodyM`}>출처</div>
-                </Link>
-                <Link href='#' className={style.newsrow}>
-                    <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
-                    <div className={`${style.from} bodyM`}>출처</div>
-                </Link>
-                <Link href='#' className={style.newsrow}>
-                    <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
-                    <div className={`${style.from} bodyM`}>출처</div>
-                </Link>
                 <Link href='#' className={style.newsrow}>
                     <div className={`${style.newsTitle} titleS`}>뉴스 기사 제목</div>
                     <div className={`${style.from} bodyM`}>출처</div>

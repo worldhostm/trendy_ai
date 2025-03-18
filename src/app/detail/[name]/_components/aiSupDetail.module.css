@@ -249,6 +249,7 @@
     font-family: Pretendard;
 }
 .hashtagdiv{
+    user-select: none;
     display: flex;
     gap: 8px;
     width: 462px;
@@ -262,7 +263,7 @@
 }
 .hashtag{
     white-space: nowrap;
-    width: 98px;
+    width: auto;
     height: 32px;
     border-radius: 16px;
     border: 1px solid var(--Foundation-Gray-gray-300----, #E0E0E0);

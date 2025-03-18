@@ -25,6 +25,13 @@ const nextConfig: NextConfig = {
         pathname: '/api/category-logo/**',
         search: '',
       },
+      {
+        protocol: 'http',
+        hostname: '220.76.100.99',
+        port: '48160',
+        pathname: '/api/service-page-image/**',
+        search: '',
+      },
     ],
   },
   async rewrites() {

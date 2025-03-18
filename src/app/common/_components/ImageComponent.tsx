@@ -5,7 +5,8 @@ import Image from "next/image";
 interface Props{
     category:string;
     className?:string;
-    size?:number
+    size?:number;
+    type:'category' | 'detailimg'
 }
 
 const CategoryImage = ({ category,className, size=32}:Props) => {
