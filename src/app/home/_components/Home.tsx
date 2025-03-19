@@ -4,7 +4,7 @@ import styles from './home.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import CategoryImage from '@/app/common/_components/ImageComponent';
-import Link from 'next/link';
+// import Link from 'next/link';
 
 interface Service {
     serviceTitle: string;
@@ -21,8 +21,9 @@ interface Service {
   }
 
   // 소스에서 href에 노출되는 데이터를 숨기고 아웃링크를 태운다.
-  const handleClick = (url:string) => {
-    window.open(url, "_blank", "noopener,noreferrer");
+  const handleClick = (url:string, title?:string) => {
+    const nurl = process.env.NEXT_PUBLIC_ENV_VAR === 'develop' ? `/detail/${title}`: url
+    window.open(nurl, "_blank", "noopener,noreferrer");
   };
 
 export default function Home() {
@@ -134,12 +135,12 @@ export default function Home() {
                                 {/* Mid Section */}
                                     {
                                         item.service && item.service.map(e=>
-                                            <Link
+                                            <div
                                             key={`${e.serviceTitle} ${index}`}
                                             className={styles['mid-section']}
-                                            href={`/detail/${e.serviceTitle}`}
-                                            // onClick={()=>{handleClick(e.url)}}
-                                            target='_blank'
+                                            // href={`/detail/${e.serviceTitle}`}
+                                            onClick={()=>{handleClick(e.url,e.serviceTitle)}}
+                                            // target='_blank'
                                             // onClick={()=>router.push(`/detail/${e.serviceTitle}`)}
                                             >
                                                 <div 
@@ -166,7 +167,7 @@ export default function Home() {
                                                             </div>
                                                     }
                                                 </div>
-                                            </Link>
+                                            </div>
                                         )
                                     }
                                 </div>

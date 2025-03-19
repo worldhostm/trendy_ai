@@ -8,6 +8,7 @@ import { useLanguage } from '@/app/common/_components/LanguageContext';
 import { serviceStore } from '@/store/serviceStore';
 import { useRouter } from 'next/navigation';
 import AnimatedCounter from '@/app/common/_components/AnimatedNumber';
+import Loading from '@/app/common/_components/Loading';
 
 interface AIServiceCategory {
   categoryName: string;
@@ -24,6 +25,7 @@ export default function EasySearch() {
   const [category, setcategory] = useState<AIServiceCategory[]>([]);
   const [selectedCtgry, setselectedCtgry] = useState<string[]>([]);
   const [resultCount,setresultCount] = useState<number>(0);
+  const [loading, setLoading] = useState(false); // 로딩 상태 추가
   const router = useRouter();
 
   // useEffect(() => {
@@ -51,12 +53,13 @@ export default function EasySearch() {
         console.error(err);
         // setError(err.message);  // 에러 상태 업데이트
     } finally {
-        // setLoading(false);  // 로딩 상태 종료
+        setLoading(false);  // 로딩 상태 종료
     }
   };
 
   // 검색된 갯수를 리턴해주는 api 
   const fetchFunc = async () => {
+    setLoading(true);
     try {
         const response = await fetch(`/api/category-count`,{
             method:'POST',
@@ -76,7 +79,7 @@ export default function EasySearch() {
         console.error(err);
         // setError(err.message);  // 에러 상태 업데이트
     } finally {
-        // setLoading(false);  // 로딩 상태 종료
+        setLoading(false);  // 로딩 상태 종료
     }
     };
 
@@ -190,6 +193,7 @@ export default function EasySearch() {
             </div>
         }
       </div>
-        </Suspense>
+      {loading && <Loading />}
+      </Suspense>
   )
 }

@@ -28,7 +28,9 @@ export default function Header() {
                 <header className={styles['header-container']}>
                 <Link
                 href='/' 
-                className={styles['logo-section']}>
+                className={styles['logo-section']}
+                onClick={()=>setIsOpen(false)}
+                >
                     <Image src="/31ais_logo.svg" alt="Company Logo" className={styles['logo-image']} width={74} height={24} priority={false} />
                     {/* <span className={styles['company-name']}>트랜디 AI</span> */}
                 </Link>

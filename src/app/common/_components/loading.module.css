@@ -7,21 +7,37 @@
     }
   }
 .container{
-    position: relative;
-    width: 100%;
-    height: auto;
+    position: fixed; /* 화면 전체 기준 */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    z-index: 9999; /* 다른 요소보다 위에 표시 */
 }
 
 .loading{
-    position: fixed;
-    top: 50%;
-    left: 50%;
+    position: absolute;
+    top: 20%;
+    left: calc(1/2*100vw) ;
     width: 150px;
     height: 50px;
     background-repeat: no-repeat;
+    background-position: center;
     background-image: url('/31ais_logo.svg');
     animation: fadeLeftToRight 2s infinite;
+}
+
+@media (max-width:768px) {
+  .container{
+    width: 100vw !important;
+    height: 200vh !important;
+  }
+  .loading{
+    left: calc(0.7/2*100vw) ;
+  }
+  
 }
