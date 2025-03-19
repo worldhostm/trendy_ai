@@ -64,6 +64,7 @@
         grid-template-columns:  repeat(2, 1fr) !important;
         row-gap: 11px;
         column-gap: 12px;
+        height: auto !important;
     }
     .grid_item{
         padding : 12px !important;

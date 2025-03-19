@@ -124,6 +124,7 @@ export default function ResultDetail() {
                                         <CategoryImage 
                                             category={e}
                                             size={24}
+                                            type="category"
                                         />
                                     </div>
                                 </div>
